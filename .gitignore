@@ -8,6 +8,9 @@ npm-debug.*
 *.key
 *.mobileprovision
 *.orig.*
+*.png
+*.mp4
+*.gif
 web-build/
 
 # macOS
