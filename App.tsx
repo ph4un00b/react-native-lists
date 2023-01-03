@@ -1,30 +1,505 @@
 import {
-  LayoutRectangle,
-  SafeAreaView,
-  View,
-  Text,
-  ScrollView,
-  Image,
-  TouchableOpacity,
   GestureResponderEvent,
+  Image,
+  LayoutRectangle,
   Linking,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { ReactNode, useRef, useState } from "react";
-import { Video, AVPlaybackStatus, ResizeMode } from "expo-av";
+import { AVPlaybackStatus, ResizeMode, Video } from "expo-av";
 import Svg, {
-  SvgProps,
   Defs,
-  LinearGradient,
-  Stop,
   G,
+  LinearGradient,
   Path,
+  Stop,
+  SvgProps,
 } from "react-native-svg";
 import { Feather } from "@expo/vector-icons";
 
+import "./styles";
+
+export default function App() {
+  const video = useRef<Video>(null);
+  const [status, setStatus] = useState({});
+
+  const [layoutProps, setLayout] = useState<LayoutRectangle>(null!);
+  return (
+    <SafeAreaView
+      className="flex items-center flex-1 mt-1 pt-9 justify-evenly bg-slate-900"
+      onLayout={({ nativeEvent: { layout } }) => setLayout(layout)}
+    >
+      {/* <DenoIcon width={1000} height={1000} /> */}
+      {/* <TsIcon width={40} height={40} /> */}
+
+      <View className="flex flex-row">
+        <Text className="text-slate-200">phau ~ Made with expo</Text>
+        <ExpoIcon width={20} height={20} />
+      </View>
+      {layoutProps && (
+        <>
+          <ScrollView className="w-3/4 px-2 text-center lg:w-1/3">
+            <Text className="pt-4 pb-3 text-3xl capitalize text-slate-200">
+              2023 upcoming projects
+            </Text>
+            {/* @see https://github.com/ph4un00b/query_html */}
+            <View className="flex flex-row w-full my-10">
+              <View className="relative flex justify-start w-1/2 border rounded-md shadow-sm bg-slate-900 aspect-square border-slate-700">
+                <Image
+                  resizeMode="contain"
+                  className="w-full h-3/4"
+                  source={{ uri: require("./assets/cards.gif") }}
+                />
+                <View className="absolute bottom-0 w-full">
+                  <View className="w-full">
+                    <MyLinkButton href="https://plinks.deno.dev/cards-tree">
+                      3d cards
+                    </MyLinkButton>
+                  </View>
+                </View>
+              </View>
+
+              <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
+                <View className="flex flex-row justify-evenly">
+                  <AstroIcon width={40} height={40} />
+                  <CssIcon width={40} height={40} />
+                  <TsIcon width={40} height={40} />
+                  <VueIcon width={40} height={40} />
+                  <ReactIcon width={40} height={40} />
+                </View>
+              </View>
+            </View>
+            {/* animation */}
+            <View className="flex flex-row-reverse w-full">
+              <View className="flex justify-start w-1/2 border rounded-md shadow-sm bg-slate-900 aspect-square border-slate-700">
+                <Image
+                  resizeMode="contain"
+                  className="w-full h-3/4"
+                  source={{ uri: require("./assets/graph-editor.PNG") }}
+                />
+                <View className="absolute bottom-0 w-full">
+                  <MyButton onPress={() => {}}>graph editor</MyButton>
+                </View>
+              </View>
+
+              <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
+                <View className="flex flex-row justify-evenly">
+                  <WasmIcon width={40} height={40} />
+                  <AstroIcon width={40} height={40} />
+                  <VueIcon width={40} height={40} />
+                  <ReactIcon width={40} height={40} />
+                  <TsIcon width={40} height={40} />
+                </View>
+              </View>
+            </View>
+
+            <Text className="pt-4 pb-3 text-3xl capitalize text-slate-200 ">
+              2022 public projects
+            </Text>
+            {/* @see https://github.com/ph4un00b/query_html */}
+            <View className="flex flex-row w-full my-10">
+              <View className="relative flex justify-start w-1/2 border rounded-md shadow-sm bg-slate-900 aspect-square border-slate-700">
+                <Image
+                  resizeMode="contain"
+                  className="w-full h-3/4"
+                  source={{ uri: require("./assets/query_html.PNG") }}
+                />
+                <View className="absolute bottom-0 w-full">
+                  <MyLinkButton href="https://plinks.deno.dev/html-transformers">
+                    html jq
+                  </MyLinkButton>
+                </View>
+              </View>
+
+              <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
+                <Text className="text-base text-slate-200">
+                  - An HTML transformation CLI tool
+                </Text>
+
+                <Text className="text-base text-slate-200">
+                  - Uses css selectors & native idioms
+                </Text>
+                <View className="flex flex-row justify-evenly">
+                  <DenoIcon width={40} height={40} />
+                  <TsIcon width={40} height={40} />
+                </View>
+              </View>
+            </View>
+            {/* animation */}
+            <View className="flex flex-row-reverse w-full">
+              <View className="flex justify-start w-1/2 border rounded-md shadow-sm bg-slate-900 aspect-square border-slate-700">
+                <Video
+                  className="flex h-full"
+                  ref={video}
+                  // style={styles.video}
+                  source={{
+                    // uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+                    uri: require("./assets/zip2.mp4"),
+                  }}
+                  useNativeControls
+                  resizeMode={ResizeMode.CONTAIN}
+                  onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+                />
+                <View className="absolute bottom-0 w-full">
+                  <MyLinkButton href="https://plinks.deno.dev/3rf-animation">
+                    Animation
+                  </MyLinkButton>
+                </View>
+              </View>
+
+              <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
+                <Text className="text-base text-slate-200">
+                  - A React Three Fiber Animation
+                </Text>
+                <Text className="text-base text-slate-200">
+                  - Mixing Audio, mobile friendly, performance aware
+                </Text>
+                <View className="flex flex-row justify-evenly">
+                  <NextIcon width={40} height={40} />
+                  <GlIcon width={40} height={40} />
+                  <ThreeIcon width={40} height={40} />
+                  <ReactIcon width={40} height={40} />
+                  <TsIcon width={40} height={40} />
+                </View>
+              </View>
+            </View>
+
+            {/* blends */}
+            <View className="flex flex-row w-full my-10">
+              <View className="relative flex justify-start w-1/2 border rounded-md shadow-sm bg-slate-900 aspect-square border-slate-700">
+                <Image
+                  resizeMode="contain"
+                  className="w-full h-3/4"
+                  source={{ uri: require("./assets/blends.PNG") }}
+                />
+                <View className="absolute bottom-0 w-full">
+                  <View className="w-full">
+                    <MyLinkButton href="https://plinks.deno.dev/card-editor">
+                      card editor
+                    </MyLinkButton>
+                  </View>
+                </View>
+              </View>
+
+              <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
+                <Text className="text-base text-slate-200">
+                  - An card editor webapp
+                </Text>
+                <Text className="text-base text-slate-200">
+                  - Mixing blend modes and shaders in Vue
+                </Text>
+                <View className="flex flex-row justify-evenly">
+                  <GlIcon width={40} height={40} />
+                  <VueIcon width={40} height={40} />
+                </View>
+              </View>
+            </View>
+
+            {/* composition */}
+            <View className="flex flex-row-reverse w-full">
+              <View className="relative flex justify-start w-1/2 border rounded-md shadow-sm bg-slate-900 aspect-square border-slate-700">
+                <Image
+                  resizeMode="contain"
+                  className="w-full h-3/4"
+                  source={{ uri: require("./assets/compositions.PNG") }}
+                />
+                <View className="absolute bottom-0 w-full">
+                  <View className="w-full">
+                    <MyLinkButton href="https://plinks.deno.dev/shaders-compositions">
+                      shaders
+                    </MyLinkButton>
+                  </View>
+                </View>
+              </View>
+
+              <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
+                <Text className="text-base text-slate-200">
+                  - mixing noises & patterns
+                </Text>
+                <Text className="text-base text-slate-200">
+                  - Shaders compositions
+                </Text>
+                <View className="flex flex-row justify-evenly">
+                  <GlIcon width={40} height={40} />
+                </View>
+              </View>
+            </View>
+
+            {/* @see https://github.com/ph4un00b/threejs-patterns-styles/blob/main/src/App.tsx */}
+            <View className="flex flex-row w-full my-10">
+              <View className="relative flex justify-start w-1/2 border rounded-md shadow-sm bg-slate-900 aspect-square border-slate-700">
+                <Image
+                  resizeMode="contain"
+                  className="w-full h-3/4"
+                  source={{ uri: require("./assets/r3f.PNG") }}
+                />
+                <View className="absolute bottom-0 w-full">
+                  <View className="w-full">
+                    <MyLinkButton href="https://plinks.deno.dev/3d-compositions">
+                      3d compositions
+                    </MyLinkButton>
+                  </View>
+                </View>
+              </View>
+
+              <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
+                <Text className="text-base text-slate-200">
+                  - multiple webgl compositions
+                </Text>
+                <Text className="text-base text-slate-200">
+                  - mixing different techniques like shaders & post-processing
+                </Text>
+                <View className="flex flex-row justify-evenly">
+                  <GlIcon width={40} height={40} />
+                  <TsIcon width={40} height={40} />
+                  <ThreeIcon width={40} height={40} />
+                </View>
+              </View>
+            </View>
+
+            {/* composition */}
+            <View className="flex flex-row-reverse w-full">
+              <View className="relative flex justify-start w-1/2 border rounded-md shadow-sm bg-slate-900 aspect-square border-slate-700">
+                <Image
+                  resizeMode="contain"
+                  className="w-full h-3/4"
+                  source={{ uri: require("./assets/compo2.PNG") }}
+                />
+                <View className="absolute bottom-0 w-full">
+                  <View className="w-full">
+                    <MyLinkButton href="https://plinks.deno.dev/compositions-2">
+                      compositions 2
+                    </MyLinkButton>
+                  </View>
+                </View>
+              </View>
+
+              <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
+                <Text className="text-base text-slate-200">
+                  - More GLSL compositions
+                </Text>
+                <View className="flex flex-row justify-evenly">
+                  <GlIcon width={40} height={40} />
+                </View>
+              </View>
+            </View>
+
+            {/* @see https://github.com/ph4un00b/dirty_lurker */}
+            <View className="flex flex-row w-full my-10">
+              <View className="relative flex justify-start w-1/2 border rounded-md shadow-sm bg-slate-900 aspect-square border-slate-700">
+                <Image
+                  resizeMode="contain"
+                  className="w-full h-3/4"
+                  source={{ uri: require("./assets/instagram_bot.PNG") }}
+                />
+                <View className="absolute bottom-0 w-full">
+                  <View className="w-full">
+                    <MyLinkButton href="https://plinks.deno.dev/instagram-bot">
+                      instagram bot
+                    </MyLinkButton>
+                  </View>
+                </View>
+              </View>
+
+              <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
+                <Text className="text-base text-slate-200">
+                  - An instagram bot scrapper
+                </Text>
+                <View className="flex flex-row justify-evenly">
+                  <DenoIcon width={40} height={40} />
+                  <PuppeteerIcon width={40} height={40} />
+                  <TsIcon width={40} height={40} />
+                </View>
+              </View>
+            </View>
+
+            {/* @see https://github.com/ph4un00b/tele-bot */}
+            <View className="flex flex-row-reverse w-full">
+              <View className="relative flex justify-start w-1/2 border rounded-md shadow-sm bg-slate-900 aspect-square border-slate-700">
+                <Image
+                  resizeMode="contain"
+                  className="w-full h-3/4"
+                  source={{ uri: require("./assets/telegram_bot.PNG") }}
+                />
+                <View className="absolute bottom-0 w-full">
+                  <View className="w-full">
+                    <MyLinkButton href="https://plinks.deno.dev/telegram-bot">
+                      telegram bot
+                    </MyLinkButton>
+                  </View>
+                </View>
+              </View>
+
+              <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
+                <Text className="text-base text-slate-200">
+                  - A telegram bot template
+                </Text>
+                <View className="flex flex-row justify-evenly">
+                  <DenoIcon width={40} height={40} />
+                  <TsIcon width={40} height={40} />
+                </View>
+              </View>
+            </View>
+
+            <Text className="pt-4 pb-3 text-3xl capitalize text-slate-200 ">
+              2021 public projects
+            </Text>
+            {/* @see https://github.com/ph4un00b/css_reducer */}
+            <View className="flex flex-row w-full my-10">
+              <View className="relative flex justify-start w-1/2 border rounded-md shadow-sm bg-slate-900 aspect-square border-slate-700">
+                <Image
+                  resizeMode="contain"
+                  className="w-full h-3/4"
+                  source={{ uri: require("./assets/css_refactoring.PNG") }}
+                />
+                <View className="absolute bottom-0 w-full">
+                  <View className="w-full">
+                    <MyLinkButton href="https://plinks.deno.dev/css-refactoring">
+                      Css refactoring
+                    </MyLinkButton>
+                  </View>
+                </View>
+              </View>
+
+              <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
+                <Text className="text-base text-slate-200">
+                  - A CSS refactoring tool
+                </Text>
+                <Text className="text-base text-slate-200">- TDD && E2E</Text>
+                <Text className="text-base text-slate-200">
+                  - made for windicss and tailwind
+                </Text>
+                <View className="flex flex-row justify-evenly">
+                  <DenoIcon width={40} height={40} />
+                  <TwIcon width={40} height={40} />
+                  <TsIcon width={40} height={40} />
+                </View>
+              </View>
+            </View>
+
+            {/* @see https://github.com/ph4un00b/simple-cli */}
+            <View className="flex flex-row-reverse w-full">
+              <View className="relative flex justify-start w-1/2 border rounded-md shadow-sm bg-slate-900 aspect-square border-slate-700">
+                <Image
+                  resizeMode="contain"
+                  className="w-full h-3/4"
+                  source={{ uri: require("./assets/page_generator.PNG") }}
+                />
+                <View className="absolute bottom-0 w-full">
+                  <View className="w-full">
+                    <MyLinkButton href="https://plinks.deno.dev/ssg">
+                      SSG CLI
+                    </MyLinkButton>
+                  </View>
+                </View>
+              </View>
+
+              <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
+                <Text className="text-base text-slate-200">
+                  - A Static Site Generator CLI
+                </Text>
+                <Text className="text-base text-slate-200">- TDD && E2E</Text>
+                <Text className="text-base text-slate-200">
+                  - I dig quick prototyping ideas
+                </Text>
+                <View className="flex flex-row justify-evenly">
+                  <DenoIcon width={40} height={40} />
+                  <TsIcon width={40} height={40} />
+                </View>
+              </View>
+            </View>
+            {/* @see https://github.com/ph4un00b/json2html */}
+
+            <View className="flex flex-row w-full my-10">
+              <View className="relative flex justify-start w-1/2 border rounded-md shadow-sm bg-slate-900 aspect-square border-slate-700">
+                <Image
+                  resizeMode="contain"
+                  className="w-full h-3/4"
+                  source={{ uri: require("./assets/json2html.PNG") }}
+                />
+                <View className="absolute bottom-0 w-full">
+                  <View className="w-full">
+                    <MyLinkButton href="https://plinks.deno.dev/json2html ">
+                      json 2 html
+                    </MyLinkButton>
+                  </View>
+                </View>
+              </View>
+
+              <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
+                <Text className="text-base text-slate-200">
+                  - A CLI made with Deno runtime & Typescript & TDD
+                </Text>
+                <Text className="text-base text-slate-200">
+                  - I love the UNIX philosophy
+                </Text>
+                <View className="flex flex-row justify-evenly">
+                  <DenoIcon width={40} height={40} />
+                  <TsIcon width={40} height={40} />
+                </View>
+              </View>
+            </View>
+          </ScrollView>
+        </>
+      )}
+    </SafeAreaView>
+  );
+}
+
+type BtnProps = {
+  className?: string;
+  children: ReactNode;
+  to?: string;
+  href?: string;
+  onPress?: (event: GestureResponderEvent) => void;
+};
+
+function MyLinkButton({ children, href }: BtnProps) {
+  return (
+    <TouchableOpacity
+      activeOpacity={0.8}
+      className={
+        "transition hover:scale-110 duration-300 h-8 items-center justify-center rounded-sm bg-[#5046E4] px-4 py-2 shadow-sm hover:bg-indigo-400"
+      }
+      onPress={() => {
+        href && Linking.openURL(href);
+      }}
+    >
+      <Text className="uppercase text-slate-200">
+        {children} <Feather name="external-link" size={18} color="white" />
+      </Text>
+    </TouchableOpacity>
+  );
+}
+
+function MyButton({ children, onPress }: BtnProps) {
+  return (
+    <TouchableOpacity
+      activeOpacity={0.8}
+      className={
+        "h-8 items-center justify-center rounded-sm bg-[#5046E4] p-4 shadow-sm hover:bg-gray-400"
+      }
+      onPress={onPress}
+    >
+      <Text className="uppercase text-slate-200">{children}</Text>
+    </TouchableOpacity>
+  );
+}
+
 const DenoIcon = (props: SvgProps) => (
   <Svg viewBox="0 0 1024 1024" {...props}>
-    <Path d="M472 106.6c-1.9.2-8 .9-13.5 1.4-78.2 8.2-155.2 41.3-218 93.9-11.6 9.6-38 36-47.6 47.6-52 62.1-82.4 131.8-93.6 214.3-2.5 18.3-2.5 80.1 0 98.4 11.2 82.5 41.6 152.2 93.6 214.3 9.6 11.6 36 38 47.6 47.6 62.1 52 131.8 82.4 214.3 93.6 18.3 2.5 80.1 2.5 98.4 0 82.5-11.2 152.2-41.6 214.3-93.6 11.6-9.6 38-36 47.6-47.6 52-62.1 82.4-131.8 93.6-214.3 2.5-18.3 2.5-80.1 0-98.4-11.2-82.5-41.6-152.2-93.6-214.3-9.6-11.6-36-38-47.6-47.6-61.9-51.8-132.3-82.6-213.7-93.5-8.8-1.2-21.6-1.7-45.3-1.9-18.1-.2-34.6-.1-36.5.1zm5 43.2c0 11.7.8 37.1 1.9 61.2.6 11.8 1.3 28.7 1.6 37.5 1.1 31.2 4.4 113.1 4.9 120.4l.5 7.3-4.5-.5c-2.5-.2-4.8-.8-5.2-1.1-.3-.4-1-7.3-1.4-15.4-1.8-35.6-7.7-173.7-8.3-193.9l-.6-22.2 2.8-.4c1.5-.2 4-.5 5.6-.6l2.7-.1v7.8zm95.7-2.4c.1.1.4 30.3.7 67.1.4 36.9.9 70 1.2 73.6.3 3.7.2 6.9-.3 7.1-.4.3-2.9.3-5.4 0l-4.6-.4-.7-29.1c-.4-16.1-.9-33.9-1.1-39.7-.8-17.7-1.5-77.8-.9-79.3.4-1.1 1.5-1.2 5.7-.5 2.9.6 5.3 1.1 5.4 1.2zm-231.3 33.5c.6.9 5.3 56 11.1 128.1 1.9 24.5 3.8 46.9 4.1 49.7.5 5.1.4 5.3-2.8 7.3-1.8 1.1-3.6 2-4 2-.3 0-.9-2.6-1.2-5.8-1.4-13-6.8-75.8-10.6-121.2-2.2-26.7-4.2-50.6-4.5-53.2-.5-4.4-.4-4.8 2.2-6.2 3.2-1.7 5-2 5.7-.7zM616.7 201c2.8 1 3.1 1.5 3.7 7.2 1 10 .7 57.8-.4 57.8-2.9 0-8.9-3.4-9.4-5.3-.3-1.2-.6-15.4-.6-31.5 0-32.5-.4-30.6 6.7-28.2zM432 205.7c0 2.7.7 17.6 1.5 33.3.8 15.7 1.7 35.6 2.1 44.2.7 17.4.9 16.8-5.8 17.2-3.3.1-3.3.1-3.5-4.9-.2-2.8-.7-11.5-1.3-19.5-.5-8-1.7-25.3-2.5-38.5s-1.8-26.3-2.1-29.1c-.6-5-.5-5.2 2.2-6.2 1.6-.6 4.4-1.1 6.2-1.1 3.2-.1 3.2-.1 3.2 4.6zm277.4 13.7 3.4 1.4.7 13.4c.3 7.3.5 23.1.3 35l-.3 21.8-4.2-2.1-4.2-2-.3-33.2c-.2-18.3-.1-33.8.1-34.5.4-1.5.4-1.5 4.5.2zm-182.6 13.1c.6.6 2 49.1 2.1 73.7l.1 14.8-4.7-.7c-2.7-.3-4.9-.6-5-.7-.3-.2-3.3-74.3-3.3-81.5v-7.4l5.1.6c2.9.4 5.4.9 5.7 1.2zm230.3 7.1c1.2 1.4 1.4 23.3 1.7 144.1.3 138.7.3 142.3-1.5 142.3-1.1 0-2.6-.6-3.5-1.3-1.5-1.1-1.7-13.2-2.2-131.7-.4-71.8-.9-137-1.2-144.9l-.6-14.4 2.9 2.1c1.7 1.2 3.6 2.9 4.4 3.8zm-89.7 20.5c.5.4 1 6.1 1.1 12.6.5 22.1.6 157.6.1 158-.2.2-2-.3-4-1.1l-3.6-1.5V258l2.8.6c1.5.4 3.1 1 3.6 1.5zm-276 5.6c.3 2.7.8 8.8 1.1 13.8.3 4.9 1 16.1 1.6 24.8 1.2 17.6 1 18.7-4.7 18.7-3 0-3.4-.3-3.8-3.3-1-5.9-4.5-55.1-4-55.9.5-.7 5.7-2.5 8.1-2.7.6-.1 1.4 2 1.7 4.6zM226 291.2c1.1 10.6 3.3 32.8 4.9 49.3 1.7 16.5 3.1 30.5 3.1 31.1 0 1.2-7.7 5-8.5 4.2-.5-.5-10.5-89-10.5-93 0-2.4 7.7-12.5 8.7-11.4.3.2 1.3 9.1 2.3 19.8zm392.1 10.5 2.9 1.7.1 21.6c.1 11.8.3 25 .3 29.3.2 9-.9 10.5-6.3 8.6l-3.1-1.1v-8.6c0-4.8-.3-18.7-.7-31l-.6-22.2h2.3c1.2 0 3.5.8 5.1 1.7zm-348.2 38.8c1.8 19.2 4.7 51.6 6.6 72l3.4 37-3.9 3.9-3.8 3.9-.7-7.9c-.4-4.4-2.4-24.8-4.5-45.4-2.1-20.6-5.1-50.5-6.6-66.4l-2.8-28.8 3.9-3.6c3.5-3.3 3.9-3.4 4.6-1.6.4 1 2.1 17.6 3.8 36.9zM195 352.6c2.2 19.7 8 72.1 13 116.4 5 44.3 9.7 87 10.6 95 .8 8 2.2 20.1 3 27 1.4 11.7 1.4 12.5-.2 13.7-2.4 1.8-3.4 1.6-3.4-.5 0-.9-.9-8.5-2-16.7-1.8-13.7-4.8-36.9-11.5-89-1.4-10.5-4.1-31.4-6-46.5-2-15.1-4.9-37.6-6.5-50-1.6-12.4-4.3-33.6-6-47.3-1.8-13.6-2.9-25.7-2.6-27 .7-2.7 6.6-12.1 7.2-11.5.2.3 2.2 16.6 4.4 36.4zm-30.6 43.1c1.5 12 4.3 33.9 6.2 48.8 1.9 14.8 4.3 33.3 5.4 41l1.9 14-2.1 1.8c-1.2 1-2.4 1.4-2.8 1-.4-.4-1.2-4.4-1.8-8.8-.6-4.4-4.3-30.1-8.3-57l-7.1-49 2.3-6.8c1.2-3.7 2.5-6.7 2.8-6.7.4 0 1.9 9.8 3.5 21.7zm549-13.1c1.4 1.4 1.6 7.6 1.6 53.5V488h-2.8c-6.1 0-6 1.5-6.4-55.3l-.3-51.7h3.2c1.7 0 3.9.7 4.7 1.6zm-218.9 17.9c22.6 3.4 42.3 9.7 61.8 19.7 12.6 6.5 18.6 11 32.6 24.4 20.8 19.9 33.6 37.3 45.6 61.9C652 542.3 658.8 574 667.4 659c3.9 38.1 9 107.2 10.1 135.5.3 8.2 1 21.7 1.6 30 1.1 17.6 2.4 15.2-13.1 22.7-21.5 10.4-42.2 17.6-69.5 24.3-33.4 8.2-55 10.8-88 10.9l-24 .1.2-11.5c0-6.3.6-21 1.2-32.5 3-55.7 2.4-126-1.5-165-2.2-22.4-6.5-49.6-8.9-55.6-.5-1.3 1.8-2.4 11.7-5.8 18.1-6.3 33.8-14.2 36.2-18.1 4.3-7.4-3.4-18-13.2-18-1.7 0-6.8 1.8-11.5 3.9-22.4 10.3-67.3 22.4-93.2 25.1-17.9 1.9-45.7.8-65-2.7-10.5-1.9-29.3-9-45-17.1-18.1-9.4-29.2-21.9-32.5-36.7-1.8-8-1.3-24 1-33 2.5-9.9 9.5-24.3 15.9-32.7 28.5-37.5 87.3-70 147.6-81.4 19.2-3.6 46.4-4 67-.9zm308.5 3.1c3.6 1.5 4 1.9 4 5.3.2 27.3-.4 89.7-.9 92.3-.1.9-5.3 1-7.5.2-1.4-.5-1.6-5.9-1.6-50 0-31.6.4-49.4 1-49.4.5 0 2.8.7 5 1.6zm43.7 54.9 3.6 1.5-.7 82.8c-.8 105.5-.9 108.6-4.7 117.7-6.2 14.9-5.9 17.9-5.3-47.5.2-32.7.7-65.8.9-73.5.2-7.7.4-29.4.5-48.3 0-22.8.3-34.2 1-34.2.6 0 2.7.7 4.7 1.5zm-601.4 24.9c.6 8.1.4 8.9-2.5 15.3l-3.2 6.8-1.2-10c-1.9-16-1.9-16.7 1.9-19.1 1.7-1.2 3.5-2 3.8-1.8.3.2.9 4.2 1.2 8.8zm-61.8 60.3c.9 8.2 7.9 62.6 11.5 89.3 5.4 41.3 5.8 47.2 3.4 44.7-.3-.3-2.6-14.2-5-30.9-15.6-107.8-15.5-107.1-14.2-107.9 2.7-1.8 3.6-.8 4.3 4.8zm72 45.8c.6 2.5 3.5 29.6 3.5 32.9 0 2.8-3.6 5.4-5.2 3.8-.5-.5-1.8-9-2.8-18.8-1.1-9.9-2.2-20.2-2.5-22.9l-.6-5 3.5 4c2 2.2 3.8 4.9 4.1 6zm80.7 37.7c1.1 1 1.8 5 2.7 15.8 1.5 19.5 1.7 18-2.4 18-4.2 0-4.1.3-5.5-17.3-1.4-17.9-1.4-17.7 1.3-17.7 1.3 0 3 .6 3.9 1.2zm79.2 1.5c.2 1 .7 7 1.1 13.3.3 6.3 1.2 20.5 2 31.5 2.8 40.4 2.9 45.5 1.2 45.5-1.9 0-2.1-1.5-4.3-30-.8-11.8-2.3-30.4-3.3-41.3-.9-10.9-1.5-20-1.2-20.2 1.1-1.2 4-.3 4.5 1.2zm-188 19.2c.6.9 4.4 32.9 9.1 76.6 1.4 13.2 2.8 25.9 3.1 28.3l.5 4.3-2.5-1.6c-1.9-1.3-2.6-2.6-2.6-4.9 0-6.3-4.3-47.8-7.6-73.2-1.9-14.4-3.4-27.1-3.4-28.3 0-2.1 2.4-2.9 3.4-1.2zm577.1 41.8-.7 41.8-2.5 3.7c-5.7 8.4-5.4 10-5.1-36.8l.2-42.9 3.7-3.8c2-2 4-3.7 4.4-3.7.3 0 .3 18.8 0 41.7zM712 756c.5 58.1.4 62.6-1.2 64.4-1 1.1-1.9 1.8-2.2 1.5-.7-.8-1.7-127.5-.9-128.2.4-.4 1.4-.6 2.3-.5 1.3.3 1.6 7.4 2 62.8zm-326.6-39.8c.7 6.2 3.2 35.9 4.2 49.9.6 9.4.6 9.7-1.6 10.4-1.2.4-2.6.3-3-.2-.7-.7-2.9-22.9-5.6-57.1l-.7-8.2h3.1c2.9 0 3.1.2 3.6 5.2zm-78.6 35c.7.7 1.2 3.2 1.2 5.7 0 2.6 1.2 16.1 2.5 30.1 3.8 38.3 4.1 43.5 2.4 42.5-2.6-1.5-4.9-3.8-4.4-4.4.2-.4-.2-5.4-1-11.1-.7-5.8-1.6-15.2-2-21-.4-5.8-1.3-16.4-2.1-23.5-1.9-17.5-1.8-19.5.4-19.5 1 0 2.3.5 3 1.2zm47.3 67.3c.3 2.2.9 10.4 1.3 18.2.7 15 .4 16.1-3.7 13-1.2-.9-2-4.7-3.2-16.1-2.1-20.6-2.2-19.8 1.7-19.4 2.9.3 3.3.7 3.9 4.3z" />
-    <Path d="M318.4 448.4C308 452.9 307.2 467 317 472c7.1 3.6 14.3 1.9 18-4.3 7-11.4-4.4-24.6-16.6-19.3zm67.8 9.6c-9.6 5.9-9.6 20.1 0 26 9.5 5.7 21.8-1.8 21.8-13.2 0-11-12.6-18.4-21.8-12.8z" />
+    <Path
+      d="M472 106.6c-1.9.2-8 .9-13.5 1.4-78.2 8.2-155.2 41.3-218 93.9-11.6 9.6-38 36-47.6 47.6-52 62.1-82.4 131.8-93.6 214.3-2.5 18.3-2.5 80.1 0 98.4 11.2 82.5 41.6 152.2 93.6 214.3 9.6 11.6 36 38 47.6 47.6 62.1 52 131.8 82.4 214.3 93.6 18.3 2.5 80.1 2.5 98.4 0 82.5-11.2 152.2-41.6 214.3-93.6 11.6-9.6 38-36 47.6-47.6 52-62.1 82.4-131.8 93.6-214.3 2.5-18.3 2.5-80.1 0-98.4-11.2-82.5-41.6-152.2-93.6-214.3-9.6-11.6-36-38-47.6-47.6-61.9-51.8-132.3-82.6-213.7-93.5-8.8-1.2-21.6-1.7-45.3-1.9-18.1-.2-34.6-.1-36.5.1zm5 43.2c0 11.7.8 37.1 1.9 61.2.6 11.8 1.3 28.7 1.6 37.5 1.1 31.2 4.4 113.1 4.9 120.4l.5 7.3-4.5-.5c-2.5-.2-4.8-.8-5.2-1.1-.3-.4-1-7.3-1.4-15.4-1.8-35.6-7.7-173.7-8.3-193.9l-.6-22.2 2.8-.4c1.5-.2 4-.5 5.6-.6l2.7-.1v7.8zm95.7-2.4c.1.1.4 30.3.7 67.1.4 36.9.9 70 1.2 73.6.3 3.7.2 6.9-.3 7.1-.4.3-2.9.3-5.4 0l-4.6-.4-.7-29.1c-.4-16.1-.9-33.9-1.1-39.7-.8-17.7-1.5-77.8-.9-79.3.4-1.1 1.5-1.2 5.7-.5 2.9.6 5.3 1.1 5.4 1.2zm-231.3 33.5c.6.9 5.3 56 11.1 128.1 1.9 24.5 3.8 46.9 4.1 49.7.5 5.1.4 5.3-2.8 7.3-1.8 1.1-3.6 2-4 2-.3 0-.9-2.6-1.2-5.8-1.4-13-6.8-75.8-10.6-121.2-2.2-26.7-4.2-50.6-4.5-53.2-.5-4.4-.4-4.8 2.2-6.2 3.2-1.7 5-2 5.7-.7zM616.7 201c2.8 1 3.1 1.5 3.7 7.2 1 10 .7 57.8-.4 57.8-2.9 0-8.9-3.4-9.4-5.3-.3-1.2-.6-15.4-.6-31.5 0-32.5-.4-30.6 6.7-28.2zM432 205.7c0 2.7.7 17.6 1.5 33.3.8 15.7 1.7 35.6 2.1 44.2.7 17.4.9 16.8-5.8 17.2-3.3.1-3.3.1-3.5-4.9-.2-2.8-.7-11.5-1.3-19.5-.5-8-1.7-25.3-2.5-38.5s-1.8-26.3-2.1-29.1c-.6-5-.5-5.2 2.2-6.2 1.6-.6 4.4-1.1 6.2-1.1 3.2-.1 3.2-.1 3.2 4.6zm277.4 13.7 3.4 1.4.7 13.4c.3 7.3.5 23.1.3 35l-.3 21.8-4.2-2.1-4.2-2-.3-33.2c-.2-18.3-.1-33.8.1-34.5.4-1.5.4-1.5 4.5.2zm-182.6 13.1c.6.6 2 49.1 2.1 73.7l.1 14.8-4.7-.7c-2.7-.3-4.9-.6-5-.7-.3-.2-3.3-74.3-3.3-81.5v-7.4l5.1.6c2.9.4 5.4.9 5.7 1.2zm230.3 7.1c1.2 1.4 1.4 23.3 1.7 144.1.3 138.7.3 142.3-1.5 142.3-1.1 0-2.6-.6-3.5-1.3-1.5-1.1-1.7-13.2-2.2-131.7-.4-71.8-.9-137-1.2-144.9l-.6-14.4 2.9 2.1c1.7 1.2 3.6 2.9 4.4 3.8zm-89.7 20.5c.5.4 1 6.1 1.1 12.6.5 22.1.6 157.6.1 158-.2.2-2-.3-4-1.1l-3.6-1.5V258l2.8.6c1.5.4 3.1 1 3.6 1.5zm-276 5.6c.3 2.7.8 8.8 1.1 13.8.3 4.9 1 16.1 1.6 24.8 1.2 17.6 1 18.7-4.7 18.7-3 0-3.4-.3-3.8-3.3-1-5.9-4.5-55.1-4-55.9.5-.7 5.7-2.5 8.1-2.7.6-.1 1.4 2 1.7 4.6zM226 291.2c1.1 10.6 3.3 32.8 4.9 49.3 1.7 16.5 3.1 30.5 3.1 31.1 0 1.2-7.7 5-8.5 4.2-.5-.5-10.5-89-10.5-93 0-2.4 7.7-12.5 8.7-11.4.3.2 1.3 9.1 2.3 19.8zm392.1 10.5 2.9 1.7.1 21.6c.1 11.8.3 25 .3 29.3.2 9-.9 10.5-6.3 8.6l-3.1-1.1v-8.6c0-4.8-.3-18.7-.7-31l-.6-22.2h2.3c1.2 0 3.5.8 5.1 1.7zm-348.2 38.8c1.8 19.2 4.7 51.6 6.6 72l3.4 37-3.9 3.9-3.8 3.9-.7-7.9c-.4-4.4-2.4-24.8-4.5-45.4-2.1-20.6-5.1-50.5-6.6-66.4l-2.8-28.8 3.9-3.6c3.5-3.3 3.9-3.4 4.6-1.6.4 1 2.1 17.6 3.8 36.9zM195 352.6c2.2 19.7 8 72.1 13 116.4 5 44.3 9.7 87 10.6 95 .8 8 2.2 20.1 3 27 1.4 11.7 1.4 12.5-.2 13.7-2.4 1.8-3.4 1.6-3.4-.5 0-.9-.9-8.5-2-16.7-1.8-13.7-4.8-36.9-11.5-89-1.4-10.5-4.1-31.4-6-46.5-2-15.1-4.9-37.6-6.5-50-1.6-12.4-4.3-33.6-6-47.3-1.8-13.6-2.9-25.7-2.6-27 .7-2.7 6.6-12.1 7.2-11.5.2.3 2.2 16.6 4.4 36.4zm-30.6 43.1c1.5 12 4.3 33.9 6.2 48.8 1.9 14.8 4.3 33.3 5.4 41l1.9 14-2.1 1.8c-1.2 1-2.4 1.4-2.8 1-.4-.4-1.2-4.4-1.8-8.8-.6-4.4-4.3-30.1-8.3-57l-7.1-49 2.3-6.8c1.2-3.7 2.5-6.7 2.8-6.7.4 0 1.9 9.8 3.5 21.7zm549-13.1c1.4 1.4 1.6 7.6 1.6 53.5V488h-2.8c-6.1 0-6 1.5-6.4-55.3l-.3-51.7h3.2c1.7 0 3.9.7 4.7 1.6zm-218.9 17.9c22.6 3.4 42.3 9.7 61.8 19.7 12.6 6.5 18.6 11 32.6 24.4 20.8 19.9 33.6 37.3 45.6 61.9C652 542.3 658.8 574 667.4 659c3.9 38.1 9 107.2 10.1 135.5.3 8.2 1 21.7 1.6 30 1.1 17.6 2.4 15.2-13.1 22.7-21.5 10.4-42.2 17.6-69.5 24.3-33.4 8.2-55 10.8-88 10.9l-24 .1.2-11.5c0-6.3.6-21 1.2-32.5 3-55.7 2.4-126-1.5-165-2.2-22.4-6.5-49.6-8.9-55.6-.5-1.3 1.8-2.4 11.7-5.8 18.1-6.3 33.8-14.2 36.2-18.1 4.3-7.4-3.4-18-13.2-18-1.7 0-6.8 1.8-11.5 3.9-22.4 10.3-67.3 22.4-93.2 25.1-17.9 1.9-45.7.8-65-2.7-10.5-1.9-29.3-9-45-17.1-18.1-9.4-29.2-21.9-32.5-36.7-1.8-8-1.3-24 1-33 2.5-9.9 9.5-24.3 15.9-32.7 28.5-37.5 87.3-70 147.6-81.4 19.2-3.6 46.4-4 67-.9zm308.5 3.1c3.6 1.5 4 1.9 4 5.3.2 27.3-.4 89.7-.9 92.3-.1.9-5.3 1-7.5.2-1.4-.5-1.6-5.9-1.6-50 0-31.6.4-49.4 1-49.4.5 0 2.8.7 5 1.6zm43.7 54.9 3.6 1.5-.7 82.8c-.8 105.5-.9 108.6-4.7 117.7-6.2 14.9-5.9 17.9-5.3-47.5.2-32.7.7-65.8.9-73.5.2-7.7.4-29.4.5-48.3 0-22.8.3-34.2 1-34.2.6 0 2.7.7 4.7 1.5zm-601.4 24.9c.6 8.1.4 8.9-2.5 15.3l-3.2 6.8-1.2-10c-1.9-16-1.9-16.7 1.9-19.1 1.7-1.2 3.5-2 3.8-1.8.3.2.9 4.2 1.2 8.8zm-61.8 60.3c.9 8.2 7.9 62.6 11.5 89.3 5.4 41.3 5.8 47.2 3.4 44.7-.3-.3-2.6-14.2-5-30.9-15.6-107.8-15.5-107.1-14.2-107.9 2.7-1.8 3.6-.8 4.3 4.8zm72 45.8c.6 2.5 3.5 29.6 3.5 32.9 0 2.8-3.6 5.4-5.2 3.8-.5-.5-1.8-9-2.8-18.8-1.1-9.9-2.2-20.2-2.5-22.9l-.6-5 3.5 4c2 2.2 3.8 4.9 4.1 6zm80.7 37.7c1.1 1 1.8 5 2.7 15.8 1.5 19.5 1.7 18-2.4 18-4.2 0-4.1.3-5.5-17.3-1.4-17.9-1.4-17.7 1.3-17.7 1.3 0 3 .6 3.9 1.2zm79.2 1.5c.2 1 .7 7 1.1 13.3.3 6.3 1.2 20.5 2 31.5 2.8 40.4 2.9 45.5 1.2 45.5-1.9 0-2.1-1.5-4.3-30-.8-11.8-2.3-30.4-3.3-41.3-.9-10.9-1.5-20-1.2-20.2 1.1-1.2 4-.3 4.5 1.2zm-188 19.2c.6.9 4.4 32.9 9.1 76.6 1.4 13.2 2.8 25.9 3.1 28.3l.5 4.3-2.5-1.6c-1.9-1.3-2.6-2.6-2.6-4.9 0-6.3-4.3-47.8-7.6-73.2-1.9-14.4-3.4-27.1-3.4-28.3 0-2.1 2.4-2.9 3.4-1.2zm577.1 41.8-.7 41.8-2.5 3.7c-5.7 8.4-5.4 10-5.1-36.8l.2-42.9 3.7-3.8c2-2 4-3.7 4.4-3.7.3 0 .3 18.8 0 41.7zM712 756c.5 58.1.4 62.6-1.2 64.4-1 1.1-1.9 1.8-2.2 1.5-.7-.8-1.7-127.5-.9-128.2.4-.4 1.4-.6 2.3-.5 1.3.3 1.6 7.4 2 62.8zm-326.6-39.8c.7 6.2 3.2 35.9 4.2 49.9.6 9.4.6 9.7-1.6 10.4-1.2.4-2.6.3-3-.2-.7-.7-2.9-22.9-5.6-57.1l-.7-8.2h3.1c2.9 0 3.1.2 3.6 5.2zm-78.6 35c.7.7 1.2 3.2 1.2 5.7 0 2.6 1.2 16.1 2.5 30.1 3.8 38.3 4.1 43.5 2.4 42.5-2.6-1.5-4.9-3.8-4.4-4.4.2-.4-.2-5.4-1-11.1-.7-5.8-1.6-15.2-2-21-.4-5.8-1.3-16.4-2.1-23.5-1.9-17.5-1.8-19.5.4-19.5 1 0 2.3.5 3 1.2zm47.3 67.3c.3 2.2.9 10.4 1.3 18.2.7 15 .4 16.1-3.7 13-1.2-.9-2-4.7-3.2-16.1-2.1-20.6-2.2-19.8 1.7-19.4 2.9.3 3.3.7 3.9 4.3z"
+      fill="#ecedee"
+    />
+    <Path
+      d="M318.4 448.4C308 452.9 307.2 467 317 472c7.1 3.6 14.3 1.9 18-4.3 7-11.4-4.4-24.6-16.6-19.3zm67.8 9.6c-9.6 5.9-9.6 20.1 0 26 9.5 5.7 21.8-1.8 21.8-13.2 0-11-12.6-18.4-21.8-12.8z"
+      fill="#ecedee"
+    />
   </Svg>
 );
 
@@ -46,7 +521,7 @@ const AstroIcon = (props: SvgProps) => (
     <G fill="none" fillRule="evenodd">
       <Path
         d="M156.377 4.834c1.575 1.956 2.379 4.595 3.986 9.874l35.105 115.32a146.081 146.081 0 0 0-41.97-14.209l-22.857-77.24a2.975 2.975 0 0 0-5.708.008l-22.58 77.193a146.086 146.086 0 0 0-42.159 14.23L95.471 14.682c1.612-5.27 2.418-7.904 3.994-9.857A12.97 12.97 0 0 1 104.72.936C107.048 0 109.804 0 115.315 0h25.196c5.518 0 8.277 0 10.607.938a13.016 13.016 0 0 1 5.259 3.896Z"
-        fill="#000"
+        fill="#ecedee"
       />
       <Path
         d="M160.577 135.516c-5.787 4.949-17.338 8.324-30.643 8.324-16.33 0-30.017-5.084-33.65-11.922-1.298 3.92-1.589 8.404-1.589 11.269 0 0-.856 14.068 8.929 23.852a9.199 9.199 0 0 1 9.2-9.198c8.707 0 8.697 7.596 8.69 13.76l-.001.55c0 9.355 5.718 17.375 13.85 20.757a18.86 18.86 0 0 1-1.896-8.268c0-8.923 5.238-12.246 11.326-16.108 4.845-3.072 10.227-6.485 13.936-13.332a25.145 25.145 0 0 0 3.034-12.013 25.24 25.24 0 0 0-1.186-7.67Z"
@@ -90,7 +565,7 @@ const ThreeIcon = (props: SvgProps) => (
   >
     <G
       fillRule="evenodd"
-      stroke="#000"
+      stroke="#ecedee"
       strokeLinecap="butt"
       strokeLinejoin="round"
       strokeWidth={4}
@@ -120,7 +595,7 @@ const ExpoIcon = (props: SvgProps) => (
   <Svg viewBox="0 0 256 256" {...props}>
     <Path
       d="M121 85c2-3 5-4 7-4 1 0 5 1 7 4 16 22 43 67 63 101l26 40c7 8 18 3 24-6s8-15 8-22c0-4-88-168-97-182-9-13-11-16-26-16h-11c-14 0-16 3-25 16C88 30 0 194 0 198c0 7 2 13 8 22s17 14 24 6l26-40c20-34 47-79 63-101Z"
-      fill="#000020"
+      fill="#ecedee"
     />
   </Svg>
 );
@@ -220,444 +695,9 @@ const PuppeteerIcon = (props: SvgProps) => (
 
 const NextIcon = (props: SvgProps) => (
   <Svg viewBox="0 0 256 256" {...props}>
-    <Path d="M119.617.069c-.55.05-2.302.225-3.879.35-36.36 3.278-70.419 22.894-91.99 53.044-12.012 16.764-19.694 35.78-22.597 55.922C.125 116.415 0 118.492 0 128.025c0 9.533.125 11.61 1.151 18.64 6.957 48.065 41.165 88.449 87.56 103.411 8.309 2.678 17.067 4.504 27.027 5.605 3.879.425 20.645.425 24.524 0 17.192-1.902 31.756-6.155 46.12-13.486 2.202-1.126 2.628-1.426 2.327-1.677-.2-.15-9.584-12.735-20.845-27.948l-20.47-27.648-25.65-37.956c-14.114-20.868-25.725-37.932-25.825-37.932-.1-.025-.2 16.84-.25 37.431-.076 36.055-.1 37.506-.551 38.357-.65 1.226-1.151 1.727-2.202 2.277-.801.4-1.502.475-5.28.475h-4.33l-1.15-.725a4.679 4.679 0 0 1-1.677-1.827l-.526-1.126.05-50.166.075-50.192.776-.976c.4-.525 1.251-1.2 1.852-1.526 1.026-.5 1.426-.55 5.755-.55 5.105 0 5.956.2 7.282 1.651.376.4 14.264 21.318 30.88 46.514 16.617 25.195 39.34 59.599 50.5 76.488l20.27 30.7 1.026-.675c9.084-5.905 18.693-14.312 26.3-23.07 16.191-18.59 26.626-41.258 30.13-65.428 1.026-7.031 1.151-9.108 1.151-18.64 0-9.534-.125-11.61-1.151-18.641-6.957-48.065-41.165-88.449-87.56-103.411-8.184-2.652-16.892-4.479-26.652-5.58-2.402-.25-18.943-.525-21.02-.325Zm52.401 77.414c1.201.6 2.177 1.752 2.527 2.953.2.65.25 14.562.2 45.913l-.074 44.987-7.933-12.16-7.958-12.16v-32.702c0-21.143.1-33.028.25-33.603.4-1.401 1.277-2.502 2.478-3.153 1.026-.525 1.401-.575 5.33-.575 3.704 0 4.354.05 5.18.5Z" />
+    <Path
+      d="M119.617.069c-.55.05-2.302.225-3.879.35-36.36 3.278-70.419 22.894-91.99 53.044-12.012 16.764-19.694 35.78-22.597 55.922C.125 116.415 0 118.492 0 128.025c0 9.533.125 11.61 1.151 18.64 6.957 48.065 41.165 88.449 87.56 103.411 8.309 2.678 17.067 4.504 27.027 5.605 3.879.425 20.645.425 24.524 0 17.192-1.902 31.756-6.155 46.12-13.486 2.202-1.126 2.628-1.426 2.327-1.677-.2-.15-9.584-12.735-20.845-27.948l-20.47-27.648-25.65-37.956c-14.114-20.868-25.725-37.932-25.825-37.932-.1-.025-.2 16.84-.25 37.431-.076 36.055-.1 37.506-.551 38.357-.65 1.226-1.151 1.727-2.202 2.277-.801.4-1.502.475-5.28.475h-4.33l-1.15-.725a4.679 4.679 0 0 1-1.677-1.827l-.526-1.126.05-50.166.075-50.192.776-.976c.4-.525 1.251-1.2 1.852-1.526 1.026-.5 1.426-.55 5.755-.55 5.105 0 5.956.2 7.282 1.651.376.4 14.264 21.318 30.88 46.514 16.617 25.195 39.34 59.599 50.5 76.488l20.27 30.7 1.026-.675c9.084-5.905 18.693-14.312 26.3-23.07 16.191-18.59 26.626-41.258 30.13-65.428 1.026-7.031 1.151-9.108 1.151-18.64 0-9.534-.125-11.61-1.151-18.641-6.957-48.065-41.165-88.449-87.56-103.411-8.184-2.652-16.892-4.479-26.652-5.58-2.402-.25-18.943-.525-21.02-.325Zm52.401 77.414c1.201.6 2.177 1.752 2.527 2.953.2.65.25 14.562.2 45.913l-.074 44.987-7.933-12.16-7.958-12.16v-32.702c0-21.143.1-33.028.25-33.603.4-1.401 1.277-2.502 2.478-3.153 1.026-.525 1.401-.575 5.33-.575 3.704 0 4.354.05 5.18.5Z"
+      fill="#ecedee"
+    />
   </Svg>
 );
-
-export default function App() {
-  const video = useRef<Video>(null);
-  const [status, setStatus] = useState({});
-
-  const [layoutProps, setLayout] = useState<LayoutRectangle>(null!);
-  return (
-    <SafeAreaView
-      className="flex flex-1 justify-evenly items-center"
-      onLayout={({ nativeEvent: { layout } }) => setLayout(layout)}
-    >
-      {/* <DenoIcon width={1000} height={1000} /> */}
-      {/* <TsIcon width={40} height={40} /> */}
-      <ExpoIcon width={600} height={600} />
-      <Text>Made with expo</Text>
-      {layoutProps && (
-        <>
-          <ScrollView className="w-3/4 text-center lg:w-1/3">
-            <Text className="text-3xl capitalize ">2023 upcoming projects</Text>
-            {/* @see https://github.com/ph4un00b/query_html */}
-            <View className="flex w-full flex-row">
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-blue-300 justify-start">
-                <Image
-                  resizeMode="contain"
-                  className="w-full h-3/4"
-                  source={{ uri: require("./assets/cards.gif") }}
-                />
-                <View className="absolute bottom-0 w-full">
-                  <View className="w-full">
-                    <MyLinkButton href="https://plinks.deno.dev/cards-tree">
-                      3d cards
-                    </MyLinkButton>
-                  </View>
-                </View>
-              </View>
-
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-purple-300 justify-evenly">
-                <View className="flex flex-row justify-evenly">
-                  <AstroIcon width={40} height={40} />
-                  <CssIcon width={40} height={40} />
-                  <TsIcon width={40} height={40} />
-                  <VueIcon width={40} height={40} />
-                  <ReactIcon width={40} height={40} />
-                </View>
-              </View>
-            </View>
-            {/* animation */}
-            <View className="flex w-full flex-row-reverse">
-              <View className="flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-blue-300 justify-start">
-                <Image
-                  resizeMode="contain"
-                  className="w-full h-3/4"
-                  source={{ uri: require("./assets/graph-editor.PNG") }}
-                />
-                <View className="absolute bottom-0 w-full">
-                  <MyButton onPress={() => {}}>graph editor</MyButton>
-                </View>
-              </View>
-
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-purple-300 justify-evenly">
-                <View className="flex flex-row justify-evenly">
-                  <TwIcon width={40} height={40} />
-                  <AstroIcon width={40} height={40} />
-                  <VueIcon width={40} height={40} />
-                  <ReactIcon width={40} height={40} />
-                  <TsIcon width={40} height={40} />
-                </View>
-              </View>
-            </View>
-
-            <Text className="text-3xl capitalize ">2022 public projects</Text>
-            {/* @see https://github.com/ph4un00b/query_html */}
-            <View className="flex w-full flex-row">
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-blue-300 justify-start">
-                <Image
-                  resizeMode="contain"
-                  className="w-full h-3/4"
-                  source={{ uri: require("./assets/query_html.PNG") }}
-                />
-                <View className="absolute bottom-0 w-full">
-                  <MyLinkButton href="https://plinks.deno.dev/html-transformers">
-                    html jq
-                  </MyLinkButton>
-                </View>
-              </View>
-
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-purple-300 justify-evenly">
-                <Text className="text-base ">
-                  - An HTML transformation CLI tool
-                </Text>
-                <View className="flex flex-row justify-evenly">
-                  <DenoIcon width={40} height={40} />
-                  <TsIcon width={40} height={40} />
-                </View>
-              </View>
-            </View>
-            {/* animation */}
-            <View className="flex w-full flex-row-reverse">
-              <View className="flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-blue-300 justify-start">
-                <Video
-                  className="flex h-full"
-                  ref={video}
-                  // style={styles.video}
-                  source={{
-                    // uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-                    uri: require("./assets/zip2.mp4"),
-                  }}
-                  useNativeControls
-                  resizeMode={ResizeMode.CONTAIN}
-                  onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-                />
-                <View className="absolute bottom-0 w-full">
-                  <MyLinkButton href="https://plinks.deno.dev/3rf-animation">
-                    Animation
-                  </MyLinkButton>
-                </View>
-              </View>
-
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-purple-300 justify-evenly">
-                <Text className="text-base ">
-                  - A React Three Fiber Animation
-                </Text>
-                <Text className="text-base ">
-                  - Mixing Audio, mobile friendly, performance aware
-                </Text>
-                <View className="flex flex-row justify-evenly">
-                  <NextIcon width={40} height={40} />
-                  <GlIcon width={40} height={40} />
-                  <ThreeIcon width={40} height={40} />
-                  <ReactIcon width={40} height={40} />
-                  <TsIcon width={40} height={40} />
-                </View>
-              </View>
-            </View>
-
-            {/* blends */}
-            <View className="flex flex-row w-full">
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-blue-300 justify-start">
-                <Image
-                  resizeMode="contain"
-                  className="w-full h-3/4"
-                  source={{ uri: require("./assets/blends.PNG") }}
-                />
-                <View className="absolute bottom-0 w-full">
-                  <View className="w-full">
-                    <MyLinkButton href="https://plinks.deno.dev/card-editor">
-                      card editor
-                    </MyLinkButton>
-                  </View>
-                </View>
-              </View>
-
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-purple-300 justify-evenly">
-                <Text className="text-base ">- An card editor webapp</Text>
-                <Text className="text-base ">
-                  - Mixing blend modes and shaders in Vue
-                </Text>
-                <View className="flex flex-row justify-evenly">
-                  <GlIcon width={40} height={40} />
-                  <VueIcon width={40} height={40} />
-                </View>
-              </View>
-            </View>
-
-            {/* composition */}
-            <View className="flex w-full flex-row-reverse">
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-blue-300 justify-start">
-                <Image
-                  resizeMode="contain"
-                  className="w-full h-3/4"
-                  source={{ uri: require("./assets/compositions.PNG") }}
-                />
-                <View className="absolute bottom-0 w-full">
-                  <View className="w-full">
-                    <MyLinkButton href="https://plinks.deno.dev/shaders-compositions">
-                      shader
-                    </MyLinkButton>
-                  </View>
-                </View>
-              </View>
-
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-purple-300 justify-evenly">
-                <Text className="text-base">- Shaders compositions</Text>
-                <Text className="text-base ">- mixing noises & patterns</Text>
-                <View className="flex flex-row justify-evenly">
-                  <GlIcon width={40} height={40} />
-                </View>
-              </View>
-            </View>
-
-            {/* @see https://github.com/ph4un00b/threejs-patterns-styles/blob/main/src/App.tsx */}
-            <View className="flex flex-row w-full">
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-blue-300 justify-start">
-                <Image
-                  resizeMode="contain"
-                  className="w-full h-3/4"
-                  source={{ uri: require("./assets/blends.PNG") }}
-                />
-                <View className="absolute bottom-0 w-full">
-                  <View className="w-full">
-                    <MyLinkButton href="https://plinks.deno.dev/3d-compositions">
-                      3d compositions
-                    </MyLinkButton>
-                  </View>
-                </View>
-              </View>
-
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-purple-300 justify-evenly">
-                <Text className="text-base ">
-                  - multiple WebGl compositions
-                </Text>
-                <Text className="text-base ">
-                  - mixing different techniques like shaders & post-processing
-                </Text>
-                <View className="flex flex-row justify-evenly">
-                  <GlIcon width={40} height={40} />
-                  <TsIcon width={40} height={40} />
-                  <ThreeIcon width={40} height={40} />
-                </View>
-              </View>
-            </View>
-
-            {/* composition */}
-            <View className="flex w-full flex-row-reverse">
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-blue-300 justify-start">
-                <Image
-                  resizeMode="contain"
-                  className="w-full h-3/4"
-                  source={{ uri: require("./assets/compositions.PNG") }}
-                />
-                <View className="absolute bottom-0 w-full">
-                  <View className="w-full">
-                    <MyLinkButton href="https://plinks.deno.dev/compositions-2">
-                      compositions 2
-                    </MyLinkButton>
-                  </View>
-                </View>
-              </View>
-
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-purple-300 justify-evenly">
-                <Text className="text-base ">- More GLSL compositions</Text>
-                <View className="flex flex-row justify-evenly">
-                  <GlIcon width={40} height={40} />
-                </View>
-              </View>
-            </View>
-
-            {/* @see https://github.com/ph4un00b/dirty_lurker */}
-            <View className="flex flex-row w-full">
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-blue-300 justify-start">
-                <Image
-                  resizeMode="contain"
-                  className="w-full h-3/4"
-                  source={{ uri: require("./assets/instagram_bot.PNG") }}
-                />
-                <View className="absolute bottom-0 w-full">
-                  <View className="w-full">
-                    <MyLinkButton href="https://plinks.deno.dev/instagram-bot">
-                      instagram bot
-                    </MyLinkButton>
-                  </View>
-                </View>
-              </View>
-
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-purple-300 justify-evenly">
-                <Text className="text-base ">- An instagram bot scrapper</Text>
-                <View className="flex flex-row justify-evenly">
-                  <DenoIcon width={40} height={40} />
-                  <PuppeteerIcon width={40} height={40} />
-                  <TsIcon width={40} height={40} />
-                </View>
-              </View>
-            </View>
-
-            {/* @see https://github.com/ph4un00b/tele-bot */}
-            <View className="flex w-full flex-row-reverse">
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-blue-300 justify-start">
-                <Image
-                  resizeMode="contain"
-                  className="w-full h-3/4"
-                  source={{ uri: require("./assets/telegram_bot.PNG") }}
-                />
-                <View className="absolute bottom-0 w-full">
-                  <View className="w-full">
-                    <MyLinkButton href="https://plinks.deno.dev/telegram-bot">
-                      telegram bot
-                    </MyLinkButton>
-                  </View>
-                </View>
-              </View>
-
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-purple-300 justify-evenly">
-                <Text className="text-base ">- A telegram bot template</Text>
-                <View className="flex flex-row justify-evenly">
-                  <DenoIcon width={40} height={40} />
-                  <TsIcon width={40} height={40} />
-                </View>
-              </View>
-            </View>
-
-            <Text className="text-3xl capitalize ">2021 public projects</Text>
-            {/* @see https://github.com/ph4un00b/css_reducer */}
-            <View className="flex flex-row w-full">
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-blue-300 justify-start">
-                <Image
-                  resizeMode="contain"
-                  className="w-full h-3/4"
-                  source={{ uri: require("./assets/css_refactoring.PNG") }}
-                />
-                <View className="absolute bottom-0 w-full">
-                  <View className="w-full">
-                    <MyLinkButton href="https://plinks.deno.dev/css-refactoring">
-                      Css refactoring
-                    </MyLinkButton>
-                  </View>
-                </View>
-              </View>
-
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-purple-300 justify-evenly">
-                <Text className="text-base ">- A CSS refactoring tool</Text>
-                <Text className="text-base ">- TDD && E2E</Text>
-                <Text className="text-base ">
-                  - made for windicss and tailwind
-                </Text>
-                <View className="flex flex-row justify-evenly">
-                  <DenoIcon width={40} height={40} />
-                  <TwIcon width={40} height={40} />
-                  <TsIcon width={40} height={40} />
-                </View>
-              </View>
-            </View>
-
-            {/* @see https://github.com/ph4un00b/simple-cli */}
-            <View className="flex w-full flex-row-reverse">
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-blue-300 justify-start">
-                <Image
-                  resizeMode="contain"
-                  className="w-full h-3/4"
-                  source={{ uri: require("./assets/page_generator.PNG") }}
-                />
-                <View className="absolute bottom-0 w-full">
-                  <View className="w-full">
-                    <MyLinkButton href="https://plinks.deno.dev/ssg">
-                      SSG CLI
-                    </MyLinkButton>
-                  </View>
-                </View>
-              </View>
-
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-purple-300 justify-evenly">
-                <Text className="text-base ">
-                  - A Static Site Generator CLI
-                </Text>
-                <Text className="text-base ">- TDD && E2E</Text>
-                <Text className="text-base ">
-                  - I dig quick prototyping ideas
-                </Text>
-                <View className="flex flex-row justify-evenly">
-                  <DenoIcon width={40} height={40} />
-                  <TsIcon width={40} height={40} />
-                </View>
-              </View>
-            </View>
-            {/* @see https://github.com/ph4un00b/json2html */}
-
-            <View className="flex flex-row w-full">
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-blue-300 justify-start">
-                <Image
-                  resizeMode="contain"
-                  className="w-full h-3/4"
-                  source={{ uri: require("./assets/json2html.PNG") }}
-                />
-                <View className="absolute bottom-0 w-full">
-                  <View className="w-full">
-                    <MyLinkButton href="https://plinks.deno.dev/json2html ">
-                      json 2 html
-                    </MyLinkButton>
-                  </View>
-                </View>
-              </View>
-
-              <View className="relative flex w-1/2 shadow-sm aspect-square rounded-md border-2 border-slate-100 bg-purple-300 justify-evenly">
-                <Text className="text-base ">
-                  - A CLI made with Deno runtime & Typescript & TDD
-                </Text>
-                <Text className="text-base ">- I love the UNIX philosophy</Text>
-                <View className="flex flex-row justify-evenly">
-                  <DenoIcon width={40} height={40} />
-                  <TsIcon width={40} height={40} />
-                </View>
-              </View>
-            </View>
-          </ScrollView>
-        </>
-      )}
-    </SafeAreaView>
-  );
-}
-
-type BtnProps = {
-  className?: string;
-  children: ReactNode;
-  to?: string;
-  href?: string;
-  onPress?: (event: GestureResponderEvent) => void;
-};
-
-function MyLinkButton({ children, href }: BtnProps) {
-  return (
-    <TouchableOpacity
-      activeOpacity={0.8}
-      className={
-        "transition hover:scale-110 duration-300 h-8 items-center justify-center rounded-sm bg-[#5046E4] px-4 py-2 shadow-sm hover:bg-indigo-400"
-      }
-      onPress={() => {
-        href && Linking.openURL(href);
-      }}
-    >
-      <Text className="uppercase text-slate-200">
-        {children} <Feather name="external-link" size={18} color="white" />
-      </Text>
-    </TouchableOpacity>
-  );
-}
-
-function MyButton({ children, onPress }: BtnProps) {
-  return (
-    <TouchableOpacity
-      activeOpacity={0.8}
-      className={
-        "h-8 items-center justify-center rounded-sm bg-[#5046E4] p-4 shadow-sm hover:bg-gray-400"
-      }
-      onPress={onPress}
-    >
-      <Text className="uppercase text-slate-200">{children}</Text>
-    </TouchableOpacity>
-  );
-}
