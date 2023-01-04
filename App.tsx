@@ -3,13 +3,16 @@ import {
   Image,
   LayoutRectangle,
   Linking,
+  Pressable,
   SafeAreaView,
   ScrollView,
   Text,
+  TouchableHighlight,
   TouchableOpacity,
   View,
+  StyleSheet,
 } from "react-native";
-import { ReactNode, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { AVPlaybackStatus, ResizeMode, Video } from "expo-av";
 import Svg, {
   Defs,
@@ -20,24 +23,45 @@ import Svg, {
   SvgProps,
 } from "react-native-svg";
 import { Feather } from "@expo/vector-icons";
+import Animated, {
+  SharedValue,
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useDerivedValue,
+  useSharedValue,
+  withDecay,
+  withSpring,
+  withTiming,
+} from "react-native-reanimated";
+import { clamp, mix } from "react-native-redash";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import "./styles";
 
+function Enlaces(props: any) {
+  const drag = useDrag({
+    width: props.width,
+    height: props.height,
+    decay: false,
+  });
+  return (
+    <DebugItems handleDecay={() => drag.toggleDecay()} decay={drag.decay} />
+  );
+}
 export default function App() {
   const video = useRef<Video>(null);
   const [status, setStatus] = useState({});
 
   const [layoutProps, setLayout] = useState<LayoutRectangle>(null!);
+
   return (
     <SafeAreaView
       className="flex items-center flex-1 mt-1 pt-9 justify-evenly bg-slate-900"
       onLayout={({ nativeEvent: { layout } }) => setLayout(layout)}
     >
-      {/* <DenoIcon width={1000} height={1000} /> */}
-      {/* <TsIcon width={40} height={40} /> */}
-
+      <Enlaces {...layoutProps} />
       <View className="flex flex-row">
-        <Text className="text-slate-200">phau ~ Made with expo</Text>
+        <Text className="text-slate-200">~ made with expo</Text>
         <ExpoIcon width={20} height={20} />
       </View>
       {layoutProps && (
@@ -701,3 +725,246 @@ const NextIcon = (props: SvgProps) => (
     />
   </Svg>
 );
+
+function DebugItems({
+  handleDecay,
+  decay,
+}: {
+  decay: SharedValue<boolean>;
+  handleDecay: any;
+}) {
+  // const [decay2Op, setDecay2Op] = useState(decay);
+  // const [decay3Op, setDecay3Op] = useState(decay);
+  /**
+   * transition form state
+   */
+  const [openOpts, setOpenOpts] = useState(false);
+  const openTransition = useToggleTransition({ state: openOpts });
+
+  /**
+   * transition form from sharedValue
+   * some issues happen on triggering another pressable items
+   * hance we prefer the stateful way atm!
+   */
+  // const open = useSharedValue(false);
+  // const openTransition = useDerivedValue(() => {
+  //   console.log(Number(open.value));
+  //   if (open.value) {
+  //     return withSpring(Number(open.value) /**, optional config */);
+  //   }
+  //   return withTiming(Number(open.value) /**, optional config */);
+  // });
+
+  const chunks = 6;
+  const transitionStyleA = useAnimatedStyle(() => {
+    const rotate =
+      1 * mix(openTransition.value, 0, 360 / chunks /** for 45deg chunks */);
+    // console.log({ rotate });
+    return {
+      // backgroundColor: decay.value ? "white" : "white",
+      transform: [
+        { translateX: -30 },
+        { rotate: rotate + "deg" },
+        { translateX: 70 },
+      ],
+    };
+  });
+
+  const transitionStyleB = useAnimatedStyle(() => {
+    const rotate = 0 * mix(openTransition.value, 0, 360 / chunks);
+    // console.log({ rotate });
+    return {
+      // backgroundColor: decay.value ? "white" : "white",
+      transform: [
+        { translateX: -30 },
+        { rotate: rotate + "deg" },
+        { translateX: 70 },
+      ],
+    };
+  });
+
+  const transitionStyleC = useAnimatedStyle(() => {
+    const rotate = -1 * mix(openTransition.value, 0, 360 / chunks);
+    // console.log({ rotate });
+    return {
+      // backgroundColor: decay.value ? "white" : "white",
+      transform: [
+        { translateX: -30 },
+        { rotate: rotate + "deg" },
+        { translateX: 70 },
+      ],
+    };
+  });
+
+  return (
+    <>
+      {/*
+       * @see https://docs.swmansion.com/react-native-gesture-handler/docs/api/components/touchables/
+       * TouchableWithoutFeedback | TouchableOpacity from reanimated
+       * seems to not respect z-index
+       * todo: research more!
+       *
+       * even classnames from nativewind
+       * throws some errors on runtime!
+       * in  order  to bail out console errors
+       * i fallback to style objects! atm
+       * */}
+      <TouchableOpacity
+        style={{ top: 97, left: 14, position: "fixed" }}
+        // onPress={() => (open.value = !open.value)}
+        onPress={() => setOpenOpts(!openOpts)}
+      >
+        <View
+          className="border shadow-sm border-slate-600"
+          style={{
+            position: "absolute",
+            width: 50,
+            height: 50,
+            borderRadius: 25,
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#5046E4",
+          }}
+        >
+          <MaterialCommunityIcons
+            name="robot-confused-outline"
+            size={32}
+            color="white"
+          />
+        </View>
+      </TouchableOpacity>
+
+      <TouchableHighlight
+        style={{ top: 120, left: 40, zIndex: 10, position: "fixed" }}
+      >
+        <Animated.View>
+          <TouchableOpacity onPress={() => Linking.openURL("https://plinks.deno.dev/jan-2023")}>
+            {/* @see https://reactnative.dev/docs/stylesheet.html#absolutefill-vs-absolutefillobject */}
+            <Animated.View className="bg-emerald-300"
+              style={[
+                { zIndex: 0 },
+                /**
+                 * this works on web: transform origin-[0%_50%]
+                 * won't work on mobile!
+                 *
+                 * then we use this trick
+                 * { translateX: -30 },
+                 * { rotate ... },
+                 * { translateX: 70 },
+                 */
+                styles.optionStyle,
+                transitionStyleA,
+              ]}
+            >
+              <Text>resume</Text>
+            </Animated.View>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => Linking.openURL("mailto:phaunus[at]protonmail[dot]com")}>
+            <Animated.View className="bg-rose-300"
+              style={[{ zIndex: 0 }, styles.optionStyle, transitionStyleC]}
+            >
+              <Text>contact</Text>
+            </Animated.View>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => {}}>
+            <Animated.View className="bg-yellow-300"
+              style={[{ zIndex: 30 }, styles.optionStyle, transitionStyleB]}
+            >
+              <Text>phau</Text>
+            </Animated.View>
+          </TouchableOpacity>
+        </Animated.View>
+      </TouchableHighlight>
+    </>
+  );
+}
+
+function useToggleTransition({ state }: { state: boolean }) {
+  const isToggled = useSharedValue(false);
+  useEffect(() => {
+    isToggled.value = state;
+    return () => {};
+  }, [state, isToggled]);
+
+  const optTransition = useDerivedValue(() => {
+    if (isToggled.value) {
+      return withSpring(Number(isToggled.value) /**, optional config */);
+    }
+    return withTiming(Number(isToggled.value) /**, optional config */);
+  });
+
+  return optTransition;
+}
+
+function useDrag({
+  width,
+  height,
+  decay,
+}: {
+  width: number;
+  height: number;
+  decay: boolean;
+}) {
+  const sharedDecay = useSharedValue(decay);
+  const mx = useSharedValue(0);
+  const my = useSharedValue(0);
+  const boundX = width >> 1;
+  const boundY = height >> 1;
+  // console.log({ width, height, boundX, boundY });
+  const handler = useAnimatedGestureHandler({
+    onStart: (e, ctx: Record<string, any>) => {
+      remember_last_position: {
+        ctx.offsetX = mx.value;
+        ctx.offsetY = my.value;
+      }
+    },
+    onActive: (e, ctx) => {
+      mx.value = clamp(e.translationX + ctx.offsetX, -boundX, boundX);
+      my.value = clamp(e.translationY + ctx.offsetY, -boundY, boundY);
+    },
+    onEnd: (e) => {
+      if (!sharedDecay.value) return;
+      mx.value = withDecay({ velocity: e.velocityX, clamp: [-boundX, boundX] });
+      my.value = withDecay({ velocity: e.velocityY, clamp: [-boundY, boundY] });
+      console.log({ x: mx.value, y: my.value });
+    },
+  });
+
+  const styles = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { translateX: mx.value },
+        { translateY: my.value },
+        // { scale: withSpring(isPressed.value ? 1.2 : 1) },
+      ],
+      // backgroundColor: isPressed.value ? 'yellow' : 'blue',
+    };
+  });
+
+  return {
+    handler,
+    styles,
+    decay: sharedDecay,
+    toggleDecay: () => {
+      sharedDecay.value = !sharedDecay.value;
+      // console.log({ toggled: sharedDecay.value });
+    },
+  };
+}
+
+const styles = StyleSheet.create({
+  optionStyle: {
+    width: 90,
+    textTransform: "capitalize",
+    position: "absolute",
+    // this won't work and will throw an error on mobile, top: -"1rem",
+    top: -16,
+    left: 0,
+    borderRadius: 4,
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    // todo: shadows!
+  },
+});
