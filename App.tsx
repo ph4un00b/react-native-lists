@@ -844,7 +844,8 @@ function DebugItems({
             borderRadius: 25,
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "#5046E4",
+            // backgroundColor: "#5046E4",
+            backgroundColor: "transparent",
           }}
         >
           <MaterialCommunityIcons
@@ -852,6 +853,7 @@ function DebugItems({
             size={32}
             color="white"
           />
+          <Text className="text-sm -bottom-2 text-slate-300">click me</Text>
         </View>
       </TouchableOpacity>
 
@@ -865,7 +867,7 @@ function DebugItems({
           >
             {/* @see https://reactnative.dev/docs/stylesheet.html#absolutefill-vs-absolutefillobject */}
             <Animated.View
-              className="bg-emerald-300"
+              className="left-0 w-[88px] pl-4 capitalize border rounded-sm shadow-sm bg-emerald-300 border-slate-800 -top-4"
               style={[
                 { zIndex: 0 },
                 /**
@@ -891,7 +893,7 @@ function DebugItems({
             }
           >
             <Animated.View
-              className="bg-rose-300"
+               className="left-0 w-[88px] pl-4 capitalize border rounded-sm shadow-sm bg-rose-300 border-slate-800 -top-4"
               style={[{ zIndex: 0 }, styles.optionStyle, transitionStyleC]}
             >
               <Text>contact</Text>
@@ -900,7 +902,7 @@ function DebugItems({
 
           <TouchableOpacity onPress={() => {}}>
             <Animated.View
-              className="bg-yellow-300"
+              className="left-0 w-[88px] pl-4 capitalize bg-yellow-200 border rounded-sm shadow-sm border-slate-800 -top-4"
               style={[{ zIndex: 30 }, styles.optionStyle, transitionStyleB]}
             >
               <Text>phau</Text>
@@ -987,15 +989,15 @@ function useDrag({
 
 const styles = StyleSheet.create({
   optionStyle: {
-    width: 90,
-    textTransform: "capitalize",
+    // width: 90,
+    // textTransform: "capitalize",
     position: "absolute",
     // this won't work and will throw an error on mobile, top: -"1rem",
-    top: -16,
-    left: 0,
-    borderRadius: 4,
-    paddingHorizontal: 12,
-    paddingVertical: 4,
+    // top: -16,
+    // left: 0,
+    // borderRadius: 4,
+    // paddingHorizontal: 12,
+    // paddingVertical: 4,
     // todo: shadows!
   },
 });
