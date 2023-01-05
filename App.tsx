@@ -3,7 +3,6 @@ import {
   Image,
   LayoutRectangle,
   Linking,
-  Pressable,
   SafeAreaView,
   ScrollView,
   Text,
@@ -11,7 +10,6 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
-  Button,
 } from "react-native";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { AVPlaybackStatus, ResizeMode, Video } from "expo-av";
@@ -53,6 +51,7 @@ import ssg from "./assets/page_generator.png";
 import json2html from "./assets/json2html.png";
 
 import { Entypo, EvilIcons, FontAwesome } from "@expo/vector-icons";
+import { EnlacesItems } from "./src/EnlacesItems";
 
 /**
  * on loading images
@@ -69,7 +68,7 @@ function Enlaces(props: any) {
     decay: false,
   });
   return (
-    <DebugItems handleDecay={() => drag.toggleDecay()} decay={drag.decay} />
+    <EnlacesItems handleDecay={() => drag.toggleDecay()} decay={drag.decay} />
   );
 }
 
@@ -85,13 +84,13 @@ export default function App() {
       onLayout={({ nativeEvent: { layout } }) => setLayout(layout)}
     >
       <Enlaces {...layoutProps} />
-      <View className="flex flex-row">
+      {/* <View className="flex flex-row">
         <Text className="text-slate-200">~ made with expo </Text>
         <ExpoIcon width={20} height={20} />
         <ReactIcon width={20} height={20} />
         <TwIcon width={20} height={20} />
         <TsIcon width={20} height={20} />
-      </View>
+      </View> */}
       {layoutProps && (
         <>
           <ScrollView className="px-2 text-center lg:w-1/2 md:w-3/4 sm:w-full">
@@ -510,7 +509,7 @@ function MyLinkButton({ children, href }: BtnProps) {
     <TouchableOpacity
       activeOpacity={0.8}
       className={
-        "transform hover:scale-110 transition duration-300 ease-in-out bg-[#5046E4] hover:bg-indigo-400 text-white font-bold py-2 px-4 rounded-sm"
+        "transform hover:scale-110 transition duration-300 items-center justify-center ease-in-out bg-[#5046E4] hover:bg-indigo-400 text-white font-bold py-2 px-4 rounded-sm"
         // "transform hover:scale-150 duration-300 h-9 items-center justify-center rounded-sm bg-[#5046E4] px-4 py-2 shadow-sm hover:bg-indigo-400"
       }
       onPress={() => {
@@ -755,200 +754,6 @@ const NextIcon = (props: SvgProps) => (
   </Svg>
 );
 
-function DebugItems({
-  handleDecay,
-  decay,
-}: {
-  decay: SharedValue<boolean>;
-  handleDecay: any;
-}) {
-  // const [decay2Op, setDecay2Op] = useState(decay);
-  // const [decay3Op, setDecay3Op] = useState(decay);
-  /**
-   * transition form state
-   */
-  const [openOpts, setOpenOpts] = useState(false);
-  const openTransition = useToggleTransition({ state: openOpts });
-
-  /**
-   * transition form from sharedValue
-   * some issues happen on triggering another pressable items
-   * hance we prefer the stateful way atm!
-   */
-  // const open = useSharedValue(false);
-  // const openTransition = useDerivedValue(() => {
-  //   console.log(Number(open.value));
-  //   if (open.value) {
-  //     return withSpring(Number(open.value) /**, optional config */);
-  //   }
-  //   return withTiming(Number(open.value) /**, optional config */);
-  // });
-
-  const chunks = 8;
-  const transitionStyleA = useAnimatedStyle(() => {
-    const rotate =
-      1 * mix(openTransition.value, 0, 360 / chunks /** for 45deg chunks */);
-    // console.log({ rotate });
-    return {
-      // backgroundColor: decay.value ? "white" : "white",
-      transform: [
-        { translateX: -30 },
-        { rotate: rotate + "deg" },
-        { translateX: 70 },
-      ],
-    };
-  });
-
-  const transitionStyleB = useAnimatedStyle(() => {
-    const rotate = 0 * mix(openTransition.value, 0, 360 / chunks);
-    // console.log({ rotate });
-    return {
-      // backgroundColor: decay.value ? "white" : "white",
-      transform: [
-        { translateX: -30 },
-        { rotate: rotate + "deg" },
-        { translateX: 70 },
-      ],
-    };
-  });
-
-  const transitionStyleC = useAnimatedStyle(() => {
-    const rotate = -1 * mix(openTransition.value, 0, 360 / chunks);
-    // console.log({ rotate });
-    return {
-      // backgroundColor: decay.value ? "white" : "white",
-      transform: [
-        { translateX: -30 },
-        { rotate: rotate + "deg" },
-        { translateX: 70 },
-      ],
-    };
-  });
-
-  return (
-    <>
-      {/*
-       * @see https://docs.swmansion.com/react-native-gesture-handler/docs/api/components/touchables/
-       * TouchableWithoutFeedback | TouchableOpacity from reanimated
-       * seems to not respect z-index
-       * todo: research more!
-       *
-       * even classnames from nativewind
-       * throws some errors on runtime!
-       * in  order  to bail out console errors
-       * i fallback to style objects! atm
-       * */}
-      <TouchableOpacity
-        style={{ zIndex: 40, top: 97, left: 14, position: "fixed" }}
-        // style={{ zIndex: 40, top: 97, left: 14, position: "absolute" }}
-        // onPress={() => (open.value = !open.value)}
-        onPress={() => {
-          console.log("open!", openOpts);
-          setOpenOpts(!openOpts);
-        }}
-      >
-        <View
-          // title="click"
-          style={{
-            position: "absolute",
-            width: 50,
-            height: 50,
-            borderRadius: 25,
-            alignItems: "center",
-            justifyContent: "center",
-            // backgroundColor: "#5046E4",
-            backgroundColor: "transparent",
-          }}
-        >
-          <MaterialCommunityIcons
-            name="robot-confused-outline"
-            size={32}
-            color="white"
-          />
-          <Text className="text-sm -bottom-2 text-slate-300">click me</Text>
-        </View>
-      </TouchableOpacity>
-
-      <TouchableHighlight
-        style={{ top: 120, left: 40, zIndex: 10, position: "fixed" }}
-        // style={{ top: 120, left: 40, zIndex: 10, position: "absolute" }}
-      >
-        <Animated.View>
-          <TouchableOpacity
-            onPress={() => Linking.openURL("https://plinks.deno.dev/jan-2023")}
-          >
-            {/* @see https://reactnative.dev/docs/stylesheet.html#absolutefill-vs-absolutefillobject */}
-            <Animated.View
-              className="left-0 w-[90px] pl-1 pr-1 py-0.5 capitalize border rounded-sm shadow-sm bg-emerald-300 border-slate-800 -top-4"
-              style={[
-                { zIndex: 0 },
-                /**
-                 * this works on web: transform origin-[0%_50%]
-                 * won't work on mobile!
-                 *
-                 * then we use this trick
-                 * { translateX: -30 },
-                 * { rotate ... },
-                 * { translateX: 70 },
-                 */
-                styles.optionStyle,
-                transitionStyleA,
-              ]}
-            >
-              <Text>
-                <Entypo name="triangle-right" size={16} color="black" /> resume
-              </Text>
-            </Animated.View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() =>
-              Linking.openURL("mailto:phaunus[at]protonmail[dot]com")
-            }
-          >
-            <Animated.View
-              className="left-0 w-[90px] pl-1 pr-1 py-0.5 capitalize border rounded-sm shadow-sm bg-rose-300 border-slate-800 -top-4"
-              style={[{ zIndex: 0 }, styles.optionStyle, transitionStyleC]}
-            >
-              <Text>
-                <Entypo name="triangle-right" size={16} color="black" /> contact
-              </Text>
-            </Animated.View>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => {}}>
-            <Animated.View
-              className="left-0 w-[90px] pl-1 pr-1 py-0.5 capitalize bg-yellow-200 border rounded-sm shadow-sm border-slate-800 -top-4"
-              style={[{ zIndex: 30 }, styles.optionStyle, transitionStyleB]}
-            >
-              <Text>
-                <Entypo name="triangle-right" size={16} color="black" /> phau
-              </Text>
-            </Animated.View>
-          </TouchableOpacity>
-        </Animated.View>
-      </TouchableHighlight>
-    </>
-  );
-}
-
-function useToggleTransition({ state }: { state: boolean }) {
-  const isToggled = useSharedValue(false);
-  useEffect(() => {
-    isToggled.value = state;
-    return () => {};
-  }, [state, isToggled]);
-
-  const optTransition = useDerivedValue(() => {
-    if (isToggled.value) {
-      return withSpring(Number(isToggled.value) /**, optional config */);
-    }
-    return withTiming(Number(isToggled.value) /**, optional config */);
-  });
-
-  return optTransition;
-}
-
 function useDrag({
   width,
   height,
@@ -1005,17 +810,3 @@ function useDrag({
   };
 }
 
-const styles = StyleSheet.create({
-  optionStyle: {
-    // width: 90,
-    // textTransform: "capitalize",
-    position: "absolute",
-    // this won't work and will throw an error on mobile, top: -"1rem",
-    // top: -16,
-    // left: 0,
-    // borderRadius: 4,
-    // paddingHorizontal: 12,
-    // paddingVertical: 4,
-    // todo: shadows!
-  },
-});
