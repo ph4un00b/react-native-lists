@@ -86,8 +86,11 @@ export default function App() {
     >
       <Enlaces {...layoutProps} />
       <View className="flex flex-row">
-        <Text className="text-slate-200">~ made with expo</Text>
+        <Text className="text-slate-200">~ made with expo </Text>
         <ExpoIcon width={20} height={20} />
+        <ReactIcon width={20} height={20} />
+        <TwIcon width={20} height={20} />
+        <TsIcon width={20} height={20} />
       </View>
       {layoutProps && (
         <>
@@ -507,7 +510,8 @@ function MyLinkButton({ children, href }: BtnProps) {
     <TouchableOpacity
       activeOpacity={0.8}
       className={
-        "transition hover:scale-110 duration-300 h-8 items-center justify-center rounded-sm bg-[#5046E4] px-4 py-2 shadow-sm hover:bg-indigo-400"
+        "transform hover:scale-110 transition duration-300 ease-in-out bg-[#5046E4] hover:bg-indigo-400 text-white font-bold py-2 px-4 rounded-sm"
+        // "transform hover:scale-150 duration-300 h-9 items-center justify-center rounded-sm bg-[#5046E4] px-4 py-2 shadow-sm hover:bg-indigo-400"
       }
       onPress={() => {
         href && Linking.openURL(href);
@@ -530,7 +534,7 @@ function MyButton({ children, onPress }: BtnProps) {
     <TouchableOpacity
       activeOpacity={0.8}
       className={
-        "h-8 items-center justify-center rounded-sm bg-[#5046E4] p-4 shadow-sm hover:bg-gray-400"
+        "h-9 items-center justify-center rounded-sm bg-[#5046E4] p-4 shadow-sm hover:bg-gray-400"
       }
       onPress={onPress}
     >
@@ -875,7 +879,7 @@ function DebugItems({
           >
             {/* @see https://reactnative.dev/docs/stylesheet.html#absolutefill-vs-absolutefillobject */}
             <Animated.View
-              className="left-0 w-[90px] pl-1 pr-1 capitalize border rounded-sm shadow-sm bg-emerald-300 border-slate-800 -top-4"
+              className="left-0 w-[90px] pl-1 pr-1 py-0.5 capitalize border rounded-sm shadow-sm bg-emerald-300 border-slate-800 -top-4"
               style={[
                 { zIndex: 0 },
                 /**
@@ -903,7 +907,7 @@ function DebugItems({
             }
           >
             <Animated.View
-              className="left-0 w-[90px] pl-1 pr-1 capitalize border rounded-sm shadow-sm bg-rose-300 border-slate-800 -top-4"
+              className="left-0 w-[90px] pl-1 pr-1 py-0.5 capitalize border rounded-sm shadow-sm bg-rose-300 border-slate-800 -top-4"
               style={[{ zIndex: 0 }, styles.optionStyle, transitionStyleC]}
             >
               <Text>
@@ -914,7 +918,7 @@ function DebugItems({
 
           <TouchableOpacity onPress={() => {}}>
             <Animated.View
-              className="left-0 w-[90px] pl-1 pr-1 capitalize bg-yellow-200 border rounded-sm shadow-sm border-slate-800 -top-4"
+              className="left-0 w-[90px] pl-1 pr-1 py-0.5 capitalize bg-yellow-200 border rounded-sm shadow-sm border-slate-800 -top-4"
               style={[{ zIndex: 30 }, styles.optionStyle, transitionStyleB]}
             >
               <Text>
