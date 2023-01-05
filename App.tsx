@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
+  Button,
 } from "react-native";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { AVPlaybackStatus, ResizeMode, Video } from "expo-av";
@@ -35,9 +36,30 @@ import Animated, {
 } from "react-native-reanimated";
 import { clamp, mix } from "react-native-redash";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
 import "./styles";
+import { useAssets } from "expo-asset";
+import card from "./assets/cards.png";
+import graph from "./assets/graph-editor.png";
+import htmlq from "./assets/query_html.png";
+import animation from "./assets/rose.png";
+import editor from "./assets/blends.png";
+import glsl from "./assets/compositions.png";
+import compositions from "./assets/r3f.png";
+import glsl2 from "./assets/compo2.png";
+import insta from "./assets/instagram_bot.png";
+import tele from "./assets/telegram_bot.png";
+import refactoring from "./assets/css_refactoring.png";
+import ssg from "./assets/page_generator.png";
+import json2html from "./assets/json2html.png";
 
+/**
+ * on loading images
+ * if the extension is CAPITALIZED
+ * expo will fail on mobile (At least on android) atm!
+ * in order to solve this
+ * you can lowercase the extension
+ * @returns Unable to resolve
+ */
 function Enlaces(props: any) {
   const drag = useDrag({
     width: props.width,
@@ -66,24 +88,22 @@ export default function App() {
       </View>
       {layoutProps && (
         <>
-          <ScrollView className="w-3/4 px-2 text-center lg:w-1/3">
+          <ScrollView className="px-2 text-center lg:w-1/2 md:w-3/4 sm:w-full">
             <Text className="pt-4 pb-3 text-3xl capitalize text-slate-200">
               2023 upcoming projects
             </Text>
             {/* @see https://github.com/ph4un00b/query_html */}
             <View className="flex flex-row w-full my-10">
-              <View className="relative flex justify-start w-1/2 border rounded-md shadow-sm bg-slate-900 aspect-square border-slate-700">
+              <View className="flex justify-start w-1/2 border rounded-md shadow-sm bg-slate-900 aspect-square border-slate-700">
                 <Image
                   resizeMode="contain"
                   className="w-full h-3/4"
-                  source={{ uri: require("./assets/cards.gif") }}
+                  source={card}
                 />
                 <View className="absolute bottom-0 w-full">
-                  <View className="w-full">
-                    <MyLinkButton href="https://plinks.deno.dev/cards-tree">
-                      3d cards
-                    </MyLinkButton>
-                  </View>
+                  <MyLinkButton href="https://plinks.deno.dev/cards-tree">
+                    3d cards
+                  </MyLinkButton>
                 </View>
               </View>
 
@@ -103,7 +123,7 @@ export default function App() {
                 <Image
                   resizeMode="contain"
                   className="w-full h-3/4"
-                  source={{ uri: require("./assets/graph-editor.PNG") }}
+                  source={graph}
                 />
                 <View className="absolute bottom-0 w-full">
                   <MyButton onPress={() => {}}>graph editor</MyButton>
@@ -130,7 +150,7 @@ export default function App() {
                 <Image
                   resizeMode="contain"
                   className="w-full h-3/4"
-                  source={{ uri: require("./assets/query_html.PNG") }}
+                  source={htmlq}
                 />
                 <View className="absolute bottom-0 w-full">
                   <MyLinkButton href="https://plinks.deno.dev/html-transformers">
@@ -140,11 +160,11 @@ export default function App() {
               </View>
 
               <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
-                <Text className="text-base text-slate-200">
+                <Text className="text-base text-center text-slate-200">
                   - An HTML transformation CLI tool
                 </Text>
 
-                <Text className="text-base text-slate-200">
+                <Text className="text-base text-center text-slate-200">
                   - Uses css selectors & native idioms
                 </Text>
                 <View className="flex flex-row justify-evenly">
@@ -156,17 +176,10 @@ export default function App() {
             {/* animation */}
             <View className="flex flex-row-reverse w-full">
               <View className="flex justify-start w-1/2 border rounded-md shadow-sm bg-slate-900 aspect-square border-slate-700">
-                <Video
-                  className="flex h-full"
-                  ref={video}
-                  // style={styles.video}
-                  source={{
-                    // uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-                    uri: require("./assets/zip2.mp4"),
-                  }}
-                  useNativeControls
-                  resizeMode={ResizeMode.CONTAIN}
-                  onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+                <Image
+                  resizeMode="contain"
+                  className="w-full h-3/4"
+                  source={animation}
                 />
                 <View className="absolute bottom-0 w-full">
                   <MyLinkButton href="https://plinks.deno.dev/3rf-animation">
@@ -176,11 +189,11 @@ export default function App() {
               </View>
 
               <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
-                <Text className="text-base text-slate-200">
-                  - A React Three Fiber Animation
+                <Text className="text-base text-center text-slate-200">
+                  - Generative animation
                 </Text>
-                <Text className="text-base text-slate-200">
-                  - Mixing Audio, mobile friendly, performance aware
+                <Text className="text-base text-center text-slate-200">
+                  - Reacting to music, mobile friendly
                 </Text>
                 <View className="flex flex-row justify-evenly">
                   <NextIcon width={40} height={40} />
@@ -198,7 +211,7 @@ export default function App() {
                 <Image
                   resizeMode="contain"
                   className="w-full h-3/4"
-                  source={{ uri: require("./assets/blends.PNG") }}
+                  source={editor}
                 />
                 <View className="absolute bottom-0 w-full">
                   <View className="w-full">
@@ -210,10 +223,10 @@ export default function App() {
               </View>
 
               <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
-                <Text className="text-base text-slate-200">
+                <Text className="text-base text-center text-slate-200">
                   - An card editor webapp
                 </Text>
-                <Text className="text-base text-slate-200">
+                <Text className="text-base text-center text-slate-200">
                   - Mixing blend modes and shaders in Vue
                 </Text>
                 <View className="flex flex-row justify-evenly">
@@ -229,7 +242,7 @@ export default function App() {
                 <Image
                   resizeMode="contain"
                   className="w-full h-3/4"
-                  source={{ uri: require("./assets/compositions.PNG") }}
+                  source={glsl}
                 />
                 <View className="absolute bottom-0 w-full">
                   <View className="w-full">
@@ -241,10 +254,10 @@ export default function App() {
               </View>
 
               <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
-                <Text className="text-base text-slate-200">
-                  - mixing noises & patterns
+                <Text className="text-base text-center text-slate-200">
+                  - Mixing noises & patterns
                 </Text>
-                <Text className="text-base text-slate-200">
+                <Text className="text-base text-center text-slate-200">
                   - Shaders compositions
                 </Text>
                 <View className="flex flex-row justify-evenly">
@@ -259,7 +272,7 @@ export default function App() {
                 <Image
                   resizeMode="contain"
                   className="w-full h-3/4"
-                  source={{ uri: require("./assets/r3f.PNG") }}
+                  source={compositions}
                 />
                 <View className="absolute bottom-0 w-full">
                   <View className="w-full">
@@ -271,11 +284,11 @@ export default function App() {
               </View>
 
               <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
-                <Text className="text-base text-slate-200">
-                  - multiple webgl compositions
+                <Text className="text-base text-center text-slate-200">
+                  - Webgl compositions
                 </Text>
-                <Text className="text-base text-slate-200">
-                  - mixing different techniques like shaders & post-processing
+                <Text className="text-base text-center text-slate-200">
+                  - Mixing shaders & post-processing
                 </Text>
                 <View className="flex flex-row justify-evenly">
                   <GlIcon width={40} height={40} />
@@ -291,7 +304,7 @@ export default function App() {
                 <Image
                   resizeMode="contain"
                   className="w-full h-3/4"
-                  source={{ uri: require("./assets/compo2.PNG") }}
+                  source={glsl2}
                 />
                 <View className="absolute bottom-0 w-full">
                   <View className="w-full">
@@ -303,7 +316,7 @@ export default function App() {
               </View>
 
               <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
-                <Text className="text-base text-slate-200">
+                <Text className="text-base text-center text-slate-200">
                   - More GLSL compositions
                 </Text>
                 <View className="flex flex-row justify-evenly">
@@ -318,7 +331,7 @@ export default function App() {
                 <Image
                   resizeMode="contain"
                   className="w-full h-3/4"
-                  source={{ uri: require("./assets/instagram_bot.PNG") }}
+                  source={insta}
                 />
                 <View className="absolute bottom-0 w-full">
                   <View className="w-full">
@@ -330,7 +343,7 @@ export default function App() {
               </View>
 
               <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
-                <Text className="text-base text-slate-200">
+                <Text className="text-base text-center text-slate-200">
                   - An instagram bot scrapper
                 </Text>
                 <View className="flex flex-row justify-evenly">
@@ -347,7 +360,7 @@ export default function App() {
                 <Image
                   resizeMode="contain"
                   className="w-full h-3/4"
-                  source={{ uri: require("./assets/telegram_bot.PNG") }}
+                  source={tele}
                 />
                 <View className="absolute bottom-0 w-full">
                   <View className="w-full">
@@ -359,7 +372,7 @@ export default function App() {
               </View>
 
               <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
-                <Text className="text-base text-slate-200">
+                <Text className="text-base text-center text-slate-200">
                   - A telegram bot template
                 </Text>
                 <View className="flex flex-row justify-evenly">
@@ -378,7 +391,7 @@ export default function App() {
                 <Image
                   resizeMode="contain"
                   className="w-full h-3/4"
-                  source={{ uri: require("./assets/css_refactoring.PNG") }}
+                  source={refactoring}
                 />
                 <View className="absolute bottom-0 w-full">
                   <View className="w-full">
@@ -390,12 +403,14 @@ export default function App() {
               </View>
 
               <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
-                <Text className="text-base text-slate-200">
+                <Text className="text-base text-center text-slate-200">
                   - A CSS refactoring tool
                 </Text>
-                <Text className="text-base text-slate-200">- TDD && E2E</Text>
-                <Text className="text-base text-slate-200">
-                  - made for windicss and tailwind
+                <Text className="text-base text-center text-slate-200">
+                  - TDD && E2E
+                </Text>
+                <Text className="text-base text-center text-slate-200">
+                  - for windicss and tailwind
                 </Text>
                 <View className="flex flex-row justify-evenly">
                   <DenoIcon width={40} height={40} />
@@ -411,7 +426,7 @@ export default function App() {
                 <Image
                   resizeMode="contain"
                   className="w-full h-3/4"
-                  source={{ uri: require("./assets/page_generator.PNG") }}
+                  source={ssg}
                 />
                 <View className="absolute bottom-0 w-full">
                   <View className="w-full">
@@ -423,12 +438,14 @@ export default function App() {
               </View>
 
               <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
-                <Text className="text-base text-slate-200">
-                  - A Static Site Generator CLI
+                <Text className="text-base text-center text-slate-200">
+                  - A Static Site Generator
                 </Text>
-                <Text className="text-base text-slate-200">- TDD && E2E</Text>
-                <Text className="text-base text-slate-200">
-                  - I dig quick prototyping ideas
+                <Text className="text-base text-center text-slate-200">
+                  - TDD && E2E
+                </Text>
+                <Text className="text-base text-center text-slate-200">
+                  - for quick prototyping
                 </Text>
                 <View className="flex flex-row justify-evenly">
                   <DenoIcon width={40} height={40} />
@@ -443,7 +460,7 @@ export default function App() {
                 <Image
                   resizeMode="contain"
                   className="w-full h-3/4"
-                  source={{ uri: require("./assets/json2html.PNG") }}
+                  source={json2html}
                 />
                 <View className="absolute bottom-0 w-full">
                   <View className="w-full">
@@ -455,10 +472,10 @@ export default function App() {
               </View>
 
               <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
-                <Text className="text-base text-slate-200">
-                  - A CLI made with Deno runtime & Typescript & TDD
+                <Text className="text-base text-center text-slate-200">
+                  - Deno, Typescript & TDD
                 </Text>
-                <Text className="text-base text-slate-200">
+                <Text className="text-base text-center text-slate-200">
                   - I love the UNIX philosophy
                 </Text>
                 <View className="flex flex-row justify-evenly">
@@ -755,7 +772,7 @@ function DebugItems({
   //   return withTiming(Number(open.value) /**, optional config */);
   // });
 
-  const chunks = 6;
+  const chunks = 8;
   const transitionStyleA = useAnimatedStyle(() => {
     const rotate =
       1 * mix(openTransition.value, 0, 360 / chunks /** for 45deg chunks */);
@@ -810,12 +827,16 @@ function DebugItems({
        * i fallback to style objects! atm
        * */}
       <TouchableOpacity
-        style={{ top: 97, left: 14, position: "fixed" }}
+        style={{ zIndex: 40, top: 97, left: 14, position: "fixed" }}
+        // style={{ zIndex: 40, top: 97, left: 14, position: "absolute" }}
         // onPress={() => (open.value = !open.value)}
-        onPress={() => setOpenOpts(!openOpts)}
+        onPress={() => {
+          console.log("open!", openOpts);
+          setOpenOpts(!openOpts);
+        }}
       >
         <View
-          className="border shadow-sm border-slate-600"
+          // title="click"
           style={{
             position: "absolute",
             width: 50,
@@ -836,11 +857,15 @@ function DebugItems({
 
       <TouchableHighlight
         style={{ top: 120, left: 40, zIndex: 10, position: "fixed" }}
+        // style={{ top: 120, left: 40, zIndex: 10, position: "absolute" }}
       >
         <Animated.View>
-          <TouchableOpacity onPress={() => Linking.openURL("https://plinks.deno.dev/jan-2023")}>
+          <TouchableOpacity
+            onPress={() => Linking.openURL("https://plinks.deno.dev/jan-2023")}
+          >
             {/* @see https://reactnative.dev/docs/stylesheet.html#absolutefill-vs-absolutefillobject */}
-            <Animated.View className="bg-emerald-300"
+            <Animated.View
+              className="bg-emerald-300"
               style={[
                 { zIndex: 0 },
                 /**
@@ -860,8 +885,13 @@ function DebugItems({
             </Animated.View>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => Linking.openURL("mailto:phaunus[at]protonmail[dot]com")}>
-            <Animated.View className="bg-rose-300"
+          <TouchableOpacity
+            onPress={() =>
+              Linking.openURL("mailto:phaunus[at]protonmail[dot]com")
+            }
+          >
+            <Animated.View
+              className="bg-rose-300"
               style={[{ zIndex: 0 }, styles.optionStyle, transitionStyleC]}
             >
               <Text>contact</Text>
@@ -869,7 +899,8 @@ function DebugItems({
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => {}}>
-            <Animated.View className="bg-yellow-300"
+            <Animated.View
+              className="bg-yellow-300"
               style={[{ zIndex: 30 }, styles.optionStyle, transitionStyleB]}
             >
               <Text>phau</Text>

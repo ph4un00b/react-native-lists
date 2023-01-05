@@ -8,10 +8,11 @@ npm-debug.*
 *.key
 *.mobileprovision
 *.orig.*
-*.png
 *.mp4
+*.png
 *.gif
 web-build/
+android/
 
 # macOS
 .DS_Store
