@@ -52,6 +52,8 @@ import refactoring from "./assets/css_refactoring.png";
 import ssg from "./assets/page_generator.png";
 import json2html from "./assets/json2html.png";
 
+import { Entypo, EvilIcons, FontAwesome } from "@expo/vector-icons";
+
 /**
  * on loading images
  * if the extension is CAPITALIZED
@@ -70,6 +72,7 @@ function Enlaces(props: any) {
     <DebugItems handleDecay={() => drag.toggleDecay()} decay={drag.decay} />
   );
 }
+
 export default function App() {
   const video = useRef<Video>(null);
   const [status, setStatus] = useState({});
@@ -511,7 +514,12 @@ function MyLinkButton({ children, href }: BtnProps) {
       }}
     >
       <Text className="uppercase text-slate-200">
-        {children} <Feather name="external-link" size={18} color="white" />
+        {/* {children} <Feather name="external-link" size={18} color="white" /> */}
+        {/* {children} <Entypo name="chevron-right" size={18} color="white" /> */}
+        {/* {children} <Entypo name="chevron-thin-right" size={18} color="white" /> */}
+        {/* {children} <EvilIcons name="chevron-right" size={18} color="white" /> */}
+        {children} <Entypo name="triangle-right" size={16} color="white" />
+        {/* {children} <FontAwesome name="caret-right" size={18} color="white" /> */}
       </Text>
     </TouchableOpacity>
   );
@@ -867,7 +875,7 @@ function DebugItems({
           >
             {/* @see https://reactnative.dev/docs/stylesheet.html#absolutefill-vs-absolutefillobject */}
             <Animated.View
-              className="left-0 w-[88px] pl-4 capitalize border rounded-sm shadow-sm bg-emerald-300 border-slate-800 -top-4"
+              className="left-0 w-[90px] pl-1 pr-1 capitalize border rounded-sm shadow-sm bg-emerald-300 border-slate-800 -top-4"
               style={[
                 { zIndex: 0 },
                 /**
@@ -883,7 +891,9 @@ function DebugItems({
                 transitionStyleA,
               ]}
             >
-              <Text>resume</Text>
+              <Text>
+                <Entypo name="triangle-right" size={16} color="black" /> resume
+              </Text>
             </Animated.View>
           </TouchableOpacity>
 
@@ -893,19 +903,23 @@ function DebugItems({
             }
           >
             <Animated.View
-               className="left-0 w-[88px] pl-4 capitalize border rounded-sm shadow-sm bg-rose-300 border-slate-800 -top-4"
+              className="left-0 w-[90px] pl-1 pr-1 capitalize border rounded-sm shadow-sm bg-rose-300 border-slate-800 -top-4"
               style={[{ zIndex: 0 }, styles.optionStyle, transitionStyleC]}
             >
-              <Text>contact</Text>
+              <Text>
+                <Entypo name="triangle-right" size={16} color="black" /> contact
+              </Text>
             </Animated.View>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => {}}>
             <Animated.View
-              className="left-0 w-[88px] pl-4 capitalize bg-yellow-200 border rounded-sm shadow-sm border-slate-800 -top-4"
+              className="left-0 w-[90px] pl-1 pr-1 capitalize bg-yellow-200 border rounded-sm shadow-sm border-slate-800 -top-4"
               style={[{ zIndex: 30 }, styles.optionStyle, transitionStyleB]}
             >
-              <Text>phau</Text>
+              <Text>
+                <Entypo name="triangle-right" size={16} color="black" /> phau
+              </Text>
             </Animated.View>
           </TouchableOpacity>
         </Animated.View>
