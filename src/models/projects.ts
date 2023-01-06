@@ -12,7 +12,7 @@ import refactoring from "../../assets/css_refactoring.png";
 import ssg from "../../assets/page_generator.png";
 import json2html from "../../assets/json2html.png";
 
-const mapItems = {
+export const mapItems = {
   "2023 upcoming projects": [
     {
       // crypto.randomUUID(): ,
