@@ -27,7 +27,7 @@ import { useAssets } from "expo-asset";
 import { EnlacesItems } from "../EnlacesItems";
 import { items, mapItems } from "../models/projects";
 import { iconsMap } from "../components/icons";
-import { FlatList } from "react-native-gesture-handler";
+import { FlashList } from "@shopify/flash-list";
 
 /**
  * on loading images
@@ -48,11 +48,13 @@ function Enlaces(props: any) {
   );
 }
 
-export function FlatGestureScreen() {
+export function FlashSpotiScreen() {
   return (
     <View className="flex items-center flex-1 mt-1 pt-9 justify-evenly bg-slate-900">
       <View className="mt-6">
-        <FlatList
+        <FlashList
+          // estimatedListSize={}
+          estimatedItemSize={50}
           ListHeaderComponent={
             <Text className="pt-4 pb-3 text-3xl capitalize text-slate-200">
               Public projects
