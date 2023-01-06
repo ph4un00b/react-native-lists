@@ -9,8 +9,12 @@
   },
   "dependencies": {
     "expo": "~47.0.9",
+    "expo-asset": "~8.7.0",
     "expo-av": "~13.0.2",
+    "expo-constants": "^14.0.2",
+    "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
+    "jotai": "^1.12.1",
     "nativewind": "^2.0.11",
     "react": "18.1.0",
     "react-dom": "18.1.0",
@@ -20,8 +24,7 @@
     "react-native-redash": "^18.1.0",
     "react-native-svg": "13.4.0",
     "react-native-web": "~0.18.9",
-    "expo-asset": "~8.7.0",
-    "expo-splash-screen": "~0.17.5"
+    "react-router-native": "^6.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

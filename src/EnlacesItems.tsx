@@ -17,6 +17,8 @@ import Animated, {
 import { mix } from "react-native-redash";
 import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 import { styles, useToggleTransition } from "./EnlacesItems.shared";
+import { DEBUG } from "./global/atoms";
+import { useAtom } from "jotai";
 
 export function EnlacesItems({
   handleDecay,
@@ -91,6 +93,20 @@ export function EnlacesItems({
     };
   });
 
+  const transitionStyleDebug = useAnimatedStyle(() => {
+    const rotate = -2 * mix(openTransition.value, 0, 360 / chunks);
+    // console.log({ rotate });
+    return {
+      // backgroundColor: decay.value ? "white" : "white",
+      transform: [
+        { translateX: -30 },
+        { rotate: rotate + "deg" },
+        { translateX: 70 },
+      ],
+    };
+  });
+
+  const [debug, setDebug] = useAtom(DEBUG);
   return (
     <>
       {/*
@@ -189,6 +205,21 @@ export function EnlacesItems({
             >
               <Text>
                 <Entypo name="triangle-right" size={16} color="black" /> phau
+              </Text>
+            </Animated.View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              setDebug(!debug);
+            }}
+          >
+            <Animated.View
+              className="left-0 w-[90px] pl-1 pr-1 py-0.5 capitalize bg-slate-200 border rounded-sm shadow-sm border-slate-800 -top-4"
+              style={[{ zIndex: 0 }, styles.optionStyle, transitionStyleDebug]}
+            >
+              <Text>
+                <Entypo name="triangle-right" size={16} color="black" /> debug
               </Text>
             </Animated.View>
           </TouchableOpacity>
