@@ -76,22 +76,15 @@ export function ScrollGestureScreen() {
                   {title}
                 </Text>
                 {projects.map((project, index) => (
-                  <View
-                    key={project.id}
-                    className={
-                      index % 2 == 0
-                        ? "flex flex-row w-full my-10"
-                        : "flex flex-row-reverse w-full"
-                    }
-                  >
-                    <CardImage
+                  <React.Fragment key={project.id}>
+                    <ProjectItem
+                      index={index}
                       link={project.link}
                       img={project.img}
                       title={project.title}
+                      icons={project.icons}
                     />
-
-                    <MemoDescription icons={project.icons} />
-                  </View>
+                  </React.Fragment>
                 ))}
               </React.Fragment>
             );
@@ -109,6 +102,33 @@ type BtnProps = {
   href?: string;
   onPress?: (event: GestureResponderEvent) => void;
 };
+
+function ProjectItem({
+  index,
+  link,
+  img,
+  title,
+  icons,
+}: {
+  index: number;
+  link: string;
+  img: any;
+  title: string;
+  icons: string[];
+}): JSX.Element {
+  return (
+    <View
+      className={
+        index % 2 == 0
+          ? "flex flex-row w-full my-10"
+          : "flex flex-row-reverse w-full"
+      }
+    >
+      <CardImage link={link} img={img} title={title} />
+      <MemoDescription icons={icons} />
+    </View>
+  );
+}
 
 function CardDescription({ icons }: { icons: string[] }) {
   const [groups] = useState<string[][]>(() => groupBy3(icons));
@@ -145,15 +165,12 @@ function groupBy3(icons: string[]) {
   const groups = [] as string[][];
   icons.forEach((iconName) => {
     if (currentGroup.length >= 3) {
-      // console.log('group', currentGroup)
       groups.push([...currentGroup]);
       currentGroup.length = 0;
-      // currentGroup.push(iconName);
     }
     currentGroup.push(iconName);
   });
   groups.push([...currentGroup]);
-  // console.log(JSON.stringify(groups));
   return groups;
 }
 
