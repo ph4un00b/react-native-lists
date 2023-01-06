@@ -1,8 +1,16 @@
+import { FlatGestureScreen } from "../screens/flat-list-gesture";
 import { FlatListScreen } from "../screens/flat-list-native";
 import { ScrollViewScreen } from "../screens/scroll-view";
 import { ScrollGestureScreen } from "../screens/scroll-view-gesture";
 
 export const APP_LINKS = [
+  {
+    id: Math.random().toString(36).slice(2),
+    color: "peru",
+    path: "/flat-ges",
+    alias: "flat-ges",
+    screen: <FlatGestureScreen />,
+  },
   {
     id: Math.random().toString(36).slice(2),
     color: "peru",
