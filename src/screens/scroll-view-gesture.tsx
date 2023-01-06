@@ -49,7 +49,12 @@ function Enlaces(props: any) {
     decay: false,
   });
   return (
-    <EnlacesItems handleDecay={() => drag.toggleDecay()} decay={drag.decay} />
+    <EnlacesItems
+      handleDecay={() => drag.toggleDecay()}
+      decay={drag.decay}
+      top={100}
+      left={15}
+    />
   );
 }
 
