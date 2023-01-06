@@ -1,6 +1,7 @@
 import { FlashSpotiScreen } from "../screens/flash-list-spotify";
 import { FlatGestureScreen } from "../screens/flat-list-gesture";
 import { FlatListScreen } from "../screens/flat-list-native";
+import { MenuScreen } from "../screens/menu-experiments";
 import { ScrollViewScreen } from "../screens/scroll-view";
 import { ScrollGestureScreen } from "../screens/scroll-view-gesture";
 
@@ -36,8 +37,15 @@ export const APP_LINKS = [
   {
     id: Math.random().toString(36).slice(2),
     color: "peru",
-    path: "/",
+    path: "/scroll",
     alias: "scroll-view",
     screen: <ScrollViewScreen />,
+  },
+  {
+    id: Math.random().toString(36).slice(2),
+    color: "peru",
+    path: "/",
+    alias: "menu",
+    screen: <MenuScreen />,
   },
 ];

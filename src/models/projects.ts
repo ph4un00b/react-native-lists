@@ -19,7 +19,7 @@ export const mapItems = {
       id: Math.random().toString(36).slice(2),
       link: "https://plinks.deno.dev/cards-tree",
       img: card,
-      title: "3d cards",
+      title: "wip, 3d cards",
       icons: ["astro", "css", "ts", "vue", "react"],
     },
     {
@@ -27,7 +27,7 @@ export const mapItems = {
       id: Math.random().toString(36).slice(2),
       link: "#",
       img: graph,
-      title: "graph editor",
+      title: "wip, graph editor",
       icons: ["wasm", "astro", "vue", "react", "ts"],
     },
   ],
@@ -50,7 +50,7 @@ export const mapItems = {
       id: Math.random().toString(36).slice(2),
       link: "https://plinks.deno.dev/3rf-animation",
       img: animation,
-      title: "animation",
+      title: "wip, animation",
       icons: ["next", "gl", "three", "react", "ts"],
       /* <View className="relative flex w-1/2 rounded-md shadow-sm bg-slate-900 aspect-square justify-evenly">
                   <Text className="text-base text-center text-slate-200">
