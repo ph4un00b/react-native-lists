@@ -60,7 +60,7 @@ export function ScrollViewScreen() {
 
   const [layoutProps, setLayout] = useState<LayoutRectangle>(null!);
   return (
-    <SafeAreaView
+    <View
       className="flex items-center flex-1 mt-1 pt-9 justify-evenly bg-slate-900"
       onLayout={({ nativeEvent: { layout } }) => setLayout(layout)}
     >
@@ -98,7 +98,7 @@ export function ScrollViewScreen() {
           })}
         </ScrollView>
       )}
-    </SafeAreaView>
+    </View>
   );
 }
 

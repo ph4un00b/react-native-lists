@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   ImageSourcePropType,
+  LayoutRectangle,
 } from "react-native";
 import React, { ReactNode, useEffect, useId, useRef, useState } from "react";
 import { AVPlaybackStatus, ResizeMode, Video } from "expo-av";
@@ -49,8 +50,13 @@ function Enlaces(props: any) {
 }
 
 export function FlatGestureScreen() {
+  const [layoutProps, setLayout] = useState<LayoutRectangle>(null!);
   return (
-    <View className="flex items-center flex-1 mt-1 pt-9 justify-evenly bg-slate-900">
+    <View
+      className="flex items-center flex-1 mt-1 pt-9 justify-evenly bg-slate-900"
+      onLayout={({ nativeEvent: { layout } }) => setLayout(layout)}
+    >
+      <Enlaces {...layoutProps} />
       <View className="w-full px-2 text-center lg:w-1/2 md:w-3/4">
         <FlatList
           ListHeaderComponent={
