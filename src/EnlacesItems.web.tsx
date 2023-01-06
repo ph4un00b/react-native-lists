@@ -132,7 +132,7 @@ export function EnlacesItems({
             size={32}
             color="white"
           />
-          <Text className="text-sm text-center -bottom-2 text-slate-300">
+          <Text className="text-sm text-center transition-all -bottom-2 text-slate-300 hover:text-yellow-200">
             touch me
           </Text>
         </View>
