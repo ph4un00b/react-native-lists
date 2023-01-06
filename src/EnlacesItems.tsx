@@ -209,7 +209,7 @@ export function EnlacesItems({
             </Animated.View>
           </TouchableOpacity>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               setDebug(!debug);
             }}
@@ -222,7 +222,7 @@ export function EnlacesItems({
                 <Entypo name="triangle-right" size={16} color="black" /> debug
               </Text>
             </Animated.View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </Animated.View>
       </TouchableHighlight>
     </>

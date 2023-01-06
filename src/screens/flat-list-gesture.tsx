@@ -51,7 +51,7 @@ function Enlaces(props: any) {
 export function FlatGestureScreen() {
   return (
     <View className="flex items-center flex-1 mt-1 pt-9 justify-evenly bg-slate-900">
-      <View className="mt-6">
+      <View className="w-full px-2 text-center lg:w-1/2 md:w-3/4">
         <FlatList
           ListHeaderComponent={
             <Text className="pt-4 pb-3 text-3xl capitalize text-slate-200">

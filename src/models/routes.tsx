@@ -9,14 +9,14 @@ export const APP_LINKS = [
     id: Math.random().toString(36).slice(2),
     color: "peru",
     path: "/flash-spo",
-    alias: "flash-spo",
+    alias: "flash-spotify",
     screen: <FlashSpotiScreen />,
   },
   {
     id: Math.random().toString(36).slice(2),
     color: "peru",
     path: "/flat-ges",
-    alias: "flat-ges",
+    alias: "flat-gesture",
     screen: <FlatGestureScreen />,
   },
   {

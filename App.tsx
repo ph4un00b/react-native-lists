@@ -45,7 +45,7 @@ type TabProps = { children: React.ReactNode; to: string };
 function BarNavigation() {
   return (
     <View
-      className="flex flex-row w-full bg-slate-600"
+      className="flex flex-row w-full bg-slate-900"
       style={{ paddingTop: Constants.statusBarHeight }}
     >
       <ScrollView
@@ -67,8 +67,8 @@ function AppBarTab({ children, to }: TabProps) {
   const { pathname } = useLocation();
   const style =
     pathname == to
-      ? "px-3 pt-2 text-xl font-bold capitalize text-slate-200"
-      : "px-3 pt-2 text-xl font-bold capitalize text-slate-400";
+      ? "px-3 pt-2 text-xl font-bold capitalize text-slate-200 hover:text-yellow-400"
+      : "px-3 pt-2 text-xl font-bold capitalize text-slate-400 hover:text-green-400";
   return (
     <Link to={to}>
       <Text className={style}>{children}</Text>
