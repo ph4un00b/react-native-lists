@@ -28,6 +28,7 @@ import { EnlacesItems } from "../EnlacesItems";
 import { items, mapItems } from "../models/projects";
 import { iconsMap } from "../components/icons";
 import { FlashList } from "@shopify/flash-list";
+import { Platform } from "expo-modules-core";
 
 /**
  * on loading images
@@ -51,34 +52,47 @@ function Enlaces(props: any) {
 export function FlashSpotiScreen() {
   return (
     <View className="flex items-center flex-1 mt-1 pt-9 justify-evenly bg-slate-900">
-      <View className="w-full px-2 text-center lg:w-1/2 md:w-3/4">
-        <FlashList
-          // estimatedListSize={}
-          estimatedItemSize={50}
-          ListHeaderComponent={
-            <Text className="pt-4 pb-3 text-3xl capitalize text-slate-200">
-              Public projects
-            </Text>
-          }
-          data={mapItems["2023 upcoming projects"]
-            .concat(mapItems["2022 public projects"])
-            .concat(mapItems["2021 public projects"])}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item, index }) => (
-            <ProjectItem
-              index={index}
-              link={item.link}
-              img={item.img}
-              title={item.title}
-              icons={item.icons}
-            />
-          )}
-        />
-      </View>
+      {Platform.OS != "web" && (
+        <View>
+          <List />
+        </View>
+      )}
+
+      {Platform.OS == "web" && (
+        <View className="w-full px-2 text-center lg:w-1/2 md:w-3/4">
+          <List />
+        </View>
+      )}
     </View>
   );
 }
 
+function List() {
+  return (
+    <FlashList
+      // estimatedListSize={}
+      estimatedItemSize={50}
+      ListHeaderComponent={
+        <Text className="pt-4 pb-3 text-3xl capitalize text-slate-200">
+          Public projects
+        </Text>
+      }
+      data={mapItems["2023 upcoming projects"]
+        .concat(mapItems["2022 public projects"])
+        .concat(mapItems["2021 public projects"])}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item, index }) => (
+        <ProjectItem
+          index={index}
+          link={item.link}
+          img={item.img}
+          title={item.title}
+          icons={item.icons}
+        />
+      )}
+    />
+  );
+}
 type BtnProps = {
   className?: string;
   children: ReactNode;
