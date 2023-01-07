@@ -21,6 +21,8 @@ import { DEBUG } from "./global/atoms";
 import { useAtom } from "jotai";
 import { Platform } from "expo-modules-core";
 
+const size = 50;
+
 export function EnlacesItems({
   handleDecay,
   decay,
@@ -101,6 +103,7 @@ export function EnlacesItems({
   });
 
   const [debug, setDebug] = useAtom(DEBUG);
+  const [play, setPlay] = useState(false);
   return (
     <>
       {/*
@@ -133,9 +136,9 @@ export function EnlacesItems({
           // title="click"
           style={{
             position: "absolute",
-            width: 50,
-            height: 50,
-            borderRadius: 25,
+            width: size,
+            height: size,
+            borderRadius: size * 0.5,
             alignItems: "center",
             justifyContent: "center",
             // backgroundColor: "#5046E4",
@@ -148,7 +151,10 @@ export function EnlacesItems({
             color="white"
           />
           <Text className="text-sm text-center transition-all -bottom-2 text-slate-300 hover:text-yellow-200">
-            touch me
+            {/* <Entypo name="triangle-right" size={12} color="white" />
+            <Entypo name="triangle-right" size={12} color="white" />
+            <Entypo name="triangle-right" size={12} color="white" />  */}
+            touch
           </Text>
         </View>
       </TouchableOpacity>
@@ -199,7 +205,11 @@ export function EnlacesItems({
             </Animated.View>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity
+            onPress={() => {
+              setPlay(!play);
+            }}
+          >
             <Animated.View
               className="bg-yellow-200"
               style={[{ zIndex: 30 }, styles.optionStyle, transitionStyleB]}
@@ -209,21 +219,6 @@ export function EnlacesItems({
               </Text>
             </Animated.View>
           </TouchableOpacity>
-
-          {/* <TouchableOpacity
-            onPress={() => {
-              setDebug(!debug);
-            }}
-          >
-            <Animated.View
-              className="left-0 w-[90px] pl-1 pr-1 py-0.5 capitalize bg-slate-200 border rounded-sm shadow-sm border-slate-800 -top-4"
-              style={[{ zIndex: 0 }, styles.optionStyle, transitionStyleDebug]}
-            >
-              <Text>
-                <Entypo name="triangle-right" size={16} color="black" /> debug
-              </Text>
-            </Animated.View>
-          </TouchableOpacity> */}
         </Animated.View>
       </TouchableHighlight>
     </>
