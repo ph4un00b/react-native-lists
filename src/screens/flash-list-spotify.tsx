@@ -1,14 +1,14 @@
 import {
   GestureResponderEvent,
   Image,
+  ImageSourcePropType,
+  LayoutRectangle,
   Linking,
   Text,
   TouchableOpacity,
   View,
-  ImageSourcePropType,
-  LayoutRectangle,
 } from "react-native";
-import React, { ReactNode, useEffect, useId, useRef, useState } from "react";
+import React, { ReactNode, useCallback, useEffect, useId, useRef, useState } from "react";
 import { AVPlaybackStatus, ResizeMode, Video } from "expo-av";
 
 import { Feather } from "@expo/vector-icons";
@@ -56,6 +56,9 @@ function Enlaces(props: any) {
   );
 }
 
+const trackItem = (item: any & { title: string }) =>
+  console.log("### track " + item.title);
+
 export function FlashSpotiScreen() {
   const [layoutProps, setLayout] = useState<LayoutRectangle>(null!);
   return (
@@ -80,8 +83,24 @@ export function FlashSpotiScreen() {
 }
 
 function List() {
+  const onViewableItemsChanged = useCallback(
+    (info: { changed: any[] }): void => {
+      // console.log(info.changed)
+      const visibleItems = info.changed.filter((entry) => entry.isViewable);
+      visibleItems.forEach((visible) => {
+        trackItem(visible.item);
+      });
+    },
+    [],
+  );
   return (
     <FlashList
+      viewabilityConfig={{
+        itemVisiblePercentThreshold: 70,
+        minimumViewTime: 500,
+        // viewAreaCoveragePercentThreshold: 60
+      }}
+      onViewableItemsChanged={onViewableItemsChanged}
       // estimatedListSize={}
       estimatedItemSize={50}
       ListHeaderComponent={
@@ -121,11 +140,9 @@ function ProjectItem({
 }): JSX.Element {
   return (
     <View
-      className={
-        index % 2 == 0
-          ? "flex flex-row w-full my-10"
-          : "flex flex-row-reverse w-full"
-      }
+      className={index % 2 == 0
+        ? "flex flex-row w-full my-10"
+        : "flex flex-row-reverse w-full"}
     >
       <CardImage link={link} img={img} title={title} />
       <MemoDescription icons={icons} />
@@ -151,7 +168,7 @@ function CardDescription({ icons }: { icons: string[] }) {
 
 const areEqual = (
   prevProps: { icons: string[] },
-  nextProps: { icons: string[] }
+  nextProps: { icons: string[] },
 ) => {
   //   console.log("==?");
   const { icons } = nextProps;

@@ -1,14 +1,21 @@
 import {
   GestureResponderEvent,
   Image,
+  ImageSourcePropType,
+  LayoutRectangle,
   Linking,
   Text,
   TouchableOpacity,
   View,
-  ImageSourcePropType,
-  LayoutRectangle,
 } from "react-native";
-import React, { ReactNode, useEffect, useId, useRef, useState } from "react";
+import React, {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from "react";
 import { AVPlaybackStatus, ResizeMode, Video } from "expo-av";
 
 import { Feather } from "@expo/vector-icons";
@@ -55,8 +62,22 @@ function Enlaces(props: any) {
   );
 }
 
+const trackItem = (item: any & { title: string }) =>
+  console.log("### track " + item.title);
+
 export function FlatGestureScreen() {
   const [layoutProps, setLayout] = useState<LayoutRectangle>(null!);
+
+  const onViewableItemsChanged = useCallback(
+    (info: { changed: any[] }): void => {
+      // console.log(info.changed)
+      const visibleItems = info.changed.filter((entry) => entry.isViewable);
+      visibleItems.forEach((visible) => {
+        trackItem(visible.item);
+      });
+    },
+    [],
+  );
   return (
     <View
       className="flex items-center flex-1 mt-1 pt-9 justify-evenly bg-slate-900"
@@ -65,6 +86,13 @@ export function FlatGestureScreen() {
       <Enlaces {...layoutProps} />
       <View className="w-full px-2 text-center lg:w-1/2 md:w-3/4">
         <FlatList
+          viewabilityConfig={{
+            itemVisiblePercentThreshold: 70,
+            minimumViewTime: 500,
+            // viewAreaCoveragePercentThreshold: 60
+          }}
+          initialNumToRender={4}
+          onViewableItemsChanged={onViewableItemsChanged}
           ListHeaderComponent={
             <Text className="pt-4 pb-3 text-3xl capitalize text-slate-200">
               Public projects
@@ -104,11 +132,9 @@ function ProjectItem({
 }): JSX.Element {
   return (
     <View
-      className={
-        index % 2 == 0
-          ? "flex flex-row w-full my-10"
-          : "flex flex-row-reverse w-full"
-      }
+      className={index % 2 == 0
+        ? "flex flex-row w-full my-10"
+        : "flex flex-row-reverse w-full"}
     >
       <CardImage link={link} img={img} title={title} />
       <MemoDescription icons={icons} />
@@ -134,7 +160,7 @@ function CardDescription({ icons }: { icons: string[] }) {
 
 const areEqual = (
   prevProps: { icons: string[] },
-  nextProps: { icons: string[] }
+  nextProps: { icons: string[] },
 ) => {
   //   console.log("==?");
   const { icons } = nextProps;

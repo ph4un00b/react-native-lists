@@ -35,6 +35,7 @@ import { items, mapItems } from "../models/projects";
 import { iconsMap } from "../components/icons";
 import { ScrollView } from "react-native-gesture-handler";
 import { MyLinkButton } from "../components/button";
+import { useCallback } from "react";
 
 /**
  * on loading images
@@ -60,8 +61,24 @@ function Enlaces(props: any) {
   );
 }
 
+
+const trackItem = (item: any & {title: string}) =>
+    console.log("### track " + item.title);
+
 export function FlatListScreen() {
   const [layoutProps, setLayout] = useState<LayoutRectangle>(null!);
+
+  const onViewableItemsChanged = useCallback(
+    (info: { changed: any[] }): void => {
+      // console.log(info.changed)
+      const visibleItems = info.changed.filter((entry) => entry.isViewable);
+      visibleItems.forEach((visible) => {
+        trackItem(visible.item);
+      });
+    },
+    []
+  );
+  
   return (
     <View
       className="flex items-center flex-1 mt-1 pt-9 justify-evenly bg-slate-900"
@@ -70,6 +87,13 @@ export function FlatListScreen() {
       <Enlaces {...layoutProps} />
       <View className="w-full px-2 text-center lg:w-1/2 md:w-3/4">
         <FlatList
+          viewabilityConfig={{
+            itemVisiblePercentThreshold: 70,
+            minimumViewTime: 500,
+            // viewAreaCoveragePercentThreshold: 60
+          }}
+          initialNumToRender={4}
+          onViewableItemsChanged={onViewableItemsChanged}
           ListHeaderComponent={
             <Text className="pt-4 pb-3 text-3xl capitalize text-slate-200">
               Public projects
