@@ -29,7 +29,8 @@
     "react-native-svg": "13.4.0",
     "react-native-web": "~0.18.9",
     "react-router-native": "^6.6.1",
-    "use-animation-frame": "^0.1.5"
+    "use-animation-frame": "^0.1.5",
+    "webgltexture-loader-expo": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
