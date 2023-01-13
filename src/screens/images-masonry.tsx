@@ -30,7 +30,7 @@ function Enlaces(props: any) {
   );
 }
 
-export function MasonryReanimatedScreen() {
+export function MasonryScreen() {
   const [layoutProps, setLayout] = useState<LayoutRectangle>(null!);
   return (
     <View
@@ -63,33 +63,18 @@ export function MasonryReanimatedScreen() {
               .concat(mapItems["2023 upcoming projects"])}
             keyExtractor={(item) => item.id}
             renderItem={({ item, i: index }: { item: any; i: number }) => {
-              if (index % 2 == 0) {
-                return (
-                  <Image
-                    resizeMode="contain"
-                    style={{
-                      width: layoutProps.width * 0.42,
-                      height: 200,
-                      borderColor: "blue",
-                      borderWidth: 1,
-                    }}
-                    source={item.img}
-                  />
-                );
-              } else {
-                return (
-                  <Image
-                    resizeMode="contain"
-                    style={{
-                      width: layoutProps.width * 0.42,
-                      height: 400,
-                      borderColor: "pink",
-                      borderWidth: 1,
-                    }}
-                    source={item.img}
-                  />
-                );
-              }
+              return (
+                <Image
+                  resizeMode="cover"
+                  style={{
+                    width: layoutProps.width * 0.45,
+                    height: 50 + Math.random() * 250,
+                    borderColor: "pink",
+                    borderWidth: 1,
+                  }}
+                  source={item.img}
+                />
+              );
             }}
           />
         </View>

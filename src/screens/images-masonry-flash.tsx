@@ -1,5 +1,6 @@
+import { MasonryFlashList } from "@shopify/flash-list";
 import React, { useCallback, useState } from "react";
-import { FlatList, Image, LayoutRectangle, Text, View } from "react-native";
+import { Image, LayoutRectangle, Platform, Text, View } from "react-native";
 
 import { EnlacesItems } from "../EnlacesItems";
 import { useDrag } from "../EnlacesItems.shared";
@@ -32,7 +33,7 @@ function Enlaces(props: any) {
 const trackItem = (item: any & { title: string }) =>
   console.log("### track " + item.title);
 
-export function ImgListScreen() {
+export function MasonryFlashScreen() {
   const [layoutProps, setLayout] = useState<LayoutRectangle>(null!);
 
   const onViewableItemsChanged = useCallback(
@@ -52,16 +53,33 @@ export function ImgListScreen() {
       onLayout={({ nativeEvent: { layout } }) => setLayout(layout)}
     >
       <Enlaces {...layoutProps} />
+      {/* <View className="w-full text-center border lg:w-1/2 md:w-3/4 border-slate-100"> */}
+      {
+        /**
+         * @abstract tailwind mode will not work at the moment
+         */
+      }
       {layoutProps && (
-        <View className="w-full text-center border lg:w-1/2 md:w-3/4 border-slate-100">
-          <FlatList
+        <View
+          className="border border-slate-100"
+          style={{ width: layoutProps.width, height: layoutProps.height }}
+        >
+          <MasonryFlashList
+            // not supported
+            // - horizontal
+            // - inverted
+            // - initialScrollIndex
+            // - viewabilityConfigCallbackPairs
+            // - onBlankArea
+            // only flash
+            estimatedItemSize={Platform.select({ web: 293, android: 290 })}
+            // static api
             numColumns={2}
             viewabilityConfig={{
               itemVisiblePercentThreshold: 70,
               minimumViewTime: 500,
               // viewAreaCoveragePercentThreshold: 60
             }}
-            initialNumToRender={4}
             onViewableItemsChanged={onViewableItemsChanged}
             ListHeaderComponent={
               <Text className="pt-4 pb-3 text-3xl capitalize text-slate-200">
@@ -79,7 +97,7 @@ export function ImgListScreen() {
                   style={{
                     width: layoutProps.width * 0.45,
                     height: 50 + Math.random() * 250,
-                    borderColor: "blue",
+                    borderColor: "red",
                     borderWidth: 1,
                   }}
                   source={item.img}

@@ -53,56 +53,43 @@ export function ImgGestureScreen() {
       onLayout={({ nativeEvent: { layout } }) => setLayout(layout)}
     >
       <Enlaces {...layoutProps} />
-      <View className="w-full text-center border lg:w-1/2 md:w-3/4 border-slate-100">
-        <FlatList
-          numColumns={2}
-          viewabilityConfig={{
-            itemVisiblePercentThreshold: 70,
-            minimumViewTime: 500,
-            // viewAreaCoveragePercentThreshold: 60
-          }}
-          initialNumToRender={4}
-          onViewableItemsChanged={onViewableItemsChanged}
-          ListHeaderComponent={
-            <Text className="pt-4 pb-3 text-3xl capitalize text-slate-200">
-              Public projects
-            </Text>
-          }
-          data={mapItems["2021 public projects"]
-            .concat(mapItems["2022 public projects"])
-            .concat(mapItems["2023 upcoming projects"])}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item, index }) => {
-            if (index % 2 == 0) {
-              return (
-                <Image
-                  resizeMode="contain"
-                  style={{
-                    width: 200,
-                    height: 200,
-                    borderColor: "red",
-                    borderWidth: 1,
-                  }}
-                  source={item.img}
-                />
-              );
-            } else {
-              return (
-                <Image
-                  resizeMode="contain"
-                  style={{
-                    width: 200,
-                    height: 400,
-                    borderColor: "green",
-                    borderWidth: 1,
-                  }}
-                  source={item.img}
-                />
-              );
+      {layoutProps && (
+        <View className="w-full text-center border lg:w-1/2 md:w-3/4 border-slate-100">
+          <FlatList
+            numColumns={2}
+            viewabilityConfig={{
+              itemVisiblePercentThreshold: 70,
+              minimumViewTime: 500,
+              // viewAreaCoveragePercentThreshold: 60
+            }}
+            initialNumToRender={4}
+            onViewableItemsChanged={onViewableItemsChanged}
+            ListHeaderComponent={
+              <Text className="pt-4 pb-3 text-3xl capitalize text-slate-200">
+                Public projects
+              </Text>
             }
-          }}
-        />
-      </View>
+            data={mapItems["2021 public projects"]
+              .concat(mapItems["2022 public projects"])
+              .concat(mapItems["2023 upcoming projects"])}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item, index }) => {
+              return (
+                <Image
+                  resizeMode="cover"
+                  style={{
+                    width: layoutProps.width * 0.45,
+                    height: 50 + Math.random() * 250,
+                    borderColor: "peru",
+                    borderWidth: 1,
+                  }}
+                  source={item.img}
+                />
+              );
+            }}
+          />
+        </View>
+      )}
     </View>
   );
 }

@@ -85,33 +85,18 @@ export function ImgFlashScreen() {
               .concat(mapItems["2023 upcoming projects"])}
             keyExtractor={(item) => item.id}
             renderItem={({ item, index }) => {
-              if (index % 2 == 0) {
-                return (
-                  <Image
-                    resizeMode="contain"
-                    style={{
-                      width: layoutProps.width * 0.45,
-                      height: 200,
-                      borderColor: "peru",
-                      borderWidth: 1,
-                    }}
-                    source={item.img}
-                  />
-                );
-              } else {
-                return (
-                  <Image
-                    resizeMode="contain"
-                    style={{
-                      width: layoutProps.width * 0.45,
-                      height: 400,
-                      borderColor: "green",
-                      borderWidth: 1,
-                    }}
-                    source={item.img}
-                  />
-                );
-              }
+              return (
+                <Image
+                  resizeMode="cover"
+                  style={{
+                    width: layoutProps.width * 0.45,
+                    height: 50 + Math.random() * 250,
+                    borderColor: "green",
+                    borderWidth: 1,
+                  }}
+                  source={item.img}
+                />
+              );
             }}
           />
         </View>
