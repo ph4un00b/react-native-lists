@@ -83,7 +83,7 @@ export function GlExampleScreen() {
   );
 }
 
-function Imperative() {
+export function Imperative() {
   console.log({ windowWidth, windowHeight });
   const size = 0.5 * Math.min(windowWidth, windowHeight);
   console.log({ size });
@@ -111,7 +111,7 @@ function Imperative() {
   );
 }
 
-function Congelado() {
+export function Congelado() {
   console.log({ windowWidth, windowHeight });
   const size = 0.5 * Math.min(windowWidth, windowHeight);
   console.log({ size });
@@ -119,11 +119,13 @@ function Congelado() {
   const [isPaused, setPaused] = useState(true);
   return (
     <Pressable
+      onHoverIn={() => setPaused(false)}
+      onHoverOut={() => setPaused(true)}
       onPress={() => setPaused(!isPaused)}
       className="flex flex-col items-center justify-center"
     >
       <Freeze
-        freeze={!isPaused}
+        freeze={isPaused}
         placeholder={
           <Image
             resizeMode="contain"
