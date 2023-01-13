@@ -1,41 +1,24 @@
+import React, { useCallback, useState } from "react";
 import {
-  GestureResponderEvent,
-  Image,
-  LayoutRectangle,
-  Linking,
-  SafeAreaView,
-  Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-  ImageSourcePropType,
   FlatList,
+  Image,
+  ImageSourcePropType,
+  LayoutRectangle,
+  Text,
+  View,
 } from "react-native";
-import React, { ReactNode, useEffect, useId, useRef, useState } from "react";
-import { AVPlaybackStatus, ResizeMode, Video } from "expo-av";
-
-import { Feather } from "@expo/vector-icons";
-import Animated, {
-  SharedValue,
+import {
   useAnimatedGestureHandler,
   useAnimatedStyle,
-  useDerivedValue,
   useSharedValue,
   withDecay,
-  withSpring,
-  withTiming,
 } from "react-native-reanimated";
-import { clamp, mix } from "react-native-redash";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Entypo, EvilIcons, FontAwesome } from "@expo/vector-icons";
-import { useAssets } from "expo-asset";
+import { clamp } from "react-native-redash";
+
 import { EnlacesItems } from "../EnlacesItems";
-import { items, mapItems } from "../models/projects";
-import { iconsMap } from "../components/icons";
-import { ScrollView } from "react-native-gesture-handler";
 import { MyLinkButton } from "../components/button";
-import { useCallback } from "react";
+import { iconsMap } from "../components/icons";
+import { mapItems } from "../models/projects";
 
 /**
  * on loading images
@@ -61,9 +44,8 @@ function Enlaces(props: any) {
   );
 }
 
-
-const trackItem = (item: any & {title: string}) =>
-    console.log("### track " + item.title);
+const trackItem = (item: any & { title: string }) =>
+  console.log("### track " + item.title);
 
 export function FlatListScreen() {
   const [layoutProps, setLayout] = useState<LayoutRectangle>(null!);
@@ -78,7 +60,7 @@ export function FlatListScreen() {
     },
     []
   );
-  
+
   return (
     <View
       className="flex items-center flex-1 mt-1 pt-9 justify-evenly bg-slate-900"

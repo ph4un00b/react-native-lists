@@ -1,36 +1,25 @@
+import { FlashList } from "@shopify/flash-list";
+import { Platform } from "expo-modules-core";
+import React, { useCallback, useState } from "react";
 import {
-  GestureResponderEvent,
   Image,
   ImageSourcePropType,
   LayoutRectangle,
-  Linking,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
-import React, { ReactNode, useCallback, useEffect, useId, useRef, useState } from "react";
-import { AVPlaybackStatus, ResizeMode, Video } from "expo-av";
-
-import { Feather } from "@expo/vector-icons";
-import Animated, {
-  SharedValue,
+import {
   useAnimatedGestureHandler,
   useAnimatedStyle,
-  useDerivedValue,
   useSharedValue,
   withDecay,
-  withSpring,
-  withTiming,
 } from "react-native-reanimated";
-import { clamp, mix } from "react-native-redash";
-import { Entypo, EvilIcons, FontAwesome } from "@expo/vector-icons";
-import { useAssets } from "expo-asset";
+import { clamp } from "react-native-redash";
+
 import { EnlacesItems } from "../EnlacesItems";
-import { items, mapItems } from "../models/projects";
-import { iconsMap } from "../components/icons";
-import { FlashList } from "@shopify/flash-list";
-import { Platform } from "expo-modules-core";
 import { MyLinkButton } from "../components/button";
+import { iconsMap } from "../components/icons";
+import { mapItems } from "../models/projects";
 
 /**
  * on loading images
@@ -91,7 +80,7 @@ function List() {
         trackItem(visible.item);
       });
     },
-    [],
+    []
   );
   return (
     <FlashList
@@ -138,11 +127,10 @@ function ProjectItem({
   title: string;
   icons: string[];
 }): JSX.Element {
+  const newLocal = "flex flex-row w-full my-10";
   return (
     <View
-      className={index % 2 == 0
-        ? "flex flex-row w-full my-10"
-        : "flex flex-row-reverse w-full"}
+      className={index % 2 == 0 ? newLocal : "flex flex-row-reverse w-full"}
     >
       <CardImage link={link} img={img} title={title} />
       <MemoDescription icons={icons} />
@@ -168,7 +156,7 @@ function CardDescription({ icons }: { icons: string[] }) {
 
 const areEqual = (
   prevProps: { icons: string[] },
-  nextProps: { icons: string[] },
+  nextProps: { icons: string[] }
 ) => {
   //   console.log("==?");
   const { icons } = nextProps;
@@ -230,7 +218,7 @@ function useDrag({
   const boundY = height >> 1;
   // console.log({ width, height, boundX, boundY });
   const handler = useAnimatedGestureHandler({
-    onStart: (e, ctx: Record<string, any>) => {
+    onStart: (_, ctx: Record<string, any>) => {
       remember_last_position: {
         ctx.offsetX = mx.value;
         ctx.offsetY = my.value;
