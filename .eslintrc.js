@@ -46,7 +46,8 @@ module.exports = {
     "no-unused-labels": ["off"],
     "@typescript-eslint/ban-ts-comment": ["off"],
     "prettier/prettier": ["off"],
-    "@typescript-eslint/no-var-requires": ["off"]
+    "@typescript-eslint/no-var-requires": ["off"],
+    "import/order": "off"
     // "import/order": ["off"],
   },
 };
