@@ -1,6 +1,6 @@
-import { FlashList } from "@shopify/flash-list";
 import React, { useCallback, useState } from "react";
-import { Image, LayoutRectangle, Platform, Text, View } from "react-native";
+import { Image, LayoutRectangle, Text, View } from "react-native";
+import MasonryList from "@react-native-seoul/masonry-list";
 
 import { EnlacesItems } from "../EnlacesItems";
 import { useDrag } from "../EnlacesItems.shared";
@@ -30,23 +30,8 @@ function Enlaces(props: any) {
   );
 }
 
-const trackItem = (item: any & { title: string }) =>
-  console.log("### track " + item.title);
-
-export function ImgFlashScreen() {
+export function MasonryReanimatedScreen() {
   const [layoutProps, setLayout] = useState<LayoutRectangle>(null!);
-
-  const onViewableItemsChanged = useCallback(
-    (info: { changed: any[] }): void => {
-      // console.log(info.changed)
-      const visibleItems = info.changed.filter((entry) => entry.isViewable);
-      visibleItems.forEach((visible) => {
-        trackItem(visible.item);
-      });
-    },
-    [],
-  );
-
   return (
     <View
       className="flex items-center flex-1 mt-1 pt-9 justify-evenly bg-slate-900"
@@ -60,21 +45,14 @@ export function ImgFlashScreen() {
          */
       }
       {layoutProps && (
-        <View
-          className="border border-slate-100"
-          style={{ width: layoutProps.width, height: layoutProps.height }}
-        >
-          <FlashList
-            // only flash
-            estimatedItemSize={Platform.select({ web: 293, android: 290 })}
-            // static api
+        <View className="border border-slate-100">
+          <MasonryList
+            style={{ width: layoutProps.width }}
             numColumns={2}
-            viewabilityConfig={{
-              itemVisiblePercentThreshold: 70,
-              minimumViewTime: 500,
-              // viewAreaCoveragePercentThreshold: 60
+            contentContainerStyle={{
+              paddingHorizontal: 10,
+              alignSelf: "stretch",
             }}
-            onViewableItemsChanged={onViewableItemsChanged}
             ListHeaderComponent={
               <Text className="pt-4 pb-3 text-3xl capitalize text-slate-200">
                 Public projects
@@ -84,15 +62,15 @@ export function ImgFlashScreen() {
               .concat(mapItems["2022 public projects"])
               .concat(mapItems["2023 upcoming projects"])}
             keyExtractor={(item) => item.id}
-            renderItem={({ item, index }) => {
+            renderItem={({ item, i: index }: { item: any; i: number }) => {
               if (index % 2 == 0) {
                 return (
                   <Image
                     resizeMode="contain"
                     style={{
-                      width: layoutProps.width * 0.45,
+                      width: layoutProps.width * 0.42,
                       height: 200,
-                      borderColor: "peru",
+                      borderColor: "blue",
                       borderWidth: 1,
                     }}
                     source={item.img}
@@ -103,9 +81,9 @@ export function ImgFlashScreen() {
                   <Image
                     resizeMode="contain"
                     style={{
-                      width: layoutProps.width * 0.45,
+                      width: layoutProps.width * 0.42,
                       height: 400,
-                      borderColor: "green",
+                      borderColor: "pink",
                       borderWidth: 1,
                     }}
                     source={item.img}
