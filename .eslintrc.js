@@ -44,6 +44,9 @@ module.exports = {
     "@typescript-eslint/no-non-null-assertion": "off",
     "no-labels": ["off"],
     "no-unused-labels": ["off"],
+    "@typescript-eslint/ban-ts-comment": ["off"],
+    "prettier/prettier": ["off"],
+    "@typescript-eslint/no-var-requires": ["off"]
     // "import/order": ["off"],
   },
 };
