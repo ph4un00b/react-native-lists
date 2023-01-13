@@ -1,38 +1,19 @@
 import {
-  GestureResponderEvent,
   Image,
+  ImageSourcePropType,
   LayoutRectangle,
-  Linking,
-  SafeAreaView,
   ScrollView,
   Text,
-  TouchableHighlight,
-  TouchableOpacity,
   View,
-  StyleSheet,
-  ImageSourcePropType,
 } from "react-native";
 import React, { ReactNode, useEffect, useId, useRef, useState } from "react";
 import { AVPlaybackStatus, ResizeMode, Video } from "expo-av";
 
-import { Feather } from "@expo/vector-icons";
-import Animated, {
-  SharedValue,
-  useAnimatedGestureHandler,
-  useAnimatedStyle,
-  useDerivedValue,
-  useSharedValue,
-  withDecay,
-  withSpring,
-  withTiming,
-} from "react-native-reanimated";
-import { clamp, mix } from "react-native-redash";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useAssets } from "expo-asset";
 import { EnlacesItems } from "../EnlacesItems";
 import { items } from "../models/projects";
 import { iconsMap } from "../components/icons";
 import { MyLinkButton } from "../components/button";
+import { useDrag } from "../EnlacesItems.shared";
 
 /**
  * on loading images
@@ -83,11 +64,9 @@ export function ScrollViewScreen() {
                 {projects.map((project, index) => (
                   <View
                     key={project.id}
-                    className={
-                      index % 2 == 0
-                        ? "flex flex-row w-full my-10"
-                        : "flex flex-row-reverse w-full"
-                    }
+                    className={index % 2 == 0
+                      ? "flex flex-row w-full my-10"
+                      : "flex flex-row-reverse w-full"}
                   >
                     <CardImage
                       link={project.link}
@@ -125,7 +104,7 @@ function CardDescription({ icons }: { icons: string[] }) {
 
 const areEqual = (
   prevProps: { icons: string[] },
-  nextProps: { icons: string[] }
+  nextProps: { icons: string[] },
 ) => {
   //   console.log("==?");
   const { icons } = nextProps;
@@ -172,60 +151,4 @@ function CardImage({
       </View>
     </View>
   );
-}
-
-function useDrag({
-  width,
-  height,
-  decay,
-}: {
-  width: number;
-  height: number;
-  decay: boolean;
-}) {
-  const sharedDecay = useSharedValue(decay);
-  const mx = useSharedValue(0);
-  const my = useSharedValue(0);
-  const boundX = width >> 1;
-  const boundY = height >> 1;
-  // console.log({ width, height, boundX, boundY });
-  const handler = useAnimatedGestureHandler({
-    onStart: (e, ctx: Record<string, any>) => {
-      remember_last_position: {
-        ctx.offsetX = mx.value;
-        ctx.offsetY = my.value;
-      }
-    },
-    onActive: (e, ctx) => {
-      mx.value = clamp(e.translationX + ctx.offsetX, -boundX, boundX);
-      my.value = clamp(e.translationY + ctx.offsetY, -boundY, boundY);
-    },
-    onEnd: (e) => {
-      if (!sharedDecay.value) return;
-      mx.value = withDecay({ velocity: e.velocityX, clamp: [-boundX, boundX] });
-      my.value = withDecay({ velocity: e.velocityY, clamp: [-boundY, boundY] });
-      console.log({ x: mx.value, y: my.value });
-    },
-  });
-
-  const styles = useAnimatedStyle(() => {
-    return {
-      transform: [
-        { translateX: mx.value },
-        { translateY: my.value },
-        // { scale: withSpring(isPressed.value ? 1.2 : 1) },
-      ],
-      // backgroundColor: isPressed.value ? 'yellow' : 'blue',
-    };
-  });
-
-  return {
-    handler,
-    styles,
-    decay: sharedDecay,
-    toggleDecay: () => {
-      sharedDecay.value = !sharedDecay.value;
-      // console.log({ toggled: sharedDecay.value });
-    },
-  };
 }

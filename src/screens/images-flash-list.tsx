@@ -1,15 +1,9 @@
 import { FlashList } from "@shopify/flash-list";
 import React, { useCallback, useState } from "react";
 import { Image, LayoutRectangle, Platform, Text, View } from "react-native";
-import {
-  useAnimatedGestureHandler,
-  useAnimatedStyle,
-  useSharedValue,
-  withDecay,
-} from "react-native-reanimated";
-import { clamp } from "react-native-redash";
 
 import { EnlacesItems } from "../EnlacesItems";
+import { useDrag } from "../EnlacesItems.shared";
 import { mapItems } from "../models/projects";
 
 /**
@@ -113,60 +107,4 @@ export function ImgFlashScreen() {
       </View>
     </View>
   );
-}
-
-function useDrag({
-  width,
-  height,
-  decay,
-}: {
-  width: number;
-  height: number;
-  decay: boolean;
-}) {
-  const sharedDecay = useSharedValue(decay);
-  const mx = useSharedValue(0);
-  const my = useSharedValue(0);
-  const boundX = width >> 1;
-  const boundY = height >> 1;
-  // console.log({ width, height, boundX, boundY });
-  const handler = useAnimatedGestureHandler({
-    onStart: (_, ctx: Record<string, any>) => {
-      remember_last_position: {
-        ctx.offsetX = mx.value;
-        ctx.offsetY = my.value;
-      }
-    },
-    onActive: (e, ctx) => {
-      mx.value = clamp(e.translationX + ctx.offsetX, -boundX, boundX);
-      my.value = clamp(e.translationY + ctx.offsetY, -boundY, boundY);
-    },
-    onEnd: (e) => {
-      if (!sharedDecay.value) return;
-      mx.value = withDecay({ velocity: e.velocityX, clamp: [-boundX, boundX] });
-      my.value = withDecay({ velocity: e.velocityY, clamp: [-boundY, boundY] });
-      console.log({ x: mx.value, y: my.value });
-    },
-  });
-
-  const styles = useAnimatedStyle(() => {
-    return {
-      transform: [
-        { translateX: mx.value },
-        { translateY: my.value },
-        // { scale: withSpring(isPressed.value ? 1.2 : 1) },
-      ],
-      // backgroundColor: isPressed.value ? 'yellow' : 'blue',
-    };
-  });
-
-  return {
-    handler,
-    styles,
-    decay: sharedDecay,
-    toggleDecay: () => {
-      sharedDecay.value = !sharedDecay.value;
-      // console.log({ toggled: sharedDecay.value });
-    },
-  };
 }
