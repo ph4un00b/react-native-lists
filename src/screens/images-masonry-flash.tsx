@@ -1,10 +1,12 @@
 import { MasonryFlashList } from "@shopify/flash-list";
 import { useCallback, useState } from "react";
 import { Image, LayoutRectangle, Platform, Text, View } from "react-native";
+import { SmartImage } from "../common/images";
 
 import { EnlacesItems } from "../EnlacesItems";
 import { useDrag } from "../EnlacesItems.shared";
 import { mapItems } from "../models/projects";
+import { Congelado } from "./gl.native";
 
 /**
  * on loading images
@@ -91,18 +93,9 @@ export function MasonryFlashScreen() {
               .concat(mapItems["2023 upcoming projects"])}
             keyExtractor={(item) => item.id}
             renderItem={({ item, index }) => {
-              return (
-                <Image
-                  resizeMode="cover"
-                  style={{
-                    width: layoutProps.width * 0.45,
-                    height: 50 + Math.random() * 250,
-                    borderColor: "red",
-                    borderWidth: 1,
-                  }}
-                  source={item.img}
-                />
-              );
+              return index % 2 == 0
+                ? <Congelado w={200} h={200} />
+                : <SmartImage img={item.img} borderColor="red" />;
             }}
           />
         </View>

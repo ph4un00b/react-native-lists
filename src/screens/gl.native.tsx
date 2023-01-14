@@ -111,10 +111,12 @@ export function Imperative() {
   );
 }
 
-export function Congelado() {
-  console.log({ windowWidth, windowHeight });
-  const size = 0.5 * Math.min(windowWidth, windowHeight);
-  console.log({ size });
+export function Congelado(
+  { w = windowWidth, h = windowHeight }: { w?: any; h?: any },
+) {
+  // console.log({ windowWidth, windowHeight });
+  const size = 1 * Math.min(w, h);
+  // console.log({ size });
 
   const [isPaused, setPaused] = useState(true);
   return (
@@ -129,7 +131,7 @@ export function Congelado() {
         placeholder={
           <Image
             resizeMode="contain"
-            className="w-[300px] h-[300px]"
+            style={{ width: w, height: h }}
             source={card}
           />
         }

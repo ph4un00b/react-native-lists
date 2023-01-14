@@ -1,10 +1,18 @@
 import React, { useCallback, useState } from "react";
-import { Image, LayoutRectangle, Text, View } from "react-native";
+import { LayoutRectangle, Text, View } from "react-native";
+/**
+ * @abstract this wil only work on development builds
+ * aka: $ npx expo prebuild && npx expo run:android
+ * @see https://docs.expo.dev/versions/unversioned/sdk/image/#installation
+ */
+import { Image as ExImage } from "expo-image";
 import MasonryList from "@react-native-seoul/masonry-list";
 
 import { EnlacesItems } from "../EnlacesItems";
 import { useDrag } from "../EnlacesItems.shared";
 import { mapItems } from "../models/projects";
+import { SmartImage } from "../common/images";
+import { Congelado } from "./gl.native";
 
 /**
  * on loading images
@@ -63,18 +71,9 @@ export function MasonryScreen() {
               .concat(mapItems["2023 upcoming projects"])}
             keyExtractor={(item) => item.id}
             renderItem={({ item, i: index }: { item: any; i: number }) => {
-              return (
-                <Image
-                  resizeMode="cover"
-                  style={{
-                    width: layoutProps.width * 0.45,
-                    height: 50 + Math.random() * 250,
-                    borderColor: "pink",
-                    borderWidth: 1,
-                  }}
-                  source={item.img}
-                />
-              );
+              return index % 2 == 0
+                ? <Congelado w={200} h={200} />
+                : <SmartImage img={item.img} borderColor="peru" />;
             }}
           />
         </View>
