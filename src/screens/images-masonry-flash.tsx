@@ -1,5 +1,5 @@
 import { MasonryFlashList } from "@shopify/flash-list";
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { Image, LayoutRectangle, Platform, Text, View } from "react-native";
 
 import { EnlacesItems } from "../EnlacesItems";
