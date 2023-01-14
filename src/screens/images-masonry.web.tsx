@@ -1,10 +1,12 @@
-import React, { useCallback, useState } from "react";
-import { Image, LayoutRectangle, Text, View } from "react-native";
+import React, { useState } from "react";
+import { LayoutRectangle, Text, View } from "react-native";
 import MasonryList from "@react-native-seoul/masonry-list";
 
 import { EnlacesItems } from "../EnlacesItems";
 import { useDrag } from "../EnlacesItems.shared";
 import { mapItems } from "../models/projects";
+import { Congelado } from "./gl.native";
+import { SmartWebImage } from "../common/images";
 
 /**
  * on loading images
@@ -39,13 +41,13 @@ export function MasonryScreen() {
     >
       <Enlaces {...layoutProps} />
       {
-          /**
-           * @abstract tailwind mode will not work at the moment
+        /**
+         * @abstract tailwind mode will not work at the moment
          */
-    }
+      }
       {layoutProps && (
         <View className="w-full text-center border lg:w-1/2 md:w-3/4 border-slate-100">
-         {/* <View className="border border-slate-100"> */}
+          {/* <View className="border border-slate-100"> */}
           <MasonryList
             numColumns={2}
             contentContainerStyle={{
@@ -62,18 +64,9 @@ export function MasonryScreen() {
               .concat(mapItems["2023 upcoming projects"])}
             keyExtractor={(item) => item.id}
             renderItem={({ item, i: index }: { item: any; i: number }) => {
-              return (
-                <Image
-                  resizeMode="cover"
-                  style={{
-                    width: "100%",
-                    height: 250 + index * 50,
-                    borderColor: "pink",
-                    borderWidth: 1,
-                  }}
-                  source={item.img}
-                />
-              );
+              return index % 2 == 0
+                ? <Congelado w={200} h={200} />
+                : <SmartWebImage img={item.img} />;
             }}
           />
         </View>

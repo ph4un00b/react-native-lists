@@ -6,6 +6,8 @@ import { GlslListScreen } from "../screens/glsl-list-native";
 import { ImgFlashScreen } from "../screens/images-flash-list";
 import { ImgGestureScreen } from "../screens/images-list-gesture";
 import { ImgListScreen } from "../screens/images-list-native";
+import { MasonryScreen } from "../screens/images-masonry";
+import { MasonryFlashScreen } from "../screens/images-masonry-flash";
 import { MenuScreen } from "../screens/menu-experiments";
 import { ScrollViewScreen } from "../screens/scroll-view";
 import { ScrollGestureScreen } from "../screens/scroll-view-gesture";
@@ -32,6 +34,20 @@ export const IMG_LINKS = [
     alias: "img-flash-list",
     screen: <ImgFlashScreen />,
   },
+  {
+    id: Math.random().toString(36).slice(2),
+    color: "peru",
+    path: "/img-masonry",
+    alias: "img-masonry-list",
+    screen: <MasonryScreen />,
+  },
+  {
+    id: Math.random().toString(36).slice(2),
+    color: "peru",
+    path: "/img-masonry-flash",
+    alias: "img-masonry-flash",
+    screen: <MasonryFlashScreen />,
+  },
 ];
 
 export const APP_LINKS = [
@@ -40,10 +56,10 @@ export const APP_LINKS = [
     color: "peru",
     path: "/",
     alias: "menu",
-    // screen: <MenuScreen />,
+    screen: <MenuScreen />,
     // screen: <GlExampleScreen />,
     // screen: <FlatListScreen />,
-    screen: <ImgFlashScreen />,
+    // screen: <MasonryFlashScreen />,
   },
   {
     id: Math.random().toString(36).slice(2),
