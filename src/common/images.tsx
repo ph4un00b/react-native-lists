@@ -50,7 +50,6 @@ export function SmartImage(
     return (
       <ExImage
         onLoad={(info) => {
-          console.log(info.source.width / info.source.height);
           setRect({ w: info.source.width, h: info.source.height });
         }}
         contentFit="contain"
@@ -67,7 +66,6 @@ export function SmartImage(
     );
   }
 
-  //   console.log(rect);
   return (
     <ExImage
       contentFit="contain"

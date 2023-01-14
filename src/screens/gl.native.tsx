@@ -1,7 +1,14 @@
 import { Node, Shaders } from "gl-react";
 import { Surface } from "gl-react-expo";
 import React, { useLayoutEffect, useRef, useState } from "react";
-import { Dimensions, Image, Pressable, Text, View } from "react-native";
+import {
+  Dimensions,
+  Image,
+  LayoutRectangle,
+  Pressable,
+  Text,
+  View,
+} from "react-native";
 
 import card from "../../assets/cards.png";
 import { Freeze } from "../common/freeze";
@@ -115,10 +122,11 @@ export function Congelado(
   { w = windowWidth, h = windowHeight }: { w?: any; h?: any },
 ) {
   // console.log({ windowWidth, windowHeight });
-  const size = 1 * Math.min(w, h);
+  // const size = 1 * Math.min(w, h);
   // console.log({ size });
 
   const [isPaused, setPaused] = useState(true);
+  const [layoutProps, setLayout] = useState<LayoutRectangle>(null!);
   return (
     <Pressable
       onHoverIn={() => setPaused(false)}
@@ -126,20 +134,28 @@ export function Congelado(
       onPress={() => setPaused(!isPaused)}
       className="flex flex-col items-center justify-center"
     >
-      <Freeze
-        freeze={isPaused}
-        placeholder={
-          <Image
-            resizeMode="contain"
-            style={{ width: w, height: h }}
-            source={card}
-          />
-        }
+      <View
+        className="w-full border border-indigo-300 aspect-square"
+        onLayout={({ nativeEvent: { layout } }) => setLayout(layout)}
       >
-        <Surface style={{ width: size, height: size }}>
-          <Blue blue={0.5} />
-        </Surface>
-      </Freeze>
+        {layoutProps &&
+          (
+            <Freeze
+              freeze={isPaused}
+              placeholder={
+                <Image
+                  resizeMode="contain"
+                  style={{ width: "100%", height: layoutProps.height }}
+                  source={card}
+                />
+              }
+            >
+              <Surface style={{ width: "100%", height: layoutProps.height }}>
+                <Blue blue={0.5} />
+              </Surface>
+            </Freeze>
+          )}
+      </View>
     </Pressable>
   );
 }

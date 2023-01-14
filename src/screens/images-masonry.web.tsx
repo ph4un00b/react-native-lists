@@ -65,7 +65,7 @@ export function MasonryScreen() {
             keyExtractor={(item) => item.id}
             renderItem={({ item, i: index }: { item: any; i: number }) => {
               return index % 2 == 0
-                ? <Congelado w={200} h={200} />
+                ? <Congelado />
                 : <SmartWebImage img={item.img} />;
             }}
           />
