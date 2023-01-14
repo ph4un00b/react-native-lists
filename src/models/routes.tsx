@@ -16,6 +16,20 @@ export const IMG_LINKS = [
   {
     id: Math.random().toString(36).slice(2),
     color: "peru",
+    path: "/img-masonry",
+    alias: "masonry-list",
+    screen: <MasonryScreen />,
+  },
+  {
+    id: Math.random().toString(36).slice(2),
+    color: "peru",
+    path: "/img-masonry-flash",
+    alias: "masonry-flash",
+    screen: <MasonryFlashScreen />,
+  },
+  {
+    id: Math.random().toString(36).slice(2),
+    color: "peru",
     path: "/img-flat",
     alias: "img-flat-list",
     screen: <ImgListScreen />,
@@ -33,20 +47,6 @@ export const IMG_LINKS = [
     path: "/img-flash",
     alias: "img-flash-list",
     screen: <ImgFlashScreen />,
-  },
-  {
-    id: Math.random().toString(36).slice(2),
-    color: "peru",
-    path: "/img-masonry",
-    alias: "img-masonry-list",
-    screen: <MasonryScreen />,
-  },
-  {
-    id: Math.random().toString(36).slice(2),
-    color: "peru",
-    path: "/img-masonry-flash",
-    alias: "img-masonry-flash",
-    screen: <MasonryFlashScreen />,
   },
 ];
 
