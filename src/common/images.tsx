@@ -6,7 +6,7 @@ import { FlexStyle, Image, ImageSourcePropType, View } from "react-native";
  * @see https://docs.expo.dev/versions/unversioned/sdk/image/#installation
  */
 import { Image as ExImage, ImageSource, ImageStyle } from "expo-image";
-import { MySmartCard } from "../screens/menu-experiments";
+import { MySmartCardA } from "../screens/menu-experiments";
 import { MyLinkButton } from "../components/button";
 import { Button, Icon } from "react-native-magnus";
 
@@ -114,15 +114,15 @@ export function SmartCard(
         }}
         source={img}
       />
-      <MySmartCard title={title} width="98%" height="98%" icons={icons} />
+      <MySmartCardA title={title} width="98%" height="98%" icons={icons} />
       <Button
         position="absolute"
         bottom={8}
         right={0}
         zIndex={60}
-        bg="gray500"
-        h={40}
-        w={40}
+        bg="red500"
+        h={30}
+        w={30}
         mx="xl"
         rounded="circle"
         shadow="md"

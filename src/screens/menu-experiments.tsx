@@ -90,7 +90,7 @@ export function MyCard(
   );
 }
 
-export function MySmartCard(
+export function MySmartCardA(
   { img, title, width, height, icons }: {
     img?: ImageSourcePropType;
     title: string;
@@ -117,32 +117,49 @@ export function MySmartCard(
     >
       <Div
         w={width}
-        // h={height}
+        h="100%"
         // opacity={1}
         // p="lg"
-        // flex={1}
+        flex={1}
+        justifyContent="space-between"
+        flexDir="column"
         // bgImg={img}
         // bgMode="cover"
       >
-        <Text
-          color="white"
-          fontSize="3xl"
-          fontWeight="bold"
-          opacity={show}
-          p={20}
-          textTransform="capitalize"
+        <Div
+          flexDir="row"
+          justifyContent="space-around"
+          borderColor="purple"
+          borderWidth={1}
         >
-          {title}
-        </Text>
+          <Text
+            color="white"
+            fontSize="3xl"
+            fontWeight="bold"
+            opacity={show}
+            textTransform="capitalize"
+          >
+            {title}
+          </Text>
+          <Text
+            color="white"
+            fontSize="3xl"
+            fontWeight="bold"
+            opacity={show}
+            textTransform="capitalize"
+          >
+            fecha
+          </Text>
+        </Div>
         {/* <Text color="white" w={"100%"} fontSize="sm" mt="sm" opacity={show}> */}
-        <Div w="100%" opacity={show}>
+        <Div w="42%" opacity={show} borderColor="yellow" borderWidth={1}>
           <CardDescription icons={icons} />
         </Div>
         {/* </Text> */}
         {/* <Div row mt="xl" opacity={show}> */}
-          {/* <Text color="white">Explore</Text> */}
-          {/* <Entypo name="triangle-right" size={16} color="white" /> */}
-          {/* <Icon name="arrowright" color="white" ml="md" /> */}
+        {/* <Text color="white">Explore</Text> */}
+        {/* <Entypo name="triangle-right" size={16} color="white" /> */}
+        {/* <Icon name="arrowright" color="white" ml="md" /> */}
         {/* </Div> */}
       </Div>
     </Button>
@@ -154,12 +171,12 @@ function CardDescription({ icons }: { icons: string[] }) {
 
   return (
     // <View className="flex flex-1 border justify-evenly border-slate-100">
-    <View className="flex flex-1 justify-evenly">
+    <View className="flex justify-around my-3">
       {groups.map((groupIcons, i) => (
         <View
           key={Date.now() + i}
           // className="flex flex-row border border-slate-100 justify-evenly"
-          className="flex flex-row justify-evenly"
+          className="flex flex-row my-3 justify-evenly"
         >
           {groupIcons.map((iconName, i) => (
             <React.Fragment key={iconName}>{iconsMap[iconName]}</React.Fragment>
