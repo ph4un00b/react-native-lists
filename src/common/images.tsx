@@ -207,8 +207,8 @@ export function SmartCardNative(
         right={0}
         zIndex={60}
         bg="red500"
-        h={30}
-        w={30}
+        h={35}
+        w={35}
         mx="xl"
         rounded="circle"
         shadow="md"

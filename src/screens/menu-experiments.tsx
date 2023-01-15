@@ -11,6 +11,7 @@ import { useDrag } from "../EnlacesItems.shared";
 import { Button, Div, Icon, Text } from "react-native-magnus";
 import { Entypo } from "@expo/vector-icons";
 import { iconsMap } from "../components/icons";
+import { Platform } from "expo-modules-core";
 
 /**
  * on loading images
@@ -153,7 +154,7 @@ export function MySmartCardA(
           </Text>
         </Div>
         {/* <Text color="white" w={"100%"} fontSize="sm" mt="sm" opacity={show}> */}
-        <Div w="42%" opacity={show} borderColor="yellow" borderWidth={1}>
+        <Div w={Platform.select({web: "42%", default: "50%"})} opacity={show} borderColor="yellow" borderWidth={1}>
           <CardDescription icons={icons} />
         </Div>
         {/* </Text> */}
@@ -172,12 +173,12 @@ function CardDescription({ icons }: { icons: string[] }) {
 
   return (
     // <View className="flex flex-1 border justify-evenly border-slate-100">
-    <View className="flex justify-around my-3">
+    <View className="flex justify-around pb-1">
       {groups.map((groupIcons, i) => (
         <View
           key={Date.now() + i}
           // className="flex flex-row border border-slate-100 justify-evenly"
-          className="flex flex-row my-3 justify-evenly"
+          className="flex flex-row justify-evenly"
         >
           {groupIcons.map((iconName, i) => (
             <React.Fragment key={iconName}>{iconsMap[iconName]}</React.Fragment>
