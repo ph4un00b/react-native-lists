@@ -132,7 +132,7 @@ export function Congelado({
   return (
     <View
       className="border border-indigo-300 aspect-square"
-      style={{ width: "70%" }}
+      style={{ width: "74%" }}
       onLayout={({ nativeEvent: { layout } }) => setLayout(layout)}
     >
       <Pressable

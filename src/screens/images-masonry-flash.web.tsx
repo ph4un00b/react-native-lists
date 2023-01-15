@@ -91,9 +91,13 @@ export function MasonryFlashScreen() {
               .concat(mapItems["2023 upcoming projects"])}
             keyExtractor={(item) => item.id}
             renderItem={({ item, index }) => {
-              return index % 2 == 0
-                ? <Congelado />
-                : <SmartWebImage img={item.img} />;
+              return (
+                <View className="flex flex-row items-center justify-center">
+                  {index % 2 == 0
+                    ? <Congelado />
+                    : <SmartWebImage img={item.img} />}
+                </View>
+              );
             }}
           />
         </View>
