@@ -4,9 +4,9 @@ import MasonryList from "@react-native-seoul/masonry-list";
 
 import { EnlacesItems } from "../EnlacesItems";
 import { useDrag } from "../EnlacesItems.shared";
-import { mapItems } from "../models/projects";
+import { items, mapItems } from "../models/projects";
 import { Congelado } from "./gl.native";
-import { SmartWebImage } from "../common/images";
+import { SmartCard, SmartWebImage } from "../common/images";
 
 /**
  * on loading images
@@ -66,7 +66,7 @@ export function MasonryScreen() {
             renderItem={({ item, i: index }: { item: any; i: number }) => {
               return index % 2 == 0
                 ? <View className="flex flex-row items-center justify-center"><Congelado /></View>
-                : <SmartWebImage img={item.img} />;
+                : <SmartCard img={item.img} title={item.title} icons={item.icons} />;
             }}
           />
         </View>

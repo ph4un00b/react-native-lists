@@ -56,10 +56,11 @@ export const APP_LINKS = [
     color: "peru",
     path: "/",
     alias: "menu",
-    screen: <MenuScreen />,
+    // screen: <MenuScreen />,
     // screen: <GlExampleScreen />,
     // screen: <FlatListScreen />,
     // screen: <MasonryFlashScreen />,
+    screen: <MasonryScreen />,
   },
   {
     id: Math.random().toString(36).slice(2),

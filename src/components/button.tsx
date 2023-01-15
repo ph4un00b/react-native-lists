@@ -1,9 +1,10 @@
 import {
+  GestureResponderEvent,
   Linking,
   Pressable,
-  View,
+  PressableProps,
   Text,
-  GestureResponderEvent,
+  View,
 } from "react-native";
 import { Entypo, EvilIcons, FontAwesome } from "@expo/vector-icons";
 import { ReactNode } from "react";
@@ -16,9 +17,11 @@ type BtnProps = {
   onPress?: (event: GestureResponderEvent) => void;
 };
 
-export function MyLinkButton({ children, href }: BtnProps) {
+export function MyLinkButton({ children, href, className }: BtnProps) {
   return (
     <Pressable
+      // className={className}
+      className="absolute bottom-0 z-10"
       onPress={() => {
         href && Linking.openURL(href);
       }}
