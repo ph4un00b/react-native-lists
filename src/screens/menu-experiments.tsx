@@ -91,15 +91,16 @@ export function MyCard(
 }
 
 export function MySmartCardA(
-  { img, title, width, height, icons }: {
+  { img, title, width, height, icons, initialOpacity = 0.1 }: {
     img?: ImageSourcePropType;
     title: string;
     width?: FlexStyle["width"];
     height?: FlexStyle["height"];
     icons: string[];
+    initialOpacity: number;
   },
 ) {
-  const [show, setShow] = useState(0.1);
+  const [show, setShow] = useState(initialOpacity);
   return (
     <Button
       borderColor="red"

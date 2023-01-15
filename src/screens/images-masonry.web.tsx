@@ -6,7 +6,7 @@ import { EnlacesItems } from "../EnlacesItems";
 import { useDrag } from "../EnlacesItems.shared";
 import { items, mapItems } from "../models/projects";
 import { Congelado } from "./gl.native";
-import { SmartCard, SmartWebImage } from "../common/images";
+import { SmartCardWeb, SmartImageWeb } from "../common/images";
 
 /**
  * on loading images
@@ -42,7 +42,8 @@ export function MasonryScreen() {
       <Enlaces {...layoutProps} />
       {
         /**
-         * @abstract tailwind mode will not work at the moment
+         * @abstract tailwind mode will work on web mode only
+         * try another strat on native!
          */
       }
       {layoutProps && (
@@ -65,8 +66,18 @@ export function MasonryScreen() {
             keyExtractor={(item) => item.id}
             renderItem={({ item, i: index }: { item: any; i: number }) => {
               return index % 2 == 0
-                ? <View className="flex flex-row items-center justify-center"><Congelado /></View>
-                : <SmartCard img={item.img} title={item.title} icons={item.icons} />;
+                ? (
+                  <View className="flex flex-row items-center justify-center">
+                    <Congelado />
+                  </View>
+                )
+                : (
+                  <SmartCardWeb
+                    img={item.img}
+                    title={item.title}
+                    icons={item.icons}
+                  />
+                );
             }}
           />
         </View>

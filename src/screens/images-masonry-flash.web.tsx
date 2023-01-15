@@ -1,7 +1,7 @@
 import { MasonryFlashList } from "@shopify/flash-list";
 import { useCallback, useState } from "react";
 import { Image, LayoutRectangle, Platform, Text, View } from "react-native";
-import { SmartWebImage } from "../common/images";
+import { SmartImageWeb } from "../common/images";
 
 import { EnlacesItems } from "../EnlacesItems";
 import { useDrag } from "../EnlacesItems.shared";
@@ -95,7 +95,7 @@ export function MasonryFlashScreen() {
                 <View className="flex flex-row items-center justify-center">
                   {index % 2 == 0
                     ? <Congelado />
-                    : <SmartWebImage img={item.img} />}
+                    : <SmartImageWeb img={item.img} />}
                 </View>
               );
             }}

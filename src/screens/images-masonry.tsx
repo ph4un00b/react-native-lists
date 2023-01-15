@@ -11,7 +11,7 @@ import MasonryList from "@react-native-seoul/masonry-list";
 import { EnlacesItems } from "../EnlacesItems";
 import { useDrag } from "../EnlacesItems.shared";
 import { mapItems } from "../models/projects";
-import { SmartImage } from "../common/images";
+import { SmartCardNative, SmartImage } from "../common/images";
 import { Congelado } from "./gl.native";
 
 /**
@@ -58,8 +58,9 @@ export function MasonryScreen() {
             style={{ width: layoutProps.width }}
             numColumns={2}
             contentContainerStyle={{
-              paddingHorizontal: 10,
-              alignSelf: "stretch",
+              // paddingHorizontal: 10,
+              paddingHorizontal: 0,
+              // alignSelf: "flex-start",
             }}
             ListHeaderComponent={
               <Text className="pt-4 pb-3 text-3xl capitalize text-slate-200">
@@ -72,8 +73,18 @@ export function MasonryScreen() {
             keyExtractor={(item) => item.id}
             renderItem={({ item, i: index }: { item: any; i: number }) => {
               return index % 2 == 0
-                ? <Congelado />
-                : <SmartImage img={item.img} borderColor="peru" />;
+                ? (
+                  <View className="flex flex-row items-center justify-center">
+                    <Congelado />
+                  </View>
+                )
+                : (
+                  <SmartCardNative
+                    title="native"
+                    img={item.img}
+                    icons={item.icons}
+                  />
+                );
             }}
           />
         </View>
