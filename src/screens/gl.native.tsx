@@ -27,7 +27,7 @@ const shaders = Shaders.create({
 });
 
 const useAnimationFrame = (
-  callback: ({ time, delta }: { time: number; delta: number }) => void,
+  callback: ({ time, delta }: { time: number; delta: number }) => void
 ) => {
   /** @see https://github.com/franciscop/use-animation-frame/blob/master/src/index.js */
   const fnRef = useRef<
@@ -101,26 +101,28 @@ export function Imperative() {
       onPress={() => setPaused(!isPaused)}
       className="flex flex-col items-center justify-center"
     >
-      {isPaused
-        ? (
-          <Image
-            resizeMode="contain"
-            className="w-[300px] h-[300px]"
-            source={card}
-          />
-        )
-        : (
-          <Surface style={{ width: size, height: size }}>
-            <Blue blue={0.5} />
-          </Surface>
-        )}
+      {isPaused ? (
+        <Image
+          resizeMode="contain"
+          className="w-[300px] h-[300px]"
+          source={card}
+        />
+      ) : (
+        <Surface style={{ width: size, height: size }}>
+          <Blue blue={0.5} />
+        </Surface>
+      )}
     </Pressable>
   );
 }
 
-export function Congelado(
-  { w = windowWidth, h = windowHeight }: { w?: any; h?: any },
-) {
+export function Congelado({
+  w = windowWidth,
+  h = windowHeight,
+}: {
+  w?: any;
+  h?: any;
+}) {
   // console.log({ windowWidth, windowHeight });
   // const size = 1 * Math.min(w, h);
   // console.log({ size });
@@ -128,34 +130,34 @@ export function Congelado(
   const [isPaused, setPaused] = useState(true);
   const [layoutProps, setLayout] = useState<LayoutRectangle>(null!);
   return (
-    <Pressable
-      onHoverIn={() => setPaused(false)}
-      onHoverOut={() => setPaused(true)}
-      onPress={() => setPaused(!isPaused)}
-      className="flex flex-col items-center justify-center"
+    <View
+      className="border border-indigo-300 aspect-square"
+      style={{ width: "70%" }}
+      onLayout={({ nativeEvent: { layout } }) => setLayout(layout)}
     >
-      <View
-        className="w-full border border-indigo-300 aspect-square"
-        onLayout={({ nativeEvent: { layout } }) => setLayout(layout)}
+      <Pressable
+        onHoverIn={() => setPaused(false)}
+        onHoverOut={() => setPaused(true)}
+        onPress={() => setPaused(!isPaused)}
+        className="flex flex-col items-center justify-center"
       >
-        {layoutProps &&
-          (
-            <Freeze
-              freeze={isPaused}
-              placeholder={
-                <Image
-                  resizeMode="contain"
-                  style={{ width: "100%", height: layoutProps.height }}
-                  source={card}
-                />
-              }
-            >
-              <Surface style={{ width: "100%", height: layoutProps.height }}>
-                <Blue blue={0.5} />
-              </Surface>
-            </Freeze>
-          )}
-      </View>
-    </Pressable>
+        {layoutProps && (
+          <Freeze
+            freeze={isPaused}
+            placeholder={
+              <Image
+                resizeMode="contain"
+                style={{ width: "100%", height: layoutProps.height }}
+                source={card}
+              />
+            }
+          >
+            <Surface style={{ width: "100%", height: layoutProps.height }}>
+              <Blue blue={0.5} />
+            </Surface>
+          </Freeze>
+        )}
+      </Pressable>
+    </View>
   );
 }
