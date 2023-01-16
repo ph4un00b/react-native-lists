@@ -72,8 +72,8 @@ export function MyCard(
         opacity={0}
         p="lg"
         flex={1}
-        // bgImg={img}
-        // bgMode="cover"
+      // bgImg={img}
+      // bgMode="cover"
       >
         <Text color="white" fontSize="3xl" fontWeight="bold" opacity={show}>
           {title}
@@ -125,18 +125,19 @@ export function MySmartCardA(
         flex={1}
         justifyContent="space-between"
         flexDir="column"
-        // bgImg={img}
-        // bgMode="cover"
+      // bgImg={img}
+      // bgMode="cover"
       >
         <Div
           flexDir="row"
-          justifyContent="space-around"
+          justifyContent="space-between"
           borderColor="purple"
           borderWidth={1}
+          px={16}
         >
           <Text
             color="white"
-            fontSize="3xl"
+            fontSize="base"
             fontWeight="bold"
             opacity={show}
             textTransform="capitalize"
@@ -145,7 +146,7 @@ export function MySmartCardA(
           </Text>
           <Text
             color="white"
-            fontSize="3xl"
+            fontSize="base"
             fontWeight="bold"
             opacity={show}
             textTransform="capitalize"
@@ -154,7 +155,7 @@ export function MySmartCardA(
           </Text>
         </Div>
         {/* <Text color="white" w={"100%"} fontSize="sm" mt="sm" opacity={show}> */}
-        <Div w={Platform.select({web: "42%", default: "50%"})} opacity={show} borderColor="yellow" borderWidth={1}>
+        <Div w={Platform.select({ web: "50%", default: "50%" })} opacity={show} borderColor="yellow" borderWidth={1}>
           <CardDescription icons={icons} />
         </Div>
         {/* </Text> */}
@@ -164,7 +165,7 @@ export function MySmartCardA(
         {/* <Icon name="arrowright" color="white" ml="md" /> */}
         {/* </Div> */}
       </Div>
-    </Button>
+    </Button >
   );
 }
 
@@ -173,12 +174,12 @@ function CardDescription({ icons }: { icons: string[] }) {
 
   return (
     // <View className="flex flex-1 border justify-evenly border-slate-100">
-    <View className="flex justify-around pb-1">
+    <View className="flex flex-row justify-between px-4 pb-1">
       {groups.map((groupIcons, i) => (
         <View
           key={Date.now() + i}
           // className="flex flex-row border border-slate-100 justify-evenly"
-          className="flex flex-row justify-evenly"
+          className="flex flex-row-reverse"
         >
           {groupIcons.map((iconName, i) => (
             <React.Fragment key={iconName}>{iconsMap[iconName]}</React.Fragment>
