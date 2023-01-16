@@ -84,28 +84,30 @@ export function MyCard(
         <Div row mt="xl" opacity={show}>
           <Text color="white">Explore</Text>
           <Entypo name="triangle-right" size={16} color="white" />
-          {/* <Icon name="arrowright" color="white" ml="md" /> */}
         </Div>
       </Div>
     </Button>
   );
 }
 
+type SmartCardProps = {
+  img?: ImageSourcePropType;
+  title: string;
+  width?: FlexStyle["width"];
+  height?: FlexStyle["height"];
+  debug?: boolean;
+  icons: string[];
+  initialOpacity: number;
+}
+
 export function MySmartCardA(
-  { img, title, width, height, icons, initialOpacity = 0.1 }: {
-    img?: ImageSourcePropType;
-    title: string;
-    width?: FlexStyle["width"];
-    height?: FlexStyle["height"];
-    icons: string[];
-    initialOpacity: number;
-  },
+  { img, title, width, height, icons, initialOpacity = 0.1, debug = false }: SmartCardProps,
 ) {
   const [show, setShow] = useState(initialOpacity);
   return (
     <Button
-      borderColor="red"
-      borderWidth={1}
+      borderColor={debug ? "red" : ""}
+      borderWidth={debug ? 1 : 0}
       position="absolute"
       w={width}
       h={height}
@@ -114,13 +116,13 @@ export function MySmartCardA(
       color="white"
       bg="transparent"
       p="none"
-      onHoverIn={() => setShow(0.9)}
-      onHoverOut={() => setShow(0.1)}
+    // onHoverIn={() => setShow(0.9)}
+    // onHoverOut={() => setShow(0.1)}
     >
       <Div
         w={width}
         h="100%"
-        // opacity={1}
+        opacity={show}
         // p="lg"
         flex={1}
         justifyContent="space-between"
@@ -131,15 +133,14 @@ export function MySmartCardA(
         <Div
           flexDir="row"
           justifyContent="space-between"
-          borderColor="purple"
-          borderWidth={1}
+          borderColor={debug ? "green" : ""}
+          borderWidth={debug ? 1 : 0}
           px={16}
         >
           <Text
             color="white"
             fontSize="base"
             fontWeight="bold"
-            opacity={show}
             textTransform="capitalize"
           >
             {title}
@@ -148,22 +149,17 @@ export function MySmartCardA(
             color="white"
             fontSize="base"
             fontWeight="bold"
-            opacity={show}
             textTransform="capitalize"
           >
             fecha
           </Text>
         </Div>
-        {/* <Text color="white" w={"100%"} fontSize="sm" mt="sm" opacity={show}> */}
-        <Div w={Platform.select({ web: "50%", default: "50%" })} opacity={show} borderColor="yellow" borderWidth={1}>
+        <Div w={Platform.select({ web: "50%", default: "50%" })}
+          borderColor={debug ? "yellow" : ""}
+          borderWidth={debug ? 1 : 0}
+        >
           <CardDescription icons={icons} />
         </Div>
-        {/* </Text> */}
-        {/* <Div row mt="xl" opacity={show}> */}
-        {/* <Text color="white">Explore</Text> */}
-        {/* <Entypo name="triangle-right" size={16} color="white" /> */}
-        {/* <Icon name="arrowright" color="white" ml="md" /> */}
-        {/* </Div> */}
       </Div>
     </Button >
   );
@@ -173,12 +169,10 @@ function CardDescription({ icons }: { icons: string[] }) {
   const [groups] = useState<string[][]>(() => groupBy3(icons));
 
   return (
-    // <View className="flex flex-1 border justify-evenly border-slate-100">
     <View className="flex flex-row justify-between px-4 pb-1">
       {groups.map((groupIcons, i) => (
         <View
           key={Date.now() + i}
-          // className="flex flex-row border border-slate-100 justify-evenly"
           className="flex flex-row-reverse"
         >
           {groupIcons.map((iconName, i) => (

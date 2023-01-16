@@ -7,10 +7,20 @@ import { FlexStyle, Image, ImageSourcePropType, View } from "react-native";
  */
 import { Image as ExImage, ImageSource, ImageStyle } from "expo-image";
 import { MySmartCardA } from "../screens/menu-experiments";
-import { MyLinkButton } from "../components/button";
 import { Button, Icon } from "react-native-magnus";
 
 type Rect = { w: number; h: number };
+
+type CardProps = {
+  title: string;
+  img: ImageSourcePropType;
+  opacity?: number;
+  width?: FlexStyle["width"];
+  borderColor?: ImageStyle["borderColor"];
+  icons?: string[];
+  button?: React.ReactNode;
+  debug?: boolean;
+};
 
 export function SmartImageWeb(
   { img, width = "100%" }: {
@@ -40,13 +50,9 @@ export function SmartImageWeb(
 const blurhash =
   "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
 
+
 export function SmartCardWeb(
-  { img, icons, title, width = "100%" }: {
-    title: string;
-    img: ImageSourcePropType;
-    width?: FlexStyle["width"];
-    icons: string[];
-  },
+  { img, title, button, debug = false, opacity = 0.1, icons = [], width = "100%" }: CardProps,
 ) {
   const [rect, setRect] = useState<Rect>({ w: 0, h: 0 });
   useEffect(() => {
@@ -63,35 +69,21 @@ export function SmartCardWeb(
         style={{
           aspectRatio: rect.w / rect.h,
           width,
-          borderColor: "pink",
-          borderWidth: 1,
+          borderColor: debug ? "pink" : "",
+          borderWidth: debug ? 1 : 0,
           opacity: 0.5,
         }}
         source={img}
       />
       <MySmartCardA
-        initialOpacity={0.1}
+        debug={debug}
+        initialOpacity={opacity}
         title={title}
-        width="98%"
-        height="98%"
+        width="100%"
+        height="100%"
         icons={icons}
       />
-      <Button
-        position="absolute"
-        bottom={8}
-        right={0}
-        zIndex={60}
-        bg="red500"
-        h={30}
-        w={30}
-        mx="xl"
-        rounded="circle"
-        shadow="md"
-        borderless
-      >
-        <Icon name="play" color="white" fontFamily="Feather" />
-      </Button>
-      {/* <MyLinkButton>jamon</MyLinkButton> */}
+      {button && button}
     </View>
   );
 }
@@ -142,13 +134,7 @@ export function SmartImage(
 }
 
 export function SmartCardNative(
-  { img, icons, title, width = "100%", borderColor = "pink" }: {
-    title: string;
-    img: ImageSourcePropType;
-    width?: FlexStyle["width"];
-    borderColor?: ImageStyle["borderColor"];
-    icons: string[];
-  },
+  { img, title, icons = [], width = "100%", borderColor = "pink" }: CardProps,
 ) {
   const [rect, setRect] = useState<Rect>({ w: 0, h: 0 });
 
@@ -156,13 +142,11 @@ export function SmartCardNative(
     return (
       <ExImage
         onLoad={(info) => {
-          //   console.log(info.source.width / info.source.height);
           setRect({ w: info.source.width, h: info.source.height });
         }}
         contentFit="contain"
         placeholder={blurhash}
         style={{
-          // aspectRatio: rect.w / rect.h,
           width,
           height: 250,
           borderColor,
@@ -190,7 +174,7 @@ export function SmartCardNative(
           width,
           borderColor,
           borderWidth: 1,
-          opacity: 0.6
+          opacity: 0.6,
         }}
         source={img}
       />
@@ -216,7 +200,6 @@ export function SmartCardNative(
       >
         <Icon name="play" color="white" fontFamily="Feather" />
       </Button>
-      {/* <MyLinkButton>jamon</MyLinkButton> */}
     </View>
   );
 }

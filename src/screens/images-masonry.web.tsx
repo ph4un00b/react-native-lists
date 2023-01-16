@@ -4,9 +4,10 @@ import MasonryList from "@react-native-seoul/masonry-list";
 
 import { EnlacesItems } from "../EnlacesItems";
 import { useDrag } from "../EnlacesItems.shared";
-import { items, mapItems } from "../models/projects";
+import { mapItems } from "../models/projects";
 import { Congelado } from "./gl.native";
-import { SmartCardWeb, SmartImageWeb } from "../common/images";
+import { SmartCardWeb } from "../common/images";
+import { Button, Icon } from "react-native-magnus";
 
 /**
  * on loading images
@@ -68,14 +69,33 @@ export function MasonryScreen() {
               return index % 2 == 0
                 ? (
                   <View className="flex flex-row items-center justify-center">
-                    <Congelado />
+                    <Congelado debug={!false} />
                   </View>
                 )
                 : (
                   <SmartCardWeb
+                    debug={!false}
+                    opacity={0.8}
                     img={item.img}
                     title={item.title}
                     icons={item.icons}
+                    button={
+                      <Button
+                        position="absolute"
+                        bottom={8}
+                        right={0}
+                        zIndex={60}
+                        bg="red500"
+                        h={30}
+                        w={30}
+                        mx="xl"
+                        rounded="circle"
+                        shadow="md"
+                        borderless
+                      >
+                        <Icon name="play" color="white" fontFamily="Feather" />
+                      </Button>
+                    }
                   />
                 );
             }}

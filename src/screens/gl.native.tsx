@@ -9,9 +9,11 @@ import {
   Text,
   View,
 } from "react-native";
+import { Button, Icon } from "react-native-magnus";
 
 import card from "../../assets/cards.png";
 import { Freeze } from "../common/freeze";
+import { SmartCardWeb } from "../common/images";
 import { noises2 } from "../shaders/noises2";
 
 const windowWidth = Dimensions.get("window").width;
@@ -27,7 +29,7 @@ const shaders = Shaders.create({
 });
 
 const useAnimationFrame = (
-  callback: ({ time, delta }: { time: number; delta: number }) => void
+  callback: ({ time, delta }: { time: number; delta: number }) => void,
 ) => {
   /** @see https://github.com/franciscop/use-animation-frame/blob/master/src/index.js */
   const fnRef = useRef<
@@ -101,25 +103,29 @@ export function Imperative() {
       onPress={() => setPaused(!isPaused)}
       className="flex flex-col items-center justify-center"
     >
-      {isPaused ? (
-        <Image
-          resizeMode="contain"
-          className="w-[300px] h-[300px]"
-          source={card}
-        />
-      ) : (
-        <Surface style={{ width: size, height: size }}>
-          <Blue blue={0.5} />
-        </Surface>
-      )}
+      {isPaused
+        ? (
+          <Image
+            resizeMode="contain"
+            className="w-[300px] h-[300px]"
+            source={card}
+          />
+        )
+        : (
+          <Surface style={{ width: size, height: size }}>
+            <Blue blue={0.5} />
+          </Surface>
+        )}
     </Pressable>
   );
 }
 
 export function Congelado({
+  debug = false,
   w = windowWidth,
   h = windowHeight,
 }: {
+  debug?: boolean;
   w?: any;
   h?: any;
 }) {
@@ -128,12 +134,14 @@ export function Congelado({
   // console.log({ size });
 
   const [isPaused, setPaused] = useState(true);
-  const [layoutProps, setLayout] = useState<LayoutRectangle>(null!);
+  const [container, setContainer] = useState<LayoutRectangle>(null!);
   return (
     <View
-      className="border border-indigo-300 aspect-square"
+      className={debug
+        ? "border border-indigo-300 aspect-square"
+        : "aspect-square"}
       style={{ width: "74%" }}
-      onLayout={({ nativeEvent: { layout } }) => setLayout(layout)}
+      onLayout={({ nativeEvent: { layout } }) => setContainer(layout)}
     >
       <Pressable
         onHoverIn={() => setPaused(false)}
@@ -141,18 +149,19 @@ export function Congelado({
         onPress={() => setPaused(!isPaused)}
         className="flex flex-col items-center justify-center"
       >
-        {layoutProps && (
+        {container && (
           <Freeze
             freeze={isPaused}
             placeholder={
-              <Image
-                resizeMode="contain"
-                style={{ width: "100%", height: layoutProps.height }}
-                source={card}
+              <SmartCardWeb
+                debug={debug}
+                opacity={0.8}
+                img={card}
+                title="run shader"
               />
             }
           >
-            <Surface style={{ width: "100%", height: layoutProps.height }}>
+            <Surface style={{ width: "100%", height: container.height }}>
               <Blue blue={0.5} />
             </Surface>
           </Freeze>
