@@ -8,100 +8,100 @@ import { ImgGestureScreen } from "../screens/images-list-gesture";
 import { ImgListScreen } from "../screens/images-list-native";
 import { MasonryScreen } from "../screens/images-masonry";
 import { MasonryFlashScreen } from "../screens/images-masonry-flash";
-import { MenuScreen } from "../screens/menu-experiments";
+// import { MenuScreen } from "../screens/menu-experiments";
 import { ScrollViewScreen } from "../screens/scroll-view";
 import { ScrollGestureScreen } from "../screens/scroll-view-gesture";
 
 export const IMG_LINKS = [
-  {
-    id: Math.random().toString(36).slice(2),
-    color: "peru",
-    path: "/img-masonry",
-    alias: "masonry-list",
-    screen: <MasonryScreen />,
-  },
-  {
-    id: Math.random().toString(36).slice(2),
-    color: "peru",
-    path: "/img-masonry-flash",
-    alias: "masonry-flash",
-    screen: <MasonryFlashScreen />,
-  },
-  {
-    id: Math.random().toString(36).slice(2),
-    color: "peru",
-    path: "/img-flat",
-    alias: "img-flat",
-    screen: <ImgListScreen />,
-  },
-  {
-    id: Math.random().toString(36).slice(2),
-    color: "peru",
-    path: "/img-gesture",
-    alias: "img-gesture",
-    screen: <ImgGestureScreen />,
-  },
-  {
-    id: Math.random().toString(36).slice(2),
-    color: "peru",
-    path: "/img-flash",
-    alias: "img-flash",
-    screen: <ImgFlashScreen />,
-  },
+	{
+		id: Math.random().toString(36).slice(2),
+		color: "peru",
+		path: "/img-masonry",
+		alias: "masonry-list",
+		screen: <MasonryScreen />,
+	},
+	{
+		id: Math.random().toString(36).slice(2),
+		color: "peru",
+		path: "/img-masonry-flash",
+		alias: "masonry-flash",
+		screen: <MasonryFlashScreen />,
+	},
+	{
+		id: Math.random().toString(36).slice(2),
+		color: "peru",
+		path: "/img-flat",
+		alias: "img-flat",
+		screen: <ImgListScreen />,
+	},
+	{
+		id: Math.random().toString(36).slice(2),
+		color: "peru",
+		path: "/img-gesture",
+		alias: "img-gesture",
+		screen: <ImgGestureScreen />,
+	},
+	{
+		id: Math.random().toString(36).slice(2),
+		color: "peru",
+		path: "/img-flash",
+		alias: "img-flash",
+		screen: <ImgFlashScreen />,
+	},
 ];
 
 export const APP_LINKS = [
-  {
-    id: Math.random().toString(36).slice(2),
-    color: "peru",
-    path: "/",
-    alias: "menu",
-    // screen: <MenuScreen />,
-    // screen: <GlExampleScreen />,
-    // screen: <FlatListScreen />,
-    // screen: <MasonryFlashScreen />,
-    screen: <MasonryScreen />,
-  },
-  {
-    id: Math.random().toString(36).slice(2),
-    color: "peru",
-    path: "/gl",
-    alias: "expo-gl",
-    screen: <GlExampleScreen />,
-  },
-  {
-    id: Math.random().toString(36).slice(2),
-    color: "peru",
-    path: "/flash-spo",
-    alias: "flash-spotify",
-    screen: <FlashSpotiScreen />,
-  },
-  {
-    id: Math.random().toString(36).slice(2),
-    color: "peru",
-    path: "/flat-ges",
-    alias: "flat-gesture",
-    screen: <FlatGestureScreen />,
-  },
-  {
-    id: Math.random().toString(36).slice(2),
-    color: "peru",
-    path: "/flat-list",
-    alias: "flat-list",
-    screen: <FlatListScreen />,
-  },
-  {
-    id: Math.random().toString(36).slice(2),
-    color: "peru",
-    path: "/scroll-gesture",
-    alias: "scroll-gesture",
-    screen: <ScrollGestureScreen />,
-  },
-  {
-    id: Math.random().toString(36).slice(2),
-    color: "peru",
-    path: "/scroll",
-    alias: "scroll-view",
-    screen: <ScrollViewScreen />,
-  },
+	{
+		id: Math.random().toString(36).slice(2),
+		color: "peru",
+		path: "/",
+		alias: "menu",
+		// screen: <MenuScreen />,
+		// screen: <GlExampleScreen />,
+		// screen: <FlatListScreen />,
+		// screen: <MasonryFlashScreen />,
+		screen: <MasonryScreen />,
+	},
+	{
+		id: Math.random().toString(36).slice(2),
+		color: "peru",
+		path: "/gl",
+		alias: "expo-gl",
+		screen: <GlExampleScreen />,
+	},
+	{
+		id: Math.random().toString(36).slice(2),
+		color: "peru",
+		path: "/flash-spo",
+		alias: "flash-spotify",
+		screen: <FlashSpotiScreen />,
+	},
+	{
+		id: Math.random().toString(36).slice(2),
+		color: "peru",
+		path: "/flat-ges",
+		alias: "flat-gesture",
+		screen: <FlatGestureScreen />,
+	},
+	{
+		id: Math.random().toString(36).slice(2),
+		color: "peru",
+		path: "/flat-list",
+		alias: "flat-list",
+		screen: <FlatListScreen />,
+	},
+	{
+		id: Math.random().toString(36).slice(2),
+		color: "peru",
+		path: "/scroll-gesture",
+		alias: "scroll-gesture",
+		screen: <ScrollGestureScreen />,
+	},
+	{
+		id: Math.random().toString(36).slice(2),
+		color: "peru",
+		path: "/scroll",
+		alias: "scroll-view",
+		screen: <ScrollViewScreen />,
+	},
 ];

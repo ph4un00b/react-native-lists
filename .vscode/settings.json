@@ -1,19 +1,20 @@
 {
-    "cSpell.words": [
-        "Astro",
-        "blurhash",
-        "Congelado",
-        "Entypo",
-        "GLSL",
-        "magnus",
-        "nativewind",
-        "phau",
-        "Pressable",
-        "redash",
-        "Spoti",
-        "strat",
-        "tailwindcss",
-        "viewability",
-        "windicss"
-    ]
+  "cSpell.words": [
+    "Astro",
+    "blurhash",
+    "Congelado",
+    "Entypo",
+    "GLSL",
+    "magnus",
+    "nativewind",
+    "phau",
+    "Pressable",
+    "redash",
+    "Spoti",
+    "strat",
+    "tailwindcss",
+    "viewability",
+    "windicss",
+    "worlet"
+  ]
 }
